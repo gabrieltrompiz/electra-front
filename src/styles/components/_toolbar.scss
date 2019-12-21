@@ -1,0 +1,28 @@
+#toolbar {
+  @include flex(space-between, center);
+  -webkit-app-region: drag;
+  width: 100%;
+  height: 40px;
+
+  & > div:nth-child(1) {
+    padding: 10px;
+  }
+
+  & > div:nth-child(2) {
+    -webkit-app-region: no-drag;
+    height: 100%;
+  }
+
+  & > div > img {
+    object-fit: contain;
+    height: 20px;
+  }
+
+  & > div > button {
+    @include clear-buttons(rgba(0, 0, 0, 0.1));
+    @include lato('Black');
+    height: 30px;
+    width: 40px;
+    color: white;
+  }
+}

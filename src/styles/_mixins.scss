@@ -1,0 +1,65 @@
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+@mixin flex($justify, $align) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin full-sized() {
+  width: 100%;
+  height: 100%;
+}
+
+@mixin absolute-center($position) {
+  position: absolute;
+  
+  @if $position == 'vertical' {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  @else if $position == 'horizontal' {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translate(-50%);
+  }
+  @else if $position == 'both' {
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
+@mixin clear-buttons($bg) {
+  background-color: $bg;
+  outline: 0;
+  border: none;
+  &:hover { cursor: pointer; }
+}
+
+@mixin lato($variant) {
+  @if $variant == 'Black' {
+    font-family: 'Lato Black', Helvetiva, sans-serif;
+  } @else if $variant == 'Bold' {
+    font-family: 'Lato Bold', Helvetiva, sans-serif;
+  } @else if $variant == 'Thin' {
+    font-family: 'Lato Thin', Helvetiva, sans-serif;
+  } @else if $variant == 'Light' {
+    font-family: 'Lato Black', Helvetiva, sans-serif;
+  } @else {
+    font-family: 'Lato', Helvetiva, sans-serif;
+  }
+}
