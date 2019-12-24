@@ -12,7 +12,7 @@ function createWindow() {
     width: 900, 
     height: 680,
     webPreferences: {
-        nodeIntegration: true
+      nodeIntegration: true
     },
     frame: false,
     resizable: false,
@@ -20,9 +20,6 @@ function createWindow() {
   });
   mainWindow.maximize();
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
-  mainWindow.webContents.on('will-navigate', (event, url) => {
-    console.log(url)
-  });
   mainWindow.on('closed', () => { mainWindow = null; process.exit(0) });
   mainWindow.on('move', (e) => {
     if(mainWindow.isMaximized()) e.preventDefault();

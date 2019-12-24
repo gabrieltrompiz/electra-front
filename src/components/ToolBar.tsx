@@ -36,9 +36,11 @@ const ToolBar: React.FC<ToolBarProps> = ({ transparent = false, color = '#202225
         <img src={require('../assets/images/logo-header.png')} alt='logo' />
       </div>
       <div>
-        <button onClick={() => window.minimize()}>—</button>
-        <button onClick={() => toggleResize()}>max</button>
-        <button onClick={() => window.close()}>close</button>
+        <button onClick={() => window.minimize()}><span>—</span></button>
+        <button onClick={() => toggleResize()}>
+          <img src={require('../assets/images/multi-tab.png')} alt='multi' />
+        </button>
+        <button onClick={() => window.close()}>X</button>
       </div>
     </div>
   );

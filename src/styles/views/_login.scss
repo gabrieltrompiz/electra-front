@@ -1,6 +1,81 @@
-#login {  
-  @include full-sized();
-  background-image: url('../../assets/images/bg.png');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
+@media only screen and (min-width: 801px) {
+  #login-card {
+    @include card(80%, 62%);
+    background-color: $bg;
+    color: $grey-font;
+    text-align: center;
+    padding: 0px 30px;
+
+    & > input {
+      @include clear-input(white);
+      @include lato('Bold');
+      height: 40px;
+      width: 96%;
+      padding: 1% 2%; 
+      font-size: 2.2vh;
+
+      &::placeholder {
+        color: #A4ABB5;
+      }
+    }
+
+    & > p:nth-child(1) {
+      @include lato('Black');
+      @include font-size(32px);
+      margin: 15px 0 10px 0;
+      color: white;
+    }
+
+    & > p:nth-child(2) {
+      @include lato('Bold');
+      @include font-size(20px);
+      margin: 0;
+    }
+
+    & > p:nth-child(3), & > p:nth-child(5) {
+      @include lato('Black');
+      text-align: left;
+      font-size: 18px;
+      margin: 20px 0px 10px 0px;
+    }
+
+    & > a, & > span > a {
+      @include lato('Regular');
+      display: inline-block;
+      width: 100%;
+      text-align: left;
+      color: $main-color;
+      font-size: 18px;
+      margin-top: 10px;
+      
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+
+    & > span > a {
+      display: inline !important;
+    }
+
+    & > span {
+      @include lato('Regular');
+      display: inline-block;
+      width: 100%;
+      text-align: left;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    & > button {
+      @include clear-buttons($main-color);
+      @include lato('Black');
+      width: 100%;
+      height: 50px;
+      color: white;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-size: 20px;
+    }
+  }
+} 

@@ -50,6 +50,13 @@
   &:hover { cursor: pointer; }
 }
 
+@mixin clear-input($bg) {
+  border: none;
+  outline: 0;
+  background-color: $bg;
+  border-radius: 10px;
+}
+
 @mixin lato($variant) {
   @if $variant == 'Black' {
     font-family: 'Lato Black', Helvetiva, sans-serif;
@@ -62,4 +69,11 @@
   } @else {
     font-family: 'Lato', Helvetiva, sans-serif;
   }
+}
+
+@mixin card($width, $height) {
+  width: $width;
+  height: $height;
+  border-radius: 25px;
+  box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.5);
 }

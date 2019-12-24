@@ -1,0 +1,22 @@
+#authorization {  
+  @include full-sized();
+  @include flex(initial, initial);
+  flex-direction: column;
+  background-image: url('../../assets/images/bg.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  & > #authorization-content {
+    flex: 1;
+    @include flex(initial, initial);
+
+    & > div {
+      flex: 1;
+      @include flex(center, center);
+    }
+  }
+}
+
+p {
+  user-select: none;
+}
