@@ -1,2 +1,21 @@
 @import 'toolbar';
 @import 'carousel';
+
+#loading {
+  @include absolute-center(both);
+  @include full-sized();
+  @include flex(center, center);
+  user-select: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  @include lato('Black');
+}
+
+.toast-body {
+  @include lato('Black');
+  padding-left: 10px;
+}
+
+.information-toast {
+  background-color: #2F3136 !important;
+}

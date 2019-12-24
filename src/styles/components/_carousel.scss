@@ -1,3 +1,7 @@
+#carousel {
+  user-select: none;
+}
+
 @media only screen and (min-width: 801px) {
   #carousel > div:first-child {
     @include flex(center, center);
@@ -41,6 +45,9 @@
     & > img {
       width: 20px;
       margin: 5px;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }

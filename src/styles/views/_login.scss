@@ -1,6 +1,7 @@
 @media only screen and (min-width: 801px) {
   #login-card {
     @include card(80%, 62%);
+    position: relative;
     background-color: $bg;
     color: $grey-font;
     text-align: center;
@@ -19,20 +20,20 @@
       }
     }
 
-    & > p:nth-child(1) {
+    & > p:nth-of-type(1) {
       @include lato('Black');
       @include font-size(32px);
       margin: 15px 0 10px 0;
       color: white;
     }
 
-    & > p:nth-child(2) {
+    & > p:nth-of-type(2) {
       @include lato('Bold');
       @include font-size(20px);
       margin: 0;
     }
 
-    & > p:nth-child(3), & > p:nth-child(5) {
+    & > p:nth-of-type(3), & > p:nth-of-type(4) {
       @include lato('Black');
       text-align: left;
       font-size: 18px;

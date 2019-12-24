@@ -1,13 +1,19 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import React, { Fragment, useState } from 'react';
+import { useApolloClient } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
+import { setUser } from '../redux/actions';
 import { LOGIN } from '../graphql';
 import ShowcaseCarousel from '../components/ShowcaseCarousel';
+import Loading from '../components/Loading';
+import { logError, logInfo } from '../utils';
 
 interface LoginProps {
   /** Function to change the active view from parent component */
   setView: Function,
-  user: object
+  /** Logged user from redux */
+  user: object,
+  /** Action creator to change user */
+  setUser: Function
 }
 
 interface LoginPayload {
@@ -44,29 +50,46 @@ interface LoginVars {
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Login: React.FC<LoginProps> = ({ user, setView }) => { 
+const Login: React.FC<LoginProps> = ({ user, setView, setUser }) => { 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const [login, { data, loading, error }] = useMutation<LoginPayload, LoginVars>(LOGIN, { errorPolicy: 'all' });
+  const client = useApolloClient();
 
-  console.log(user)
+  // useEffect(() => {
+  //   console.log(data)
+  //   if(data && data.login) { 
+  //     setUser(data.login);
+  //     logInfo(`Logged in as ${data.login.username} successfully.`);
+  //   }
+  // }, [data, setUser]);
 
-  useEffect(() => {
-    if(data) console.log(data.login) // TODO: dispatch to redux
-  }, [data]);
-
-  const submitLogin = () => {
-    login({ variables: { user: { password, username } } }).catch(console.log)
+  const submitLogin = async () => {
+    if(username !== '' && password !== '') {
+      setLoading(true);
+      const result = await client.mutate<LoginPayload, LoginVars>({ variables: { user: { username, password } }, mutation: LOGIN, errorPolicy: 'all' })
+      .finally(() => setLoading(false));
+      if(result.data && result.data.login) {
+        setUser(result.data.login);
+        logInfo(`Logged in as ${result.data.login.username}`);
+      }
+      if(result.errors) result.errors.forEach((e) => logError(e.message));
+    } else {
+      logError('Please provide your credentials first');
+    }
   };
+
+  const images = [require('../assets/images/updates.png'), require('../assets/images/powerup.png')]; // TODO: create more images
 
   return (
     <Fragment>
       <div>
-        <ShowcaseCarousel />
+        <ShowcaseCarousel images={images} />
       </div>
       <div>
         <div id='login-card'>
+          {loading && <Loading />}
           <p>Welcome back!</p>
           <p>Please enter your credentials to start using Electra and boost your productivity.</p>
           <p>USERNAME OR EMAIL</p>
@@ -87,8 +110,4 @@ const mapStateToProps = (state: any) => {
   return { user };
 };
 
-// const mapDispatchToProps = () => {
-
-// };
-
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, { setUser })(Login);
