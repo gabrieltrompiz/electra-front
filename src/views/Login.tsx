@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { LOGIN } from '../graphql';
+import ShowcaseCarousel from '../components/ShowcaseCarousel';
 
 interface LoginProps {
   /** Function to change the active view from parent component */
@@ -62,7 +63,7 @@ const Login: React.FC<LoginProps> = ({ user, setView }) => {
   return (
     <Fragment>
       <div>
-        a
+        <ShowcaseCarousel />
       </div>
       <div>
         <div id='login-card'>
@@ -74,7 +75,7 @@ const Login: React.FC<LoginProps> = ({ user, setView }) => {
           <input maxLength={30} type='password' onChange={(e) => setPassword(e.target.value)}></input>
           <a href='/'>Forgot your password?</a>
           <button onClick={() => submitLogin()}>Log in</button>
-          <span>Don't have an account? <a href='/' onClick={() => setView('Register')}> Create one.</a></span>
+          <span>Don't have an account? <a href='/' onClick={() => setView("Register")}> Create one.</a></span>
         </div>
       </div>
     </Fragment>
@@ -83,7 +84,11 @@ const Login: React.FC<LoginProps> = ({ user, setView }) => {
 
 const mapStateToProps = (state: any) => {
   const { user } = state.userReducer;
-  return { user }
-}
+  return { user };
+};
+
+// const mapDispatchToProps = () => {
+
+// };
 
 export default connect(mapStateToProps)(Login);

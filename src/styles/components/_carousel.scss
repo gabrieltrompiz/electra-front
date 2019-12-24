@@ -1,0 +1,68 @@
+@media only screen and (min-width: 801px) {
+  #carousel > div:first-child {
+    @include flex(center, center);
+    @include full-sized();
+
+    .opacityIn {
+      animation: opacityIn;
+      animation-duration: 300ms;
+    }
+
+    .opacityOut {
+      animation: opacityOut;
+      animation-duration: 300ms;
+    }
+
+    & > img {
+      object-fit: contain;
+    }
+
+    & > img:nth-child(1), & > img:nth-child(3) {
+      width: 25px;
+      margin: 40px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    & > img:nth-child(1) {
+      transform: rotate(180deg);
+    }
+
+    & > img:nth-child(2) {
+      width: 400px;
+    }
+  }
+
+  #carousel > div:last-child {
+    @include flex(center, center);
+    margin-top: 20px;
+
+    & > img {
+      width: 20px;
+      margin: 5px;
+    }
+  }
+}
+
+@keyframes opacityIn {
+  0% {
+    opacity: 0;
+    display: none;
+  }
+  100% {
+    opacity: 1;
+    display: block;
+  }
+}
+
+@keyframes opacityOut {
+  0% {
+    opacity: 1;
+    display: block;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
