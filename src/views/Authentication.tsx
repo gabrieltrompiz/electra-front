@@ -12,8 +12,9 @@ import bezier from '../utils/bezier';
 */
 const Authentication: React.FC = () => {
   const [view, setView] = useState<string>('Login');
-  // ANIMATION FRAME
-  const [AF, setAF] = useState<number>(-1);
+  const [width, setWidth] = useState<number>(window.innerWidth);
+  const [height, setHeight] = useState<number>(window.innerHeight);
+
   let point1 = 0.2,
       point2 = 0.6,
       point3 = 0.6,
@@ -25,12 +26,22 @@ const Authentication: React.FC = () => {
       pointFlow3 = false,
       pointFlow4 = true,
       pointFlow5 = false;
-  
+  let AF = useRef(-1);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    setAF(requestAnimationFrame(animate))
-    return () => cancelAnimationFrame(AF)
+    cancelAnimationFrame(AF.current);
+    AF.current = requestAnimationFrame(animate);
+  }, [width, height])
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      setWidth(window.innerWidth);
+      setHeight(window.innerHeight);
+    });
+    AF.current = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(AF.current)
   }, []);
 
   const animate = () => {  
@@ -52,18 +63,18 @@ const Authentication: React.FC = () => {
     if(canvasRef && canvasRef.current) {
       const ctx: CanvasRenderingContext2D | null = canvasRef.current.getContext('2d');
       if(ctx) {
-        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        ctx.clearRect(0, 0, width, height);
         ctx.beginPath();
         ctx.moveTo(0, 0);
-        ctx.lineTo(0, window.innerHeight);
-        ctx.lineTo(window.innerWidth * 0.4, window.innerHeight)
+        ctx.lineTo(0, height);
+        ctx.lineTo(width * 0.4, height)
         const points = [
-          [window.innerWidth * point1, window.innerHeight * 0.8],
-          [window.innerWidth * point2, window.innerHeight * 0.75],
-          [window.innerWidth * point3, window.innerHeight * 0.4],
-          [window.innerWidth * point4, window.innerHeight * 0.2],
-          [window.innerWidth * point5, window.innerHeight * 0.05],
-          [window.innerWidth * point6, 0],
+          [width * point1, height * 0.8],
+          [width * point2, height * 0.75],
+          [width * point3, height * 0.4],
+          [width * point4, height * 0.2],
+          [width * point5, height * 0.05],
+          [width * point6, 0],
         ];
         bezier(ctx, points);
         ctx.lineTo(0, 0);
@@ -71,7 +82,7 @@ const Authentication: React.FC = () => {
         ctx.fill();
       }
     }
-    requestAnimationFrame(animate);
+    AF.current = requestAnimationFrame(animate);
   }
 
   /** View that be rendered, either Login or Register. */
@@ -79,7 +90,7 @@ const Authentication: React.FC = () => {
 
   return (
     <div id='authorization'>
-      <canvas ref={canvasRef} width={window.innerWidth} height={window.innerHeight}/>
+      <canvas ref={canvasRef} width={width} height={height}/>
       <ToolBar transparent={true} />
       <div id='authorization-content'>
         {activeView}
