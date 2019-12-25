@@ -3,6 +3,7 @@
   -webkit-app-region: drag;
   width: 100%;
   height: 40px;
+  z-index: 1;
 
   & > div:nth-child(1) {
     padding: 10px;

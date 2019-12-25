@@ -8,6 +8,16 @@ export const GENERATE_GITHUB_TOKEN = gql`
   }
 `;
 
+export const GET_GITHUB_USER = gql`
+  {
+    viewer {
+      login
+      email
+      avatarUrl
+    }
+  }
+`;
+
 export const LOGIN = gql`
   mutation Login($user: LoginInput!) {
     login(user: $user) {

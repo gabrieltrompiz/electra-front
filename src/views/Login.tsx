@@ -57,14 +57,9 @@ const Login: React.FC<LoginProps> = ({ user, setView, setUser }) => {
 
   const client = useApolloClient();
 
-  // useEffect(() => {
-  //   console.log(data)
-  //   if(data && data.login) { 
-  //     setUser(data.login);
-  //     logInfo(`Logged in as ${data.login.username} successfully.`);
-  //   }
-  // }, [data, setUser]);
-
+  /** Connects with the server and authenticates an user that is saved in redux store
+   * @async
+   * @function submitLogin */
   const submitLogin = async () => {
     if(username !== '' && password !== '') {
       setLoading(true);
@@ -84,7 +79,7 @@ const Login: React.FC<LoginProps> = ({ user, setView, setUser }) => {
 
   return (
     <Fragment>
-      <div>
+      <div id='moon-bg'>
         <ShowcaseCarousel images={images} />
       </div>
       <div>
@@ -93,12 +88,12 @@ const Login: React.FC<LoginProps> = ({ user, setView, setUser }) => {
           <p>Welcome back!</p>
           <p>Please enter your credentials to start using Electra and boost your productivity.</p>
           <p>USERNAME OR EMAIL</p>
-          <input maxLength={30} onChange={(e) => setUsername(e.target.value)}></input>
+          <input maxLength={30} onChange={(e) => setUsername(e.target.value.trim())} onSubmit={() => submitLogin()}></input>
           <p>PASSWORD</p>
-          <input maxLength={30} type='password' onChange={(e) => setPassword(e.target.value)}></input>
+          <input maxLength={30} type='password' onChange={(e) => setPassword(e.target.value.trim())}></input>
           <a href='/'>Forgot your password?</a>
           <button onClick={() => submitLogin()}>Log in</button>
-          <span>Don't have an account? <a href='/' onClick={() => setView("Register")}> Create one.</a></span>
+          <span>Don't have an account? <a href='/' onClick={(e) => { e.preventDefault(); setView("Register") }}> Create one.</a></span>
         </div>
       </div>
     </Fragment>

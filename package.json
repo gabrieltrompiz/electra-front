@@ -33,6 +33,8 @@
     "@types/react-dom": "16.8.4",
     "@types/react-redux": "^7.1.5",
     "apollo-boost": "^0.4.7",
+    "apollo-link-context": "^1.0.19",
+    "apollo-link-http": "^1.5.16",
     "electron-is-dev": "^1.1.0",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",

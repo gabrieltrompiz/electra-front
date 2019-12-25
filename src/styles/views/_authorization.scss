@@ -2,11 +2,17 @@
   @include full-sized();
   @include flex(initial, initial);
   flex-direction: column;
-  background-image: url('../../assets/images/bg.png');
+  background-image: url('../../assets/images/bg.jpg');
   background-size: 100% 100%;
   background-repeat: no-repeat;
 
+  & > canvas {
+    @include full-sized();
+    position: absolute;
+  }
+
   & > #authorization-content {
+    z-index: 1;
     flex: 1;
     @include flex(initial, initial);
 
@@ -19,4 +25,10 @@
 
 p {
   user-select: none;
+}
+
+#moon-bg {
+  background-image: url('../../assets/images/moon.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }

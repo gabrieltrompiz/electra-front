@@ -47,7 +47,7 @@ const ShowcaseCarousel: React.FC<ShowcaseCarouselProps> = ({ images }) => {
           imageRef.current.classList.toggle('opacityIn');
           setTransitioning(false);
         }
-      }, 300);
+      }, 350);
     }
   };
 
@@ -63,7 +63,7 @@ const ShowcaseCarousel: React.FC<ShowcaseCarouselProps> = ({ images }) => {
           imageRef.current.classList.toggle('opacityIn');
           setTransitioning(false);
         }
-      }, 300);
+      }, 350);
     }
   };
 

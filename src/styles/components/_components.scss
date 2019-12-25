@@ -7,7 +7,7 @@
   @include flex(center, center);
   user-select: none;
   background-color: rgba(0, 0, 0, 0.2);
-  color: white;
+  color: white; 
   @include lato('Black');
 }
 
@@ -17,5 +17,5 @@
 }
 
 .information-toast {
-  background-color: #2F3136 !important;
+  background-color: $main-color !important;
 }
