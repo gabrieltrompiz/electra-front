@@ -14,6 +14,13 @@ export const GET_GITHUB_USER = gql`
       login
       email
       avatarUrl
+      name
+      followers {
+        totalCount
+      }
+      following {
+        totalCount  
+      }
     }
   }
 `;

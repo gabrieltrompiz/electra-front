@@ -15,6 +15,7 @@ const Authentication: React.FC = () => {
   const [width, setWidth] = useState<number>(window.innerWidth);
   const [height, setHeight] = useState<number>(window.innerHeight);
 
+  /** Points to make a Bezier curve animation in the background of the authentication view */
   let point1 = 0.2,
       point2 = 0.6,
       point3 = 0.6,
@@ -26,13 +27,16 @@ const Authentication: React.FC = () => {
       pointFlow3 = false,
       pointFlow4 = true,
       pointFlow5 = false;
+  /** Reference to the current ID of animation frame */
   let AF = useRef(-1);
 
+  /** Canvas ref to access context and draw on it */
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     cancelAnimationFrame(AF.current);
     AF.current = requestAnimationFrame(animate);
+    // eslint-disable-next-line
   }, [width, height])
 
   useEffect(() => {
@@ -42,8 +46,10 @@ const Authentication: React.FC = () => {
     });
     AF.current = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(AF.current)
+    // eslint-disable-next-line
   }, []);
 
+  /** Animates a bezier curve smoothly using basic math. This is what gets called by animation frame */
   const animate = () => {  
     point1 = (!pointFlow1 ? point1 - 0.0001 : point1 + 0.00008);
     point2 = (!pointFlow2 ? point2 - 0.00009 : point2 + 0.00007);

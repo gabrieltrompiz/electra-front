@@ -20,7 +20,8 @@
     "jsx": "preserve",
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "strictNullChecks": false
   },
   "include": [
     "src"

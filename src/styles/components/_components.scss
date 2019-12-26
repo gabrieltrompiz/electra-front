@@ -6,9 +6,12 @@
   @include full-sized();
   @include flex(center, center);
   user-select: none;
-  background-color: rgba(0, 0, 0, 0.2);
-  color: white; 
-  @include lato('Black');
+  background-color: rgba(0, 0, 0, 0.4);
+  & > p {
+    color: white; 
+    @include lato('Black');
+    text-align: center;
+  }
 }
 
 .toast-body {

@@ -48,6 +48,9 @@
   outline: 0;
   border: none;
   &:hover { cursor: pointer; }
+  & > #loading {
+    border-radius: 10px;
+  }
 }
 
 @mixin clear-input($bg) {

@@ -31,6 +31,30 @@
         width: 50%;
         height: 100%;
 
+        & > #gh-btn {
+          @include clear-buttons(white);
+          @include lato('Bold');
+          position: relative;
+          color: #24292E;
+          width: 220px;
+          height: 50px;
+          border-radius: 10px;
+          text-align: right;
+          padding-right: 30px;
+
+          & > img {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+          }
+        }
+
+        &:nth-of-type(2) {
+          padding-left: 40px;
+        }
+
         & > p {
           @include lato('Bold');
           font-size: 20px;
@@ -48,6 +72,73 @@
 
           &::placeholder {
             color: #A4ABB5;
+          }
+        }
+
+        & > div {
+          @include flex(initial, initial);
+          & > img {
+            width: 150px;
+            height: 150px;
+            border-radius: 100%;
+            object-fit: contain;
+            background: rgba(0, 0, 0, 0.4);
+            margin-left: 20px;
+          }
+          & > div > button {
+            @include clear-buttons($darker-bg);
+            color: white;
+            @include lato('Bold');
+            width: 200px;
+            height: 40px;
+            border-radius: 10px;
+            margin-left: 20px;
+            &:nth-of-type(2), &:nth-of-type(3) {
+              margin-top: 10px;
+            }
+          }
+        }
+
+         & > #gh-profile {
+          @include card(90%, 180px);
+          position: relative;
+          display: block;
+          padding: 10px;
+
+          & > button {
+            position: absolute;
+            @include clear-buttons(red);
+          }
+
+          & > p {
+            margin: 0;
+            padding: 0px 10px;
+            @include lato('Regular');
+            color: white;
+            & > span {
+              @include lato('Black');
+            }
+          }
+
+          & > div {
+            @include flex(initial, initial);
+            & > img {
+              margin: 10px;
+              width: 80px;
+              height: 80px;
+              border-radius: 100%;
+            }
+            & > div > p {
+              @include lato('Thin');
+              color: white;
+              margin: 0;
+              margin-top: 4px;
+            }
+            & > div > p:nth-of-type(1) {
+              @include lato('Black');
+              color: white;
+              margin-top: 15px;
+            }
           }
         }
       }
