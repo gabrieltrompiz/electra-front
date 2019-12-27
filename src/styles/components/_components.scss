@@ -1,5 +1,7 @@
 @import 'toolbar';
 @import 'carousel';
+@import 'navigation';
+@import 'navigation-item';
 
 #loading {
   @include absolute-center(both);

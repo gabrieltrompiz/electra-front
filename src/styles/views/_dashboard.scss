@@ -1,0 +1,6 @@
+#dashboard {  
+  @include full-sized();
+  @include flex(initial, initial);
+  background-color: $bg;
+  flex-direction: column;
+}
