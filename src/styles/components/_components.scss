@@ -4,9 +4,10 @@
 #loading {
   @include absolute-center(both);
   @include full-sized();
-  @include flex(center, center);
+  @include flex(center !important, center !important);
   user-select: none;
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
   & > p {
     color: white; 
     @include lato('Black');

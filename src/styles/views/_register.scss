@@ -1,12 +1,24 @@
 @media only screen and (min-width: 801px) {
   #register-card {
-    @include card(80%, 70%);
+    @include card(55%, 70%);
     @include flex(initial, initial);
     flex-direction: column;
     position: relative;
     background-color: $bg;
     color: $grey-font;
     padding: 15px 25px;
+
+    & > button {
+      @include clear-buttons($main-color);
+      @include lato('Bold');
+      color: white;
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      font-size: 18px;
+      padding: 10px 15px;
+      border-radius: 10px;
+    }
 
     & > img {
       width: 20px;
@@ -100,14 +112,20 @@
         }
 
          & > #gh-profile {
-          @include card(90%, 180px);
+          @include card(370px, 180px);
           position: relative;
           display: block;
           padding: 10px;
 
           & > button {
             position: absolute;
-            @include clear-buttons(red);
+            @include clear-buttons($error);
+            @include lato('Bold');
+            color: white;
+            right: 15px;
+            bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
           }
 
           & > p {

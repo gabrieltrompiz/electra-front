@@ -16,17 +16,9 @@ const Authentication: React.FC = () => {
   const [height, setHeight] = useState<number>(window.innerHeight);
 
   /** Points to make a Bezier curve animation in the background of the authentication view */
-  let point1 = 0.2,
-      point2 = 0.6,
-      point3 = 0.6,
-      point4 = 0.7,
-      point5 = 0.75,
-      point6 = 0.81,
-      pointFlow1 = false,
-      pointFlow2 = true,
-      pointFlow3 = false,
-      pointFlow4 = true,
-      pointFlow5 = false;
+  let point1 = 0.2, point2 = 0.6, point3 = 0.6, point4 = 0.7, point5 = 0.75, point6 = 0.81,
+      pointFlow1 = false, pointFlow2 = true, pointFlow3 = false, pointFlow4 = true, pointFlow5 = false;
+      
   /** Reference to the current ID of animation frame */
   let AF = useRef(-1);
 

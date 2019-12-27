@@ -11,8 +11,9 @@ import 'react-toastify/dist/ReactToastify.css';
 /** Apollo Client that will communicate with Apollo Server. Instance is shared across all app through ApolloProvider
  * @type {ApolloClient} @constant
 */
+
 const client: ApolloClient<unknown> = new ApolloClient({
-  uri: 'http://localhost:5000/graphql',
+  uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
   name: 'Electra',
   version: '1.0.0'
 });

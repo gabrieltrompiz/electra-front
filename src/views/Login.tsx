@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { setUser } from '../redux/actions';
@@ -6,43 +6,6 @@ import { LOGIN } from '../graphql';
 import ShowcaseCarousel from '../components/ShowcaseCarousel';
 import Loading from '../components/Loading';
 import { logError, logInfo } from '../utils';
-
-interface LoginProps {
-  /** Function to change the active view from parent component */
-  setView: Function,
-  /** Logged user from redux */
-  user: object,
-  /** Action creator to change user */
-  setUser: Function
-}
-
-interface LoginPayload {
-  /** Result from the mutation */
-  login: {
-    /** User's unique ID */
-    id: number
-    /** User's username */
-    username: string
-    /** User's full name */
-    fullName: string
-    /** User's email */
-    email: string
-    /** GitHub token if the account is associated to GitHub */
-    gitHubToken?: string
-    /** URL to user's picture */
-    pictureUrl: string
-  }
-}
-
-interface LoginVars {
-  /** User credentials container */
-  user: {
-    /** Username or email provided by the user */
-    username: string
-    /** Password provided by the user */
-    password: string
-  }
-}
 
 /**
  * Login view to give user access to the application
@@ -56,6 +19,10 @@ const Login: React.FC<LoginProps> = ({ user, setView, setUser }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const client = useApolloClient();
+
+  useEffect(() => {
+    console.log(user)
+  }, [user]);
 
   /** Connects with the server and authenticates an user that is saved in redux store
    * @async
@@ -106,3 +73,40 @@ const mapStateToProps = (state: any) => {
 };
 
 export default connect(mapStateToProps, { setUser })(Login);
+
+interface LoginProps {
+  /** Function to change the active view from parent component */
+  setView: Function,
+  /** Logged user from redux */
+  user: object,
+  /** Action creator to change user */
+  setUser: Function
+}
+
+interface LoginPayload {
+  /** Result from the mutation */
+  login: {
+    /** User's unique ID */
+    id: number
+    /** User's username */
+    username: string
+    /** User's full name */
+    fullName: string
+    /** User's email */
+    email: string
+    /** GitHub token if the account is associated to GitHub */
+    gitHubToken?: string
+    /** URL to user's picture */
+    pictureUrl: string
+  }
+}
+
+interface LoginVars {
+  /** User credentials container */
+  user: {
+    /** Username or email provided by the user */
+    username: string
+    /** Password provided by the user */
+    password: string
+  }
+}

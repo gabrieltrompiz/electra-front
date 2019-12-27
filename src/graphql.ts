@@ -25,6 +25,22 @@ export const GET_GITHUB_USER = gql`
   }
 `;
 
+export const CHECK_USERNAME = gql`
+  query CheckUsername($username: String!) {
+    usernameExists(username: $username) {
+      exists
+    }
+  }
+`;
+
+export const CHECK_EMAIL = gql`
+  query CheckEmail($email: String!) {
+    emailExists(email: $email) {
+      exists
+    }
+  }
+`;
+
 export const LOGIN = gql`
   mutation Login($user: LoginInput!) {
     login(user: $user) {
@@ -37,6 +53,19 @@ export const LOGIN = gql`
       gitHubUser {
         login
       }
+    }
+  }
+`;
+
+export const REGISTER = gql`
+  mutation Register($user: RegisterInput!) {
+    register(user: $user) {
+      id
+      email
+      username
+      fullName
+      gitHubToken
+      pictureUrl
     }
   }
 `;
