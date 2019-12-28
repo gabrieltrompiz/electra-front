@@ -1,3 +1,7 @@
+import { LOGIN } from '../graphql';
+import { logError, logInfo } from '../utils';
+
+
 /** Sets and user in the store
  * @function setUser
  * @param {Object} user - User that will be saved in the store
@@ -24,4 +28,31 @@ export const setLoggedIn = (loggedIn) => {
       loggedIn
     }
   };
+};
+
+/** Login with credentials saved in localStorage
+ * @function loginWithCredentials
+ * @param {ApolloClient} client - Apollo Client
+ * @param {Object} credentials - Username and password
+ * @returns {Function} dispatch
+ */
+export const loginWithCredentials = (client, { username, password }, setLoading) => {
+  return (dispatch) => {
+    client.mutate({ mutation: LOGIN, variables: { user: { username, password } }, errorPolicy: 'all' })
+    .then(result => {
+      if(result.data && result.data.login) {
+        logInfo(`Welcome back, ${result.data.login.username}`)
+        dispatch(setUser(result.data.login));
+      } else {
+        logError('You need to login again.')
+        localStorage.removeItem('ELECTRA-CREDENTIALS');
+      }
+      if(result.errors) result.errors.forEach((e) => {
+        if(!e.message.includes('Credentials')) logError(e.message)
+      })
+    })
+    .finally(() => {
+      setLoading(false);
+    })
+  }
 };

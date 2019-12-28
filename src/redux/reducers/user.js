@@ -10,10 +10,8 @@ export default (state = initialState, action) => {
 
     case 'SET_USER': {
       const { user } = action.payload;
-      localStorage.setItem('ELECTRA-USER', JSON.stringify(user));
       const _user = Object.assign({}, user);
       delete _user.workspaces;
-      console.log(user.workspaces)
       return { 
         ...state,
         _user,

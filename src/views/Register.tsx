@@ -139,7 +139,9 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
         user: { fullName, email: email.toLowerCase(), password, username: username.toLowerCase(), pictureUrl, gitHubToken: token }
        }, errorPolicy: 'all' }); 
       if(result.data && result.data.register) {
+        localStorage.setItem('ELECTRA-CREDENTIALS', JSON.stringify({ username: username.toLowerCase(), password }));
         setUser(result.data.register);
+        logInfo('Signed up successfully');
       }
       if(result.errors) result.errors.forEach((e) => logError(e.message));
     }
