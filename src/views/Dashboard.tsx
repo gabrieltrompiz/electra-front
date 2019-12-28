@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import ToolBar from '../components/ToolBar';
 import Navigation from '../components/Navigation';
 /**
@@ -7,12 +7,10 @@ import Navigation from '../components/Navigation';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const Dashboard: React.FC = () => {
-  const workspace = false;
-
+const Dashboard: React.FC = (props, ref) => {
   return (
-    <div id='dashboard'>
-      <ToolBar transparent={true} />
+    <div id='dashboard' className='opacityIn' ref={ref}>
+      <ToolBar />
       <Navigation />
       {/* <div>
         <span>Click "Add a Workspace" to start using electra</span>
@@ -21,4 +19,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default forwardRef<HTMLDivElement>(Dashboard);

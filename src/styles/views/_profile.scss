@@ -6,7 +6,7 @@
 
   & > div:nth-child(2) {
     @include full-sized();
-    @include flex(start, flex-start);
+    @include flex(flex-start, flex-start);
 
     & > div:nth-child(2) {
       width: 25%;

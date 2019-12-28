@@ -7,4 +7,5 @@
 body, html, #root, #container {
   margin: 0;
   @include full-sized();
+  background-color: $bg;
 }

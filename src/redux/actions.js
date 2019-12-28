@@ -9,5 +9,19 @@ export const setUser = (user) => {
     payload: {
       user
     }
-  }
-}
+  };
+};
+
+/** Sets wether the user is logged in or not
+ * @function setLoggedIn
+ * @param {Boolean} loggedIn - Boolean value to be set as logged in state
+ * @returns Action with type SET_LOGGED_IN
+ */
+export const setLoggedIn = (loggedIn) => {
+  return {
+    type: 'SET_LOGGED_IN',
+    payload: {
+      loggedIn
+    }
+  };
+};

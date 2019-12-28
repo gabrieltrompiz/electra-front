@@ -3,4 +3,5 @@
   @include flex(initial, initial);
   background-color: $bg;
   flex-direction: column;
+  @include opacity-keyframes(500ms);
 }

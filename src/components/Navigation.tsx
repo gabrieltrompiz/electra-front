@@ -1,14 +1,6 @@
 import React from 'react';
 import NavigationItem from './NavigationItem';
 
-
-interface NavigationProps {
-  /** Receives Items to navigate */
-  items?: any;
-  /** Focuses item which matches with the current id */
-  actualItem?: string;
-}
-
 /**
  * Navigation module to change app views (workspaces, notifications, profile and logout button)
  * @visibleName Toolbar
@@ -19,9 +11,17 @@ const Navigation: React.FC<NavigationProps> = ({ items, actualItem }) => {
 
   return (
     <div id='navigation'>
-
+      
     </div>
   );
 };
 
 export default Navigation;
+
+
+interface NavigationProps {
+  /** Receives Items to navigate */
+  items?: any;
+  /** Focuses item which matches with the current id */
+  actualItem?: string;
+}

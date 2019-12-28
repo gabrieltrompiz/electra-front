@@ -6,16 +6,7 @@
   #carousel > div:first-child {
     @include flex(center, center);
     @include full-sized();
-
-    .opacityIn {
-      animation: opacityIn;
-      animation-duration: 300ms;
-    }
-
-    .opacityOut {
-      animation: opacityOut;
-      animation-duration: 300ms;
-    }
+    @include opacity-keyframes(300ms);
 
     & > img {
       object-fit: contain;
@@ -49,23 +40,5 @@
         cursor: pointer;
       }
     }
-  }
-}
-
-@keyframes opacityIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes opacityOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
   }
 }

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useApolloClient } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { setUser } from '../redux/actions';
@@ -13,16 +13,12 @@ import { logError, logInfo } from '../utils';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Login: React.FC<LoginProps> = ({ user, setView, setUser }) => { 
+const Login: React.FC<LoginProps> = ({ setView, setUser }) => { 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const client = useApolloClient();
-
-  useEffect(() => {
-    console.log(user)
-  }, [user]);
 
   /** Connects with the server and authenticates an user that is saved in redux store
    * @async
@@ -67,18 +63,11 @@ const Login: React.FC<LoginProps> = ({ user, setView, setUser }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  const { user } = state.userReducer;
-  return { user };
-};
-
-export default connect(mapStateToProps, { setUser })(Login);
+export default connect(null, { setUser })(Login);
 
 interface LoginProps {
   /** Function to change the active view from parent component */
   setView: Function,
-  /** Logged user from redux */
-  user: object,
   /** Action creator to change user */
   setUser: Function
 }
