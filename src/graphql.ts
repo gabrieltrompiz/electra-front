@@ -50,8 +50,21 @@ export const LOGIN = gql`
       email
       gitHubToken
       pictureUrl
-      gitHubUser {
-        login
+      workspaces {
+        id
+        name
+        description
+        # repo
+        members {
+          user {
+            id
+            username
+            email
+            pictureUrl
+            fullName 
+          }
+          role
+        }
       }
     }
   }
@@ -66,6 +79,22 @@ export const REGISTER = gql`
       fullName
       gitHubToken
       pictureUrl
+      workspaces {
+        id
+        name
+        description
+        # repo
+        members {
+          user {
+            id
+            username
+            email
+            pictureUrl
+            fullName
+          }
+          role
+        }
+      }
     }
   }
 `;

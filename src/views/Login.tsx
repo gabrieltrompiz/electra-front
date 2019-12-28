@@ -13,7 +13,7 @@ import { logError, logInfo } from '../utils';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Login: React.FC<LoginProps> = ({ setView, setUser }) => { 
+const Login: React.FC<LoginProps> = ({ toggleView, setUser }) => { 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,7 +26,7 @@ const Login: React.FC<LoginProps> = ({ setView, setUser }) => {
   const submitLogin = async () => {
     if(username !== '' && password !== '') {
       setLoading(true);
-      const result = await client.mutate<LoginPayload, LoginVars>({ variables: { user: { username, password } }, mutation: LOGIN, errorPolicy: 'all' })
+      const result = await client.mutate<LoginPayload, LoginVars>({ variables: { user: { username: username.toLowerCase(), password } }, mutation: LOGIN, errorPolicy: 'all' })
       .finally(() => setLoading(false));
       if(result.data && result.data.login) {
         setUser(result.data.login);
@@ -56,7 +56,7 @@ const Login: React.FC<LoginProps> = ({ setView, setUser }) => {
           <input maxLength={30} type='password' onChange={(e) => setPassword(e.target.value.trim())}></input>
           <a href='/'>Forgot your password?</a>
           <button onClick={() => submitLogin()}>Log in</button>
-          <span>Don't have an account? <a href='/' onClick={(e) => { e.preventDefault(); setView("Register") }}> Create one.</a></span>
+          <span>Don't have an account? <a href='/' onClick={(e) => { e.preventDefault(); toggleView() }}> Create one.</a></span>
         </div>
       </div>
     </Fragment>
@@ -67,7 +67,7 @@ export default connect(null, { setUser })(Login);
 
 interface LoginProps {
   /** Function to change the active view from parent component */
-  setView: Function,
+  toggleView: Function,
   /** Action creator to change user */
   setUser: Function
 }
@@ -87,6 +87,8 @@ interface LoginPayload {
     gitHubToken?: string
     /** URL to user's picture */
     pictureUrl: string
+    /** User workspaces */
+    workspaces: Array<any>
   }
 }
 

@@ -18,7 +18,7 @@ import * as EmailValidator from 'email-validator';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Register: React.FC<RegisterProps> = ({ setView, setUser }) => {
+const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [fullName,  setFullName] = useState<string>('');
@@ -136,7 +136,7 @@ const Register: React.FC<RegisterProps> = ({ setView, setUser }) => {
         pictureUrl = `${process.env.REACT_APP_SERVER_URL}/avatar/default.png`;
       }
       const result = await client.mutate<RegisterPayload, RegisterVars>({ mutation: REGISTER, variables: { 
-        user: { fullName, email, password, username, pictureUrl, gitHubToken: token }
+        user: { fullName, email: email.toLowerCase(), password, username: username.toLowerCase(), pictureUrl, gitHubToken: token }
        }, errorPolicy: 'all' }); 
       if(result.data && result.data.register) {
         setUser(result.data.register);
@@ -152,9 +152,9 @@ const Register: React.FC<RegisterProps> = ({ setView, setUser }) => {
   const validateInputs = async () => {
     const passwordRegex = new RegExp("^(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
     let isValid = true;
-    if(EmailValidator.validate(email)) {   
+    if(EmailValidator.validate(email.toLowerCase())) {   
       setLoading(true);
-      const result = await client.query<EmailExistsPayload, EmailExistsVars>({ query: CHECK_EMAIL, variables: { email }, errorPolicy: 'all' });
+      const result = await client.query<EmailExistsPayload, EmailExistsVars>({ query: CHECK_EMAIL, variables: { email: email.toLowerCase() }, errorPolicy: 'all' });
       if(result.data && result.data.emailExists) {
         if(result.data.emailExists.exists) {
           logError('Email already in use.')
@@ -168,7 +168,7 @@ const Register: React.FC<RegisterProps> = ({ setView, setUser }) => {
     }
     if(username !== '' && username.length > 6) {
       setLoading(true);
-      const result = await client.query<UserExistsPayload, UserExistsVars>({ query: CHECK_USERNAME, variables: { username }, errorPolicy: 'all' });
+      const result = await client.query<UserExistsPayload, UserExistsVars>({ query: CHECK_USERNAME, variables: { username: username.toLowerCase() }, errorPolicy: 'all' });
       if(result.data && result.data.usernameExists) {
         if(result.data.usernameExists.exists) {
           logError('Username alredy in use.');
@@ -200,7 +200,7 @@ const Register: React.FC<RegisterProps> = ({ setView, setUser }) => {
     <div>
       <div id='register-card'>
         {loading && <Loading />}
-        <img src={require('../assets/images/close.png')} alt='close' onClick={() => setView('Login')}></img>
+        <img src={require('../assets/images/close.png')} alt='close' onClick={() => toggleView()}></img>
         <p>Register</p>
         <div>
           <div>
@@ -270,7 +270,7 @@ export default connect(null, { setUser })(Register);
 
 interface RegisterProps {
   /** Function to change the active view from parent component */
-  setView: Function
+  toggleView: Function
   /** Action creator to change user in redux */
   setUser: Function
 }
@@ -353,6 +353,8 @@ interface RegisterPayload {
     gitHubToken?: string
     /** User picture URL */
     pictureUrl: string
+    /** User workspaces */
+    workspaces: Array<any>
   }
 }
 

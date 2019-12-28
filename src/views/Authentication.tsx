@@ -22,16 +22,20 @@ const Authentication: React.RefForwardingComponent<HTMLDivElement, Authenticatio
       
   /** Reference to the current ID of animation frame */
   let AF = useRef(-1);
+  const [initialW, initialH] = [useRef(window.innerWidth), useRef(window.innerHeight)];
 
-  /** Canvas ref to access context and draw on it */
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  // FIXME:
-  // useEffect(() => {
-  //   cancelAnimationFrame(AF.current);
-  //   AF.current = requestAnimationFrame(animate);
-  //   // eslint-disable-next-line
-  // }, [width, height]);
+  useEffect(() => {
+    if(width !== initialW.current || height !== initialH.current) {
+      cancelAnimationFrame(AF.current);
+      AF.current = requestAnimationFrame(animate);
+      initialW.current = -1;
+      initialH.current = -1;
+    }
+    // eslint-disable-next-line
+  }, [width, height]);
 
   useEffect(() => {
     window.addEventListener('resize', () => {
@@ -47,7 +51,20 @@ const Authentication: React.RefForwardingComponent<HTMLDivElement, Authenticatio
       cancelAnimationFrame(AF.current);
       AF.current = requestAnimationFrame(finish);
     }
-  }, [loggedIn])
+    // eslint-disable-next-line
+  }, [loggedIn]);
+
+  const toggleView = () => {
+    if(contentRef.current) {
+      contentRef.current.classList.toggle('opacityIn');
+      contentRef.current.classList.toggle('opacityOut');
+      setTimeout(() => {
+        setView(view === 'Login' ? 'Register' : 'Login');
+        contentRef.current.classList.toggle('opacityOut');
+        contentRef.current.classList.toggle('opacityIn');
+      }, 300);
+    }
+  };
 
   /** Expands the bezier curves to the edges. */
   const finish = () => {
@@ -129,13 +146,13 @@ const Authentication: React.RefForwardingComponent<HTMLDivElement, Authenticatio
   };
 
   /** View that be rendered, either Login or Register. */
-  const activeView = view === 'Login' ? <Login setView={setView} /> : <Register setView={setView} />
+  const activeView = view === 'Login' ? <Login toggleView={toggleView} /> : <Register toggleView={toggleView} />
 
   return (
     <div id='authorization' className='opacityIn' ref={ref}>
       <canvas ref={canvasRef} width={width} height={height}/>
       <ToolBar transparent={true} />
-      <div id='authorization-content'>
+      <div id='authorization-content' className='opacityIn' ref={contentRef}>
         {activeView}
       </div>
     </div>

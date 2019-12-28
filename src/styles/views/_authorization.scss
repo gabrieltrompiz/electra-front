@@ -16,6 +16,7 @@
     z-index: 1;
     flex: 1;
     @include flex(initial, initial);
+    @include opacity-keyframes(300ms);
 
     & > div {
       flex: 1;

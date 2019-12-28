@@ -1,6 +1,7 @@
 const initialState = {
   user: null,
-  loggedIn: false
+  loggedIn: false,
+  workspaces: []
 };
 
 /** User reducer containing states about the user like the user itself, if it is logged in, its workspaces and so on... */
@@ -10,10 +11,14 @@ export default (state = initialState, action) => {
     case 'SET_USER': {
       const { user } = action.payload;
       localStorage.setItem('ELECTRA-USER', JSON.stringify(user));
+      const _user = Object.assign({}, user);
+      delete _user.workspaces;
+      console.log(user.workspaces)
       return { 
         ...state,
-        user,
-        loggedIn: !!user
+        _user,
+        loggedIn: !!user,
+        workspaces: user.workspaces
        };
     };
 
