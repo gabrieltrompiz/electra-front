@@ -1,18 +1,203 @@
 #profile {
   @include full-sized();
-  @include flex(initial, initial);
-  background-color: $bg;
-  flex-direction: column;
+  @include flex(center, center);
+  position: absolute;
+  background-color: $opaque-bg;
+  z-index: 9999;
 
-  & > div:nth-child(2) {
-    @include full-sized();
-    @include flex(flex-start, flex-start);
+  & > div:nth-child(1) {
+    background-color: $bg;
+    width: 35%;
+    height: 80%;
+    border-radius: 25px;
+    box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.5);
+    // @include flex(center, flex-start);
+    // flex-direction: column;
+    overflow-y: scroll;
+
+    & > div:nth-child(1) {
+      @include flex(center, center);
+      
+      & > div:nth-child(1) {
+        @include lato('Black');
+        color: white;
+        width: 100%;
+        // border-bottom: 1px solid $darker-bg;
+        @include flex(initial, center);
+        box-sizing: border-box;
+        padding-left: 25px;
+        padding-top: 15px;
+        padding-bottom: 5px;
+        font-size: 32px;
+        flex: 9;
+      }
+
+      & > div:nth-child(2) {
+        @include flex(center, center);
+        flex: 1;
+
+        & > img {
+          max-width: 45%;
+        }
+      }
+    }
 
     & > div:nth-child(2) {
-      width: 25%;
-      padding: 20px 25px;
+      padding: 0px 25px;
       @include flex(initial, center);
       flex-direction: column;
+      box-sizing: border-box;  
+
+      & > div:nth-child(2) {
+        @include flex(center, center);
+        height: 150px;
+        width: 100%;
+
+        & > div:nth-child(1) {
+          @include flex(center, center);
+          width: 45%;
+          height: 100%;
+          
+          & > img {
+            max-height: 100%;
+            max-width: 100%;
+          }
+        }
+
+        & > div:nth-child(2) {
+          @include flex(start, center);
+          flex-direction: column;
+          height: 100%;
+          flex: 1;
+
+          & > button {
+            height: 35px;
+            width: 90%;
+            background-color: $darker-bg;
+            outline: 0;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: white;
+            // font-size: 12px;
+            @include lato('Bold');
+          }
+
+          & > button:nth-child(1) {
+            margin-top: 25px;
+            margin-bottom: 15px;
+          }
+
+          & > button:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      & > p {
+        @include lato('Regular');
+        font-size: 21px;
+        color: white;
+        align-self: flex-start;
+        margin: 20px 0px 8px 2px;
+      }
+
+      & > p:nth-child(1) {
+        margin-top: 0px !important;
+        margin-bottom: 10px !important;
+      }
+
+      & > input {
+        @include lato('Light');
+        font-size: 16px;
+        border: none;
+        outline: 0;
+        height: 40px;
+        width: 90%;
+        border-radius: 5px !important;
+        background-color: $darker-bg;
+        padding: 1% 3%;
+        color: white;
+        box-sizing: border-box;
+        margin-right: 22px;
+      }
+
+      & > div:nth-child(12) {
+        @include flex(initial, initial);
+        width: 90%;
+        height: 100px;
+        margin-right: 22px;
+        border-radius: 5px !important;
+        background-color: $darker-bg;
+
+        & > div:nth-child(1) {
+          flex: 2;
+          @include flex(center, center);
+
+          & > img {
+            max-height: 70%;
+            max-width: 70%;
+          }
+        }
+        
+        & > div:nth-child(2) {
+          flex: 4;
+          @include flex(flex-start, flex-start);
+          flex-direction: column;
+          padding-top: 20px;
+          @include lato('Regular');
+
+          & > span:nth-child(1) {
+            padding-bottom: 2px;
+            color: white;
+          }
+
+          & > span:nth-child(2) {
+            padding-bottom: 2px;
+            color: $main-color;
+          }
+        }
+
+        & > div:nth-child(3) {
+          @include flex(center, flex-end);
+          padding-bottom: 10px;
+          box-sizing: border-box;
+          flex: 2;
+
+          & > button {
+            background-color: $error;
+            border: 0;
+            height: 20px;
+            width: 90%;
+            border-radius: 5px;
+            color: white;
+            font-size: 12px;
+            margin-right: 5px;
+          }
+
+          & > button:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      & > div:nth-child(13) {
+        width: 100%;
+        @include flex(flex-end, center);
+        
+        & > button {
+          height: 35px;
+          width: 40%;
+          background-color: $main-color;
+          outline: 0;
+          border: none;
+          border-radius: 5px;
+          margin-bottom: 10px;
+          color: white;
+          @include lato('Bold');
+          margin-top: 30px;
+        }
+      }
     }
   }
 }
