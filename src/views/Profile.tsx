@@ -1,16 +1,19 @@
 import React, { useState, Fragment } from 'react';
-import { Profile } from '../types';
+import { connect } from 'react-redux';
+import { Profile as ProfileI } from '../types';
 /**
  * Profile View to check or modify self profile or see other users profile
  * @visibleName Profile View
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const Profile: React.FC<ProfileProps> = ({ user, own }) => {
+const Profile: React.FC<ProfileProps> = ({ loggedUser, user = loggedUser }) => {
   const [name, setName] = useState(user.fullName);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] =  useState(user.email);
   const [password, setPassword] =  useState(user.password);
+
+  const own = !!user;
 
   return (
     <div id='profile'>
@@ -64,11 +67,11 @@ const Profile: React.FC<ProfileProps> = ({ user, own }) => {
             Link GitHub Account
           </button>}
           {!user.gitHubUser && !own &&
-          <p className="user-info">This user has no linked GitHub Account</p>}
+          <p className="user-info">This user has no linked GitHub account</p>}
           {user.gitHubUser &&
           <div id="gh-info">
             <div>
-              <img src={require('../assets/images/default-pic.png')} alt="github"/>
+              <img src={user.gitHubUser.avatarUrl} alt="github"/>
             </div>
             <div>
               <span>@{user.gitHubUser.login}</span>
@@ -89,9 +92,18 @@ const Profile: React.FC<ProfileProps> = ({ user, own }) => {
   );
 };
 
-export default Profile;
+const mapStateToProps = (state: any) => {
+  const { userReducer } = state;
+  return {
+    loggedUser: userReducer.user
+  }
+};
+
+export default connect(mapStateToProps)(Profile);
 
 interface ProfileProps {
-  user: Profile;
-  own: boolean;
+  /** User to be shown, if it's null it will show the logged user */
+  user?: ProfileI
+  /** Logged user from redux store */
+  loggedUser: ProfileI
 }

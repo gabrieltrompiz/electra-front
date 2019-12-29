@@ -50,6 +50,18 @@ export const LOGIN = gql`
       email
       gitHubToken
       pictureUrl
+      gitHubUser {
+        login
+        email
+        avatarUrl
+        name
+        followers {
+          totalCount
+        }
+        following {
+          totalCount
+        }
+      }
       workspaces {
         id
         name
@@ -79,6 +91,18 @@ export const REGISTER = gql`
       fullName
       gitHubToken
       pictureUrl
+      gitHubUser {
+        login
+        email
+        avatarUrl
+        name
+        followers {
+          totalCount
+        }
+        following {
+          totalCount
+        }
+      }
       workspaces {
         id
         name

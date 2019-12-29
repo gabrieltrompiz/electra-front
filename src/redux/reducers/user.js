@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
       delete _user.workspaces;
       return { 
         ...state,
-        _user,
+        user: _user,
         loggedIn: !!user,
         workspaces: user.workspaces
        };
