@@ -113,3 +113,18 @@
     animation-duration: $duration;
   }
 }
+
+@mixin noice-scrollbar($bg) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $bg;
+  }
+}
