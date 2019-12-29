@@ -15,8 +15,7 @@ const NavController: React.FC<NavControllerProps> = ({ loggedIn, loginWithCreden
   const dashboardRef = useRef<HTMLDivElement>(null);
 
   const client = useApolloClient();
-  const x = '';
-
+  
   useEffect(() => {
     if(loggedIn) {
       setTimeout(() => {

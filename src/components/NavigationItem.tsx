@@ -1,12 +1,5 @@
 import React from 'react';
 
-interface NavigationItemProps {
-  id: string;
-  type: 'title' | 'option';
-  icon?: string;
-  image?: string;
-}
-
 const NavigationItem: React.FC<NavigationItemProps> = ({ id, type, icon, image }) => {
 
   return (
@@ -17,3 +10,10 @@ const NavigationItem: React.FC<NavigationItemProps> = ({ id, type, icon, image }
 };
 
 export default NavigationItem;
+
+interface NavigationItemProps {
+  id: string;
+  type: 'title' | 'option';
+  icon?: string;
+  image?: string;
+}

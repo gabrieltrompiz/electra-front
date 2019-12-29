@@ -7,7 +7,7 @@ import Navigation from '../components/Navigation';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const Dashboard: React.FC = (props, ref) => {
+const Dashboard: React.RefForwardingComponent<HTMLDivElement> = (props, ref) => {
   return (
     <div id='dashboard' className='opacityIn' ref={ref}>
       <ToolBar />

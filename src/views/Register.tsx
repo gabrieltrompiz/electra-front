@@ -11,6 +11,7 @@ import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-boost';
 import Loading from '../components/Loading';
 import * as EmailValidator from 'email-validator';
+import { GitHubUser, Profile } from '../types';
 
 /**
  * Gives user the ability to create a new user in the app
@@ -292,26 +293,7 @@ interface TokenVars {
 
 interface UserPayload {
   /** Contains user data */
-  viewer: {
-    /** GitHub username */
-    login: string
-    /** GitHub email */
-    email: string
-    /** GitHub avatar url */
-    avatarUrl: string
-    /** GitHub name */
-    name: string
-    /** GitHub followers */
-    followers: {
-      /** Total count of followers */
-      totalCount: number
-    }
-    /** Github following */
-    following: {
-      /** Total count of following */
-      totalCount: number
-    }
-  }
+  viewer: GitHubUser
 }
 
 interface UserExistsPayload {
@@ -342,22 +324,7 @@ interface EmailExistsVars {
 
 interface RegisterPayload {
   /** Contains the result of the mutation */
-  register: {
-    /** User ID */
-    id: number
-    /** User email */
-    email: string
-    /** User username */
-    username: string
-    /** User full name */
-    fullName: string
-    /** GitHub authorization token if any */
-    gitHubToken?: string
-    /** User picture URL */
-    pictureUrl: string
-    /** User workspaces */
-    workspaces: Array<any>
-  }
+  register: Profile
 }
 
 interface RegisterVars {
@@ -374,6 +341,6 @@ interface RegisterVars {
     /** GitHub authorization token if the user linked their GH account */
     gitHubToken?: string
     /** Profile photo provided by the user */
-    pictureUrl: string | null
+    pictureUrl: string
   }
 }

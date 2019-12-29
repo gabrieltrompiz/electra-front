@@ -6,6 +6,7 @@ import { LOGIN } from '../graphql';
 import ShowcaseCarousel from '../components/ShowcaseCarousel';
 import Loading from '../components/Loading';
 import { logError, logInfo } from '../utils';
+import { Profile } from '../types';
 
 /**
  * Login view to give user access to the application
@@ -75,22 +76,7 @@ interface LoginProps {
 
 interface LoginPayload {
   /** Result from the mutation */
-  login: {
-    /** User's unique ID */
-    id: number
-    /** User's username */
-    username: string
-    /** User's full name */
-    fullName: string
-    /** User's email */
-    email: string
-    /** GitHub token if the account is associated to GitHub */
-    gitHubToken?: string
-    /** URL to user's picture */
-    pictureUrl: string
-    /** User workspaces */
-    workspaces: Array<any>
-  }
+  login: Profile
 }
 
 interface LoginVars {

@@ -1,6 +1,5 @@
 import React, { useState, Fragment } from 'react';
-import ToolBar from '../components/ToolBar';
-import Navigation from '../components/Navigation';
+import { Profile } from '../types';
 /**
  * Profile View to check or modify self profile or see other users profile
  * @visibleName Profile View
@@ -8,7 +7,7 @@ import Navigation from '../components/Navigation';
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
 const Profile: React.FC<ProfileProps> = ({ user, own }) => {
-  const [name, setName] = useState(user.fullname);
+  const [name, setName] = useState(user.fullName);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] =  useState(user.email);
   const [password, setPassword] =  useState(user.password);
@@ -26,8 +25,7 @@ const Profile: React.FC<ProfileProps> = ({ user, own }) => {
           <p className="label">Profile Photo</p>
           <div>
             <div>
-              {!user.imageUrl && <img src={require('../assets/images/default-pic.png')} alt="picture"/>}
-              {user.imageUrl && <img src={user.imageUrl} alt='profile'></img>}
+              <img src={user.pictureUrl} alt='profile'></img>
             </div>
           
             {own &&
@@ -52,7 +50,7 @@ const Profile: React.FC<ProfileProps> = ({ user, own }) => {
           {!own &&
           <Fragment>
             <p className="label">Name</p>
-            <p className="user-info">{user.fullname}</p>
+            <p className="user-info">{user.fullName}</p>
             <p className="label">Username</p>
             <p className="user-info">{user.username}</p>
             <p className="label">Email</p>
@@ -73,7 +71,7 @@ const Profile: React.FC<ProfileProps> = ({ user, own }) => {
               <img src={require('../assets/images/default-pic.png')} alt="github"/>
             </div>
             <div>
-              <span>@{user.gitHubUser.username}</span>
+              <span>@{user.gitHubUser.login}</span>
               <span>Connected</span>
             </div>
             <div>
@@ -94,6 +92,6 @@ const Profile: React.FC<ProfileProps> = ({ user, own }) => {
 export default Profile;
 
 interface ProfileProps {
-  user: any;
+  user: Profile;
   own: boolean;
 }

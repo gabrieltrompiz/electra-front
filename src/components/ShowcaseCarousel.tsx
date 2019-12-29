@@ -1,10 +1,5 @@
 import React, { useState, useRef } from 'react';
 
-interface ShowcaseCarouselProps {
-  /** Images that will be shown in the showcase. Have to pass them with require() method. */
-  images: Array<string>
-}
-
 /**
  * Carousel showcasing app's features
  * @visibleName Showcase Carousel
@@ -84,3 +79,8 @@ const ShowcaseCarousel: React.FC<ShowcaseCarouselProps> = ({ images }) => {
 };
 
 export default ShowcaseCarousel;
+
+interface ShowcaseCarouselProps {
+  /** Images that will be shown in the showcase. Have to pass them with require() method. */
+  images: Array<string>
+}
