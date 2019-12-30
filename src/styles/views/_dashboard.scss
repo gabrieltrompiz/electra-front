@@ -4,4 +4,16 @@
   background-color: $bg;
   flex-direction: column;
   @include opacity-keyframes(500ms);
+
+  & > div:nth-of-type(2) {
+    @include full-sized();
+    @include flex(initial, initial);
+    flex: 1;
+    background: $light-bg;
+
+    & > #main-view {
+      @include flex(center, center);
+      flex: 1;
+    }
+  }
 }

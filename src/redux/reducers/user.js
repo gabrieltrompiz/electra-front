@@ -1,7 +1,8 @@
 const initialState = {
   user: null,
   loggedIn: false,
-  workspaces: []
+  workspaces: [],
+  selectedWorkspace: null
 };
 
 /** User reducer containing states about the user like the user itself, if it is logged in, its workspaces and so on... */
@@ -25,9 +26,17 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loggedIn
-      }
-    }
+      };
+    };
 
-    default: return { ...state }
+    case 'SELECT_WORKSPACE': {
+      const { id } = action.payload;
+      return {
+        ...state,
+        selectedWorkspace: state.workspaces.find(w => w.id === id)
+      };
+    };
+
+    default: return { ...state };
   }
 };

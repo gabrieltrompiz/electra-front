@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, forwardRef } from 'react';
 import { connect } from 'react-redux';
 import { Profile as ProfileI } from '../types';
 /**
@@ -7,22 +7,22 @@ import { Profile as ProfileI } from '../types';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const Profile: React.FC<ProfileProps> = ({ loggedUser, user = loggedUser }) => {
-  const [name, setName] = useState(user.fullName);
-  const [username, setUsername] = useState(user.username);
-  const [email, setEmail] =  useState(user.email);
-  const [password, setPassword] =  useState(user.password);
+const Profile: React.RefForwardingComponent<HTMLDivElement, ProfileProps> = ({ loggedUser, user = loggedUser, close }, ref) => {
+  const [name, setName] = useState<string>(user.fullName);
+  const [username, setUsername] = useState<string>(user.username);
+  const [email, setEmail] = useState<string>(user.email);
+  const [password, setPassword] = useState<string>(user.password);
 
   const own = !!user;
 
   return (
-    <div id='profile'>
+    <div id='profile' className='opacityIn' ref={ref}>
       <div>
         <div>
           <div>
             <div>Profile</div>
             <div>
-              <img src={require('../assets/images/close.png')} alt='profile'></img>
+              <img src={require('../assets/images/close.png')} alt='profile' onClick={() => close()}></img>
             </div>
           </div>
           <div>
@@ -101,11 +101,13 @@ const mapStateToProps = (state: any) => {
   }
 };
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, null, null, { forwardRef: true })(forwardRef<HTMLDivElement, ProfileProps>(Profile));
 
 interface ProfileProps {
   /** User to be shown, if it's null it will show the logged user */
   user?: ProfileI
   /** Logged user from redux store */
   loggedUser: ProfileI
+  /** Gets called when the user clicks the close button */
+  close: Function
 }

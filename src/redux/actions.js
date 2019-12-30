@@ -56,3 +56,45 @@ export const loginWithCredentials = (client, { username, password }, setLoading)
     })
   }
 };
+
+/** Sets the profile to be shown in the profile view
+ * @function setShownProfile
+ * @param {object} profile - Profile to be shown
+ * @returns Action with type SET_SHOWN_PROFILE
+ */
+export const setShownProfile = (profile) => {
+  return {
+    type: 'SET_SHOWN_PROFILE',
+    payload: {
+      profile
+    }
+  };
+};
+
+/** Sets wether the profile view is shown or not. Can also be changed modifying shown profile directly
+ * @function setVisibleProfile
+ * @param {boolean} visible - Wether it is visible or not
+ * @returns Action with type SET_VISIBLE_PROFILE
+ */
+export const setVisibleProfile = (visible) => {
+  return {
+    type: 'SET_VISIBLE_PROFILE',
+    payload: {
+      visible
+    }
+  };
+};
+
+/** Sets the active workspace that will be shown in workspace view
+ * @function selectWorkspace
+ * @param {number} id - id of the workspace to be selected
+ * @returns Action with type SELECT_WORKSPACE
+ */
+export const selectWorkspace = (id) => {
+  return {
+    type: 'SELECT_WORKSPACE',
+    payload: {
+      id
+    }
+  };
+};

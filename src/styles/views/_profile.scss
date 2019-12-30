@@ -5,6 +5,7 @@
   background-color: $opaque-bg;
   z-index: 9999;
   @include noice-scrollbar($darker-bg);
+  @include opacity-keyframes(300ms);
 
   & > div {
     overflow: hidden;

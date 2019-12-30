@@ -69,6 +69,8 @@
     font-family: 'Lato Thin', Helvetiva, sans-serif;
   } @else if $variant == 'Light' {
     font-family: 'Lato Light', Helvetiva, sans-serif;
+  } @else if $variant == 'Semibold' {
+    font-family: 'Lato Semibold', Helvetica, sans-serif;
   } @else {
     font-family: 'Lato', Helvetiva, sans-serif;
   }
