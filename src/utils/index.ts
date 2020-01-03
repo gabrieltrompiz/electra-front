@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
  * @param {string} error - Error to be shown
  */
 export const logError = (error: string) => {
-  const message = error.includes('ENOTFOUND') ? `Could not connect with ${error.split('ENOTFOUND')[1].trim()}` : error.replace('GraphQL error:', '').trim();
+  const message = error.includes('request to') ? `Could not connect with GitHub` : error.replace('GraphQL error:', '').trim();
   toast(message, {
     type: 'error'
   });

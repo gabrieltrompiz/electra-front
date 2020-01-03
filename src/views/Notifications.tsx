@@ -2,7 +2,7 @@ import React from 'react';
 
 const Notifications: React.FC = () => {
   return (
-    <div>
+    <div id='notifications'>
       Notifications
     </div>
   );

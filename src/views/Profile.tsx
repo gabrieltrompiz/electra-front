@@ -1,19 +1,24 @@
 import React, { useState, Fragment, forwardRef } from 'react';
 import { connect } from 'react-redux';
-import { Profile as ProfileI } from '../types';
+import { Profile as ProfileI, State } from '../types';
+import { setShownProfile } from '../redux/actions';
 /**
  * Profile View to check or modify self profile or see other users profile
  * @visibleName Profile View
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const Profile: React.RefForwardingComponent<HTMLDivElement, ProfileProps> = ({ loggedUser, user = loggedUser, close }, ref) => {
+const Profile: React.RefForwardingComponent<HTMLDivElement, ProfileProps> = ({ loggedUser, user = loggedUser, setShownProfile }, ref) => {
   const [name, setName] = useState<string>(user.fullName);
   const [username, setUsername] = useState<string>(user.username);
   const [email, setEmail] = useState<string>(user.email);
   const [password, setPassword] = useState<string>(user.password);
 
   const own = !!user;
+
+  const close = () => {
+    setShownProfile(null);
+  };
 
   return (
     <div id='profile' className='opacityIn' ref={ref}>
@@ -94,20 +99,20 @@ const Profile: React.RefForwardingComponent<HTMLDivElement, ProfileProps> = ({ l
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: State) => {
   const { userReducer } = state;
   return {
     loggedUser: userReducer.user
   }
 };
 
-export default connect(mapStateToProps, null, null, { forwardRef: true })(forwardRef<HTMLDivElement, ProfileProps>(Profile));
+export default connect(mapStateToProps, { setShownProfile }, null, { forwardRef: true })(forwardRef<HTMLDivElement, ProfileProps>(Profile));
 
 interface ProfileProps {
   /** User to be shown, if it's null it will show the logged user */
   user?: ProfileI
   /** Logged user from redux store */
   loggedUser: ProfileI
-  /** Gets called when the user clicks the close button */
-  close: Function
+  /** Function to change the visible status of this view */
+  setShownProfile: Function
 }

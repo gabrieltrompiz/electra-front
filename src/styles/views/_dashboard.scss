@@ -3,7 +3,7 @@
   @include flex(initial, initial);
   background-color: $bg;
   flex-direction: column;
-  @include opacity-keyframes(500ms);
+  @include opacity-keyframes(300ms);
 
   & > div:nth-of-type(2) {
     @include full-sized();

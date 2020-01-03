@@ -4,6 +4,7 @@ import ToolBar from '../components/ToolBar';
 import Login from './Login';
 import Register from './Register';
 import bezier from '../utils/bezier';
+import { State } from '../types';
 
 /**
  * Login and register views
@@ -159,7 +160,7 @@ const Authentication: React.RefForwardingComponent<HTMLDivElement, Authenticatio
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: State) => {
   const { userReducer } = state;
   return {
     loggedIn: userReducer.loggedIn

@@ -5,6 +5,7 @@ import Authentication from './Authentication';
 import Dashboard from './Dashboard';
 import { useApolloClient } from '@apollo/react-hooks';
 import Loading from '../components/Loading';
+import { State } from '../types';
 
 const NavController: React.FC<NavControllerProps> = ({ loggedIn, loginWithCredentials, setUser }) => {
   const [showAuth, setShowAuth] = useState<boolean>(true);
@@ -61,7 +62,7 @@ const NavController: React.FC<NavControllerProps> = ({ loggedIn, loginWithCreden
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: State) => {
   const { userReducer } = state;
   return {
     loggedIn: userReducer.loggedIn

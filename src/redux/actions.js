@@ -98,3 +98,17 @@ export const selectWorkspace = (id) => {
     }
   };
 };
+
+/** Changes wether the 'Create a Workspace' view is visible or not
+ * @function showCreateWorkspace
+ * @param {boolean} visible - wether it is visible or not
+ * @returns Action with type SHOW_CREATE_WORKSPACE  
+ */
+export const setShowCreateWorkspace = (visible) => {
+  return {
+    type: 'SHOW_CREATE_WORKSPACE',
+    payload: {
+      visible
+    }
+  };
+};

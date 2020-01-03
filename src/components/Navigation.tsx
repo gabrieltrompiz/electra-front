@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setVisibleProfile, selectWorkspace } from '../redux/actions';
-import { Workspace } from '../types';
+import { Workspace, State } from '../types';
 import WorkspaceItem from './WorkspaceItem';
 
 /**
@@ -20,7 +20,7 @@ const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, 
             Profile
           </p>
         </div>
-        <div onClick={() => setActive('Notifications')}>
+        <div onClick={() => { setActive('Notifications'); selectWorkspace(null); }}>
           {active === 'Notifications' && <div id='active-indicator' className='opacityIn'></div>}          
           <p>
             <img src={require('../assets/images/notifications-icon.png')} alt='nots' />
@@ -30,12 +30,24 @@ const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, 
         <p>Workspaces</p>
         {workspaces.map(w => <WorkspaceItem workspace={w} key={w.id} onClick={() => selectWorkspace(w.id)} 
           active={selectedWorkspace && active === 'Workspace' ? w.id === selectedWorkspace.id : false} />)}
+        <div>
+          <p>
+            <img src={require('../assets/images/add-circle.png')} alt='create' />
+            Create Workspace
+          </p>
+        </div>
+        <div>
+          <p>
+            <img src={require('../assets/images/search-circle.png')} alt='create' />
+            Workspace Discovery
+          </p>
+        </div>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: State) => {
   const { userReducer } = state;
   return {
     workspaces: userReducer.workspaces,

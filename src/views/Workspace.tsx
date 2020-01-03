@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Workspace as WorkspaceI } from '../types';
+import { Workspace as WorkspaceI, State } from '../types';
+import WorkspaceMenu from '../components/WorkspaceMenu';
 
 const Workspace: React.FC<WorkspaceProps> = ({ workspace }) => {
+  const [active, setActive] = useState<string>('Sprint');
+
   return (
-    <div>
-      {workspace.name}
-      {workspace.id}
+    <div id='workspace'>
+      <WorkspaceMenu active={active} setActive={setActive} />
     </div>
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: State) => {
   const { userReducer } = state;
   return {
     workspace: userReducer.selectedWorkspace

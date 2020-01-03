@@ -1,10 +1,9 @@
 import React, { forwardRef, useRef, useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { setShownProfile } from '../redux/actions';
 import ToolBar from '../components/ToolBar';
 import Navigation from '../components/Navigation';
 import Profile from './Profile';
-import { Profile as ProfileI, Workspace as WorkspaceI } from '../types';
+import { Profile as ProfileI, Workspace as WorkspaceI, State } from '../types';
 import Workspace from './Workspace';
 import Notifications from './Notifications';
 
@@ -14,14 +13,14 @@ import Notifications from './Notifications';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const Dashboard: React.RefForwardingComponent<HTMLDivElement, DashboardProps> = ({ shownProfile, show, setShownProfile, selectedWorkspace }, ref) => {
+const Dashboard: React.RefForwardingComponent<HTMLDivElement, DashboardProps> = ({ shownProfile, showProfileView, selectedWorkspace, showCreateWorkspace }, ref) => {
   const [visibleProfile, setVisibleProfile] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<string>('Notifications');
 
   const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if(show) {
+    if(showProfileView) {
       setVisibleProfile(true);
     } else if (profileRef.current) {
       profileRef.current.classList.toggle('opacityIn');
@@ -30,17 +29,19 @@ const Dashboard: React.RefForwardingComponent<HTMLDivElement, DashboardProps> = 
         setVisibleProfile(false);
       }, 300);
     }
-  }, [show]);
+  }, [showProfileView]);
 
   useEffect(() => {
+    console.log(selectedWorkspace)
     if(selectedWorkspace) {
       setCurrentView('Workspace');
     }
-  }, [selectedWorkspace])
+  }, [selectedWorkspace]);
 
   return (
     <Fragment>
-      {visibleProfile && <Profile ref={profileRef} close={() => setShownProfile(null)} user={shownProfile ? shownProfile : undefined} />}
+      {visibleProfile && <Profile ref={profileRef} user={shownProfile ? shownProfile : undefined} />}
+      {showCreateWorkspace && <div></div>}
       <div id='dashboard' className='opacityIn' ref={ref}>
         <ToolBar />
         <div>
@@ -55,24 +56,25 @@ const Dashboard: React.RefForwardingComponent<HTMLDivElement, DashboardProps> = 
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: State) => {
   const { settingsReducer, userReducer } = state;
   return {
-    show: settingsReducer.show,
+    showProfileView: settingsReducer.showProfileView,
     shownProfile: settingsReducer.shownProfile,
-    selectedWorkspace: userReducer.selectedWorkspace
+    selectedWorkspace: userReducer.selectedWorkspace,
+    showCreateWorkspace: settingsReducer.showCreateWorkspace
   };
 };
 
-export default connect(mapStateToProps, { setShownProfile }, null, { forwardRef: true })(forwardRef<HTMLDivElement, DashboardProps>(Dashboard));
+export default connect(mapStateToProps, null, null, { forwardRef: true })(forwardRef<HTMLDivElement, DashboardProps>(Dashboard));
 
 interface DashboardProps {
   /** Profile to be shown in the Profile view */
   shownProfile: ProfileI | null
   /** Wether the profile should be shown or not */
-  show: boolean
-  /** Changes the profile to be shown at profile view */
-  setShownProfile: Function
+  showProfileView: boolean
   /** Current selected workspace */
   selectedWorkspace: WorkspaceI
+  /** Wether the create a workspace view should be shown or not */
+  showCreateWorkspace: boolean
 }

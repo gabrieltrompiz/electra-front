@@ -1,18 +1,18 @@
 const initialState = {
   shownProfile: null,
-  show: false
+  showProfileView: false,
+  showCreateWorkspace: false
 };
 
 export default (state = initialState, action) => {
   switch(action.type) {
 
     case 'SET_SHOWN_PROFILE': {
-      console.log(action.payload)
       const { profile } = action.payload;
       return {
         ...state,
         shownProfile: profile,
-        show: !!profile
+        showProfileView: !!profile
       };
     };
 
@@ -20,7 +20,15 @@ export default (state = initialState, action) => {
       const { visible } = action.payload;
       return {
         ...state,
-        show: visible
+        showProfileView: visible
+      };
+    };
+
+    case 'SHOW_CREATE_WORKSPACE': {
+      const { visible } = action.payload;
+      return {
+        ...state,
+        showCreateWorkspace: visible
       };
     };
 

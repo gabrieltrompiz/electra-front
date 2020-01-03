@@ -1,0 +1,72 @@
+#workspace {
+  @include full-sized();
+  @include flex(initial, initial);
+  
+  & > div:nth-of-type(1) {
+    width: 300px;
+    height: 100%;
+    background-color: $dark-bg;
+    color: white;
+
+    & > #channels {
+      margin-bottom: 30px;
+
+      & > p {
+        @include lato('Bold');
+        color: $light-grey-font;
+        margin: 8px 0px 0px 25px;
+        &:hover { cursor: pointer; }
+      }
+    }
+
+    & > p {
+      @include lato('Black');
+      color: $light-grey-font;
+      margin: 5px 0px 5px 15px;
+    }
+
+    & > div:nth-of-type(1) {
+      @include lato('Black');
+      @include flex(flex-start, center);
+      width: 100%;
+      height: 45px;
+      border-bottom: 1.5px solid $darker-bg;
+      font-size: 21px;
+      
+      & > p {
+        margin: 0;
+        padding: 0px 15px;
+      }
+    }
+
+    & > div:nth-of-type(2) {
+      @include lato('Semibold');
+      @include flex(flex-start, center);
+      flex-direction: column;
+      padding: 10px 0px;
+
+      & > div {
+        @include flex(flex-start, center);
+        width: 280px;
+        height: 40px;
+        border-radius: 10px;
+        &:hover { cursor: pointer; }
+        
+        &.active { 
+        background-color: $light-bg;
+       }
+
+        & > img {
+          width: 25px;
+          height: 25px;
+          object-fit: contain;
+          margin-left: 7.5px;
+        } 
+
+        & > p {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

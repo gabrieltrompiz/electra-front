@@ -2,6 +2,7 @@
 @import 'carousel';
 @import 'navigation';
 @import 'navigation-item';
+@import 'collaborator-item';
 
 #loading {
   @include absolute-center(both);

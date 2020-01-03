@@ -1,3 +1,17 @@
+export interface State {
+  userReducer: {
+    user: Profile
+    loggedIn: boolean
+    workspaces: Array<Workspace>
+    selectedWorkspace: Workspace
+  }
+  settingsReducer: {
+    shownProfile: Profile
+    showProfileView: boolean
+    showCreateWorkspace: boolean
+  }
+};
+
 export interface Profile {
   id: number
   username: string
