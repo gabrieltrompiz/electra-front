@@ -8,9 +8,10 @@ const isDev = require('electron-is-dev');
 let mainWindow;
 
 function createWindow() {
+  const { width, height } = electron.screen.getPrimaryDisplay().size;
   mainWindow = new BrowserWindow({
-    width: 900, 
-    height: 680,
+    width, 
+    height,
     webPreferences: {
       nodeIntegration: true
     },
@@ -23,7 +24,8 @@ function createWindow() {
   mainWindow.on('closed', () => { mainWindow = null; process.exit(0) });
   mainWindow.on('move', (e) => {
     if(mainWindow.isMaximized()) e.preventDefault();
-  })
+  });
+  mainWindow.show();
 }
 app.on('ready', createWindow);
 

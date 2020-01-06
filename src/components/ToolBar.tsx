@@ -17,18 +17,18 @@ interface ToolBarProps {
 const ToolBar: React.FC<ToolBarProps> = ({ transparent = false, color = '#202225' }) => {
   const window = remote.getCurrentWindow();
 
-  /** Toggle maximization of window */
-  const toggleResize = () => {
-    // If the window is maximized it sets size to 800x450 and centers it, else it maximizes it. 
-    // Had to leave a 100px threshold so moving the window doesn't bug the conditional
-    if(window.getSize()[0] > 900) { 
-      window.resizable = true;
-      window.setSize(800, 450);
-      window.center(); 
-      window.resizable = false;
-    }
-    else window.maximize();
-  }
+  // /** Toggle maximization of window */
+  // const toggleResize = () => {
+  //   // If the window is maximized it sets size to 800x450 and centers it, else it maximizes it. 
+  //   // Had to leave a 100px threshold so moving the window doesn't bug the conditional
+  //   if(window.getSize()[0] > 900) { 
+  //     window.resizable = true;
+  //     window.setSize(800, 450);
+  //     window.center(); 
+  //     window.resizable = false;
+  //   }
+  //   else window.maximize();
+  // }
 
   return (
     <div id='toolbar' style={{ backgroundColor: transparent ? 'transparent' : color }}>
@@ -37,9 +37,6 @@ const ToolBar: React.FC<ToolBarProps> = ({ transparent = false, color = '#202225
       </div>
       <div>
         <button onClick={() => window.minimize()}><span>—</span></button>
-        <button onClick={() => toggleResize()}>
-          <img src={require('../assets/images/multi-tab.png')} alt='multi' />
-        </button>
         <button onClick={() => window.close()}>X</button>
       </div>
     </div>

@@ -1,6 +1,6 @@
 @media only screen and (min-width: 801px) {
   #register-card {
-    @include card(55%, 70%);
+    @include card(900px, 550px);
     @include flex(initial, initial);
     flex-direction: column;
     position: relative;

@@ -1,6 +1,6 @@
 @media only screen and (min-width: 801px) {
   #login-card {
-    @include card(80%, 500px);
+    @include card(650px, 500px);
     position: relative;
     background-color: $bg;
     color: $grey-font;
