@@ -1,5 +1,5 @@
 {
-  "name": "electron-thesis",
+  "name": "Electra",
   "version": "0.1.0",
   "private": true,
   "main": "public/electron.js",
@@ -10,7 +10,7 @@
     "url": "https://github.com/gabrieltrompiz"
   },
   "build": {
-    "appId": "com.thesis.my-app",
+    "appId": "com.tandp.electra",
     "productName": "Thesis",
     "copyright": "Copyright © 2019 ${author}",
     "mac": {

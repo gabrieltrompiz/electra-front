@@ -7,6 +7,7 @@ import store from './redux/store';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NavController from './views/NavController';
+// import { logError } from './utils';
 
 /** Apollo Client that will communicate with Apollo Server. Instance is shared across all app through ApolloProvider
  * @type {ApolloClient} @constant
@@ -14,7 +15,9 @@ import NavController from './views/NavController';
 const client: ApolloClient<unknown> = new ApolloClient({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
   name: 'Electra',
-  version: '1.0.0'
+  version: '1.0.0',
+  credentials: 'include'
+  // onError: () => logError('Could not connect to Electra server')
 });
 
 /** Built-in configuration of toast notifications with react-toastify */

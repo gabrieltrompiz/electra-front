@@ -3,6 +3,7 @@
 @import 'navigation';
 @import 'navigation-item';
 @import 'collaborator-item';
+@import 'search-users';
 
 #loading {
   @include absolute-center(both);

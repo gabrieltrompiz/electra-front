@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setVisibleProfile, selectWorkspace } from '../redux/actions';
+import { setVisibleProfile, selectWorkspace, setShowCreateWorkspace } from '../redux/actions';
 import { Workspace, State } from '../types';
 import WorkspaceItem from './WorkspaceItem';
 
@@ -10,7 +10,7 @@ import WorkspaceItem from './WorkspaceItem';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, setVisibleProfile, selectWorkspace, active, setActive }) => {
+const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, setVisibleProfile, selectWorkspace, active, setActive, setShowCreateWorkspace }) => {
   return (
     <div id='navigation'>
       <div>
@@ -30,7 +30,7 @@ const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, 
         <p>Workspaces</p>
         {workspaces.map(w => <WorkspaceItem workspace={w} key={w.id} onClick={() => selectWorkspace(w.id)} 
           active={selectedWorkspace && active === 'Workspace' ? w.id === selectedWorkspace.id : false} />)}
-        <div>
+        <div onClick={() => setShowCreateWorkspace(true)}>
           <p>
             <img src={require('../assets/images/add-circle.png')} alt='create' />
             Create Workspace
@@ -55,7 +55,7 @@ const mapStateToProps = (state: State) => {
   };
 };
 
-export default connect(mapStateToProps, { setVisibleProfile, selectWorkspace })(Navigation);
+export default connect(mapStateToProps, { setVisibleProfile, selectWorkspace, setShowCreateWorkspace })(Navigation);
 
 interface NavigationProps {
   /** Array containing all workspaces */
@@ -70,4 +70,6 @@ interface NavigationProps {
   active: string
   /** Methods to change active view from Dashborad */
   setActive: Function
+  /** Shows the create workspace view */
+  setShowCreateWorkspace: Function
 }

@@ -1,0 +1,35 @@
+#seach-users {
+  background-color: $darker-bg;
+  border-radius: 10px;
+  height: 40px;
+  position: relative;
+  @include flex(center, initial);
+
+  & > input {
+    @include clear-input($darker-bg);
+    padding: 10px 30px 10px 10px;
+    @include lato('Regular');
+    color: white;
+    flex: 1;
+  }
+
+  & > img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  & > div {
+    position: absolute;
+    width: 100%;
+    top: 50px;
+    min-height: 40px;
+    background-color: $darker-bg;
+    @include flex(center, center);
+    flex-direction: column;
+    border-radius: 10px;
+  }
+}

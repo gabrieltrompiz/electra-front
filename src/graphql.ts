@@ -122,3 +122,21 @@ export const REGISTER = gql`
     }
   }
 `;
+
+export const LOGOUT = gql`
+  mutation Logout {
+    logout
+  }
+`;
+
+export const SEARCH = gql`
+  query Search($search: String!) {
+    users(search: $search) {
+      id
+      email
+      username
+      fullName
+      pictureUrl
+    }
+  }
+`;

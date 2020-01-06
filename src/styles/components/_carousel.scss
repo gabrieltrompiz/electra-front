@@ -26,6 +26,7 @@
 
     & > img:nth-child(2) {
       width: 400px;
+      @include opacity-keyframes(300ms);
     }
   }
 

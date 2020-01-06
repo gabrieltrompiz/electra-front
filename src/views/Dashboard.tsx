@@ -6,6 +6,7 @@ import Profile from './Profile';
 import { Profile as ProfileI, Workspace as WorkspaceI, State } from '../types';
 import Workspace from './Workspace';
 import Notifications from './Notifications';
+import CreateWorkspace from './CreateWorkspace';
 
 /**
  * Dashboard view
@@ -32,7 +33,6 @@ const Dashboard: React.RefForwardingComponent<HTMLDivElement, DashboardProps> = 
   }, [showProfileView]);
 
   useEffect(() => {
-    console.log(selectedWorkspace)
     if(selectedWorkspace) {
       setCurrentView('Workspace');
     }
@@ -41,7 +41,7 @@ const Dashboard: React.RefForwardingComponent<HTMLDivElement, DashboardProps> = 
   return (
     <Fragment>
       {visibleProfile && <Profile ref={profileRef} user={shownProfile ? shownProfile : undefined} />}
-      {showCreateWorkspace && <div></div>}
+      {showCreateWorkspace && <CreateWorkspace />}
       <div id='dashboard' className='opacityIn' ref={ref}>
         <ToolBar />
         <div>
