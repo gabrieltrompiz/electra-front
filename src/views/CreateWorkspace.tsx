@@ -1,8 +1,8 @@
-import React, { useRef, Fragment } from 'react';
+import React, { useRef, Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { setShowCreateWorkspace } from '../redux/actions';
 import SearchUsers from '../components/SearchUsers';
-import { State, Profile } from '../types';
+import { State, Profile, Member } from '../types';
 
 /**
  * View to create a new workspace
@@ -11,6 +11,8 @@ import { State, Profile } from '../types';
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
 const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspace, user }) => {
+  const [members, setMembers] = useState<Array<Member>>([]);
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   const close = () => {
@@ -31,7 +33,7 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
         <div>
           <p>Name <span style={{ color: 'red' }}>*</span></p>
           <input />
-          <p>Description</p>
+          <p>Description <span style={{ color: 'red' }}>*</span></p>
           <textarea /> 
           {user.gitHubUser && 
           <Fragment>
@@ -39,7 +41,10 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
             <input />
           </Fragment>}
           <p>Members</p>
-          <SearchUsers />
+          <SearchUsers members={members} setMembers={setMembers} />
+          <div id='members'>
+
+          </div>
         </div>
       </div>
     </div>
