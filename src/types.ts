@@ -59,7 +59,7 @@ export interface GitHubUser {
   }
 }
 
-enum WorkspaceRole {
+export enum WorkspaceRole {
   ADMIN,
   MEMBER
 }

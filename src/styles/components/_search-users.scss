@@ -36,45 +36,55 @@
     border-radius: 10px;
     overflow: hidden;
     @include opacity-keyframes(300ms);
+  }
+}
 
-    & > #user-card {
-      width: 100%;
-      height: 60px;
-      padding: 5px;
-      @include flex(initial, center);
+#user-card {
+  width: 100%;
+  height: 60px;
+  padding: 5px;
+  @include flex(initial, center);
 
-      &:hover { cursor: pointer; }
+  &:hover { cursor: pointer; }
 
-      & > div:nth-of-type(1) {
-        flex: 1;
-        padding: 0px 10px;
+  & > div:nth-of-type(1) {
+    flex: 1;
+    padding: 0px 10px;
 
-        & > p { margin: 5px; }
+    & > p { margin: 5px; }
 
-        & > p:nth-of-type(1) {
-          @include lato('Black');
-        }
-
-        & > p:nth-of-type(2) {
-          @include lato('Regular');
-        }
-      }
-
-      & > img:nth-of-type(1) {
-        width: 60px;
-        height: 60px;
-        object-fit: contain;
-        border-radius: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
-        margin-left: 10px;
-      }
-
-      & > img:nth-of-type(2) {
-        width: 20px;
-        height: 20px;
-        object-fit: contain;
-        margin-right: 20px;
-      }
+    & > p:nth-of-type(1) {
+      @include lato('Black');
     }
+
+    & > p:nth-of-type(2) {
+      @include lato('Regular');
+    }
+  }
+
+  & > img:nth-of-type(1) {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin-left: 10px;
+  }
+
+  & > img:nth-of-type(2) {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-right: 20px;
+  }
+
+  & > select {
+    background-color: $darker-bg;
+    border: none;
+    color: white;
+    @include lato('Semibold');
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 10px;
   }
 }

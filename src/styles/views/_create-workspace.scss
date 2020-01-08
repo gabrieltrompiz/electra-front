@@ -64,6 +64,28 @@
         height: 100px;
         resize: none;
       }
+
+      & > #members {
+        margin-top: 10px;
+        max-height: 210px;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+    }
+
+    & > div:nth-of-type(3) {
+      @include flex(flex-end, center);
+      padding: 0px 30px;
+      margin-top: 10px;
+
+      & > button {
+        @include clear-buttons($main-color);
+        @include lato('Bold');
+        padding: 10px 15px;
+        color: white;
+        font-size: 16px;
+        border-radius: 10px;;
+      }
     }
   }
 }

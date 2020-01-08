@@ -27,7 +27,8 @@ const Login: React.FC<LoginProps> = ({ toggleView, setUser }) => {
   const submitLogin = async () => {
     if(username !== '' && password !== '') {
       setLoading(true);
-      const result = await client.mutate<LoginPayload, LoginVars>({ variables: { user: { username: username.toLowerCase(), password } }, mutation: LOGIN, errorPolicy: 'all' })
+      const result = await client.mutate<LoginPayload, LoginVars>({ variables: { user: { username: username.toLowerCase(), password } }, mutation: LOGIN, 
+        errorPolicy: 'all', fetchPolicy: 'no-cache' })
       .finally(() => setLoading(false));
       if(result.data && result.data.login) {
         localStorage.setItem('ELECTRA-CREDENTIALS', JSON.stringify({ username: username.toLowerCase(), password }));

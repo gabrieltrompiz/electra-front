@@ -107,7 +107,9 @@ export const REGISTER = gql`
         id
         name
         description
-        # repo
+        repo {
+          url
+        }
         members {
           user {
             id
@@ -137,6 +139,29 @@ export const SEARCH = gql`
       username
       fullName
       pictureUrl
+    }
+  }
+`;
+
+export const CREATE_WORKSPACE = gql`
+  mutation CreateWorkspace($workspace: WorkspaceInput!) {
+    createWorkspace(workspace: $workspace) {
+      id
+      name
+      description
+      repo {
+        url
+      }
+      members {
+        user {
+          id
+          username
+          email
+          pictureUrl
+          fullName
+        }
+        role
+      }
     }
   }
 `;

@@ -70,14 +70,15 @@ const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers }) => {
           <div id='user-card' key={user.id} onClick={() => {
             setMembers(ids.includes(user.id) ? remove(members, (m) => m.user.id !== user.id) : [...members, { user, role: 'MEMBER' }]);
             setToSearch('');
-          }} >
+          }}>
             <img src={user.pictureUrl} alt='avatar' />
             <div>
               <p>{user.fullName}</p>
               <p>{`@${user.username}`}</p>
             </div>
             {ids.includes(user.id) ? 
-              <img src={require('../assets/images/close-dark.png')} alt='delete' /> : <img src={require('../assets/images/plus.png')} alt='add' />}
+              <img src={require('../assets/images/close-dark.png')} alt='delete' style={{ width: '15px', height: '15px', marginRight: '22.5px' }} /> : 
+              <img src={require('../assets/images/plus.png')} alt='add' />}
           </div>
         )}
         {!searching && result.length === 0 && <div>No results</div>}

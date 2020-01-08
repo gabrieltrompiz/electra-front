@@ -38,7 +38,7 @@ export const setLoggedIn = (loggedIn) => {
  */
 export const loginWithCredentials = (client, { username, password }, setLoading) => {
   return (dispatch) => {
-    client.mutate({ mutation: LOGIN, variables: { user: { username, password } }, errorPolicy: 'all' })
+    client.mutate({ mutation: LOGIN, variables: { user: { username, password } }, errorPolicy: 'all', fetchPolicy: 'no-cache' })
     .then(result => {
       if(result.data && result.data.login) {
         logInfo(`Welcome back, ${result.data.login.username}`)
@@ -109,6 +109,20 @@ export const setShowCreateWorkspace = (visible) => {
     type: 'SHOW_CREATE_WORKSPACE',
     payload: {
       visible
+    }
+  };
+};
+
+/** Adds a workspace to the array of worksapces
+ * @function addWorkspace
+ * @param {Worksapce} workspace - workspace to be added
+ * @returns Action with type ADD_WORKSPACE 
+ */
+export const addWorkspace = (workspace) => {
+  return {
+    type: 'ADD_WORKSPACE',
+    payload: {
+      workspace
     }
   };
 };

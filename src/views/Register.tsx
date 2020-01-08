@@ -75,7 +75,8 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
       if(url.includes('code=')) {
         const code = url.split('?')[1].replace('code=', '').trim();
         win.close();
-        const result = await client.mutate<TokenPayload, TokenVars>({ variables: { code }, mutation: GENERATE_GITHUB_TOKEN, errorPolicy: 'all' })
+        const result = await client.mutate<TokenPayload, TokenVars>({ variables: { code }, mutation: GENERATE_GITHUB_TOKEN, 
+          errorPolicy: 'all', fetchPolicy: 'no-cache' })
         .finally(() => setLoadingToken(false));
         if(result.data && result.data.generateGitHubToken) {
           setToken(result.data.generateGitHubToken.code);
@@ -138,7 +139,7 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
       }
       const result = await client.mutate<RegisterPayload, RegisterVars>({ mutation: REGISTER, variables: { 
         user: { fullName, email: email.toLowerCase(), password, username: username.toLowerCase(), pictureUrl, gitHubToken: token }
-       }, errorPolicy: 'all' }); 
+       }, errorPolicy: 'all', fetchPolicy: 'no-cache' }); 
       if(result.data && result.data.register) {
         localStorage.setItem('ELECTRA-CREDENTIALS', JSON.stringify({ username: username.toLowerCase(), password }));
         setUser(result.data.register);
@@ -157,7 +158,8 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
     let isValid = true;
     if(EmailValidator.validate(email.toLowerCase())) {   
       setLoading(true);
-      const result = await client.query<EmailExistsPayload, EmailExistsVars>({ query: CHECK_EMAIL, variables: { email: email.toLowerCase() }, errorPolicy: 'all' });
+      const result = await client.query<EmailExistsPayload, EmailExistsVars>({ query: CHECK_EMAIL, variables: { email: email.toLowerCase() }, 
+        errorPolicy: 'all', fetchPolicy: 'no-cache' });
       if(result.data && result.data.emailExists) {
         if(result.data.emailExists.exists) {
           logError('Email already in use.')
@@ -171,7 +173,8 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
     }
     if(username !== '' && username.length > 6) {
       setLoading(true);
-      const result = await client.query<UserExistsPayload, UserExistsVars>({ query: CHECK_USERNAME, variables: { username: username.toLowerCase() }, errorPolicy: 'all' });
+      const result = await client.query<UserExistsPayload, UserExistsVars>({ query: CHECK_USERNAME, variables: { username: username.toLowerCase() }, 
+        errorPolicy: 'all', fetchPolicy: 'no-cache' });
       if(result.data && result.data.usernameExists) {
         if(result.data.usernameExists.exists) {
           logError('Username alredy in use.');

@@ -9,3 +9,5 @@ body, html, #root, #container {
   @include full-sized();
   background-color: $bg;
 }
+
+@include noice-scrollbar($darker-bg);

@@ -37,6 +37,17 @@ export default (state = initialState, action) => {
       };
     };
 
+    case 'ADD_WORKSPACE': {
+      const { workspace } = action.payload;
+      const _workspaces = [...state.workspaces];
+      _workspaces.push(workspace);
+      _workspaces.sort((a, b) => (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0);
+      return {
+        ...state,
+        workspaces: _workspaces
+      };
+    };
+
     default: return { ...state };
   }
 };
