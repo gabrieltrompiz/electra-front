@@ -7,13 +7,14 @@
   z-index: 9999;
   color: white;
   
-  & > div {
+  & > #container {
     @include card(600px, initial);
     @include flex(initial, initial);
     flex-direction: column;
     background-color: $bg;
     min-height: 300px;
     padding-bottom: 25px;
+    position: relative;
 
     & > div:nth-of-type(1) {
       width: 100%;

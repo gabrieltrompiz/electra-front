@@ -147,7 +147,7 @@
               border-radius: 100%;
             }
             & > div > p {
-              @include lato('Thin');
+              @include lato('Regular');
               color: white;
               margin: 0;
               margin-top: 4px;

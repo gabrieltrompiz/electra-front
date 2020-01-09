@@ -5,8 +5,9 @@ import SearchUsers from '../components/SearchUsers';
 import { State, Profile, Member, WorkspaceRole, Workspace } from '../types';
 import { remove } from 'lodash';
 import { useApolloClient } from '@apollo/react-hooks';
-import { logError } from '../utils';
+import { logError, logInfo } from '../utils';
 import { CREATE_WORKSPACE } from '../graphql';
+import Loading from '../components/Loading';
 
 /**
  * View to create a new workspace
@@ -18,6 +19,7 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [members, setMembers] = useState<Array<Member>>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -37,14 +39,19 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
     } else if(description.trim() === '') {
       logError('Description must be provided to create a Workspace.');
     } else {
+      setLoading(true);
       const workspace: CreateVars["workspace"] = { // TODO: Add repoOwner and repoName
         name,
         description,
         members: members.map((m) => ({ id: m.user.id, role: m.role }))
       }
       const result = await client.mutate<CreatePayload, CreateVars>({ mutation: CREATE_WORKSPACE, variables: { workspace }, 
-        errorPolicy: 'all', fetchPolicy: 'no-cache' });
+        errorPolicy: 'all', fetchPolicy: 'no-cache' })
+        .finally(() => {
+          setLoading(false);
+        });
       if(result.data && result.data.createWorkspace) {
+        logInfo(`Created ${name} successfully.`);
         addWorkspace(result.data.createWorkspace);
         close();
       }
@@ -54,7 +61,8 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
 
   return (
     <div id='create-workspace' className='opacityIn' ref={containerRef}>
-      <div>
+      {loading && <Loading />}
+      <div id='container'>
         <div>
           <p>Create a Workspace</p>
           <img src={require('../assets/images/close.png')} alt='close' onClick={() => close()} />

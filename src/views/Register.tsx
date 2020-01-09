@@ -58,6 +58,7 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
    * @async
    * @function openGitHubWindow */
   const openGitHubWindow = async () => {
+    let hasCode = false;
     setLoadingToken(true);
     const { BrowserWindow } = remote;
     const win = new BrowserWindow({
@@ -70,19 +71,27 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
       },
       parent: remote.getCurrentWindow()
     });
-    win.loadURL('https://github.com/login/oauth/authorize?client_id=ea3c96b4c3db26131d73&scope=user');
-    win.webContents.on('did-redirect-navigation', async (_, url) => {
+    win.webContents.session.clearStorageData();
+    win.loadURL('https://github.com/login/oauth/authorize?client_id=ea3c96b4c3db26131d73');
+    win.webContents.on('did-navigate', async (_, url) => {
       if(url.includes('code=')) {
-        const code = url.split('?')[1].replace('code=', '').trim();
+        hasCode = true;
         win.close();
-        const result = await client.mutate<TokenPayload, TokenVars>({ variables: { code }, mutation: GENERATE_GITHUB_TOKEN, 
-          errorPolicy: 'all', fetchPolicy: 'no-cache' })
+        const result = await client.mutate<TokenPayload, TokenVars>({ variables: { code: url.split('?')[1].replace('code=', '').trim() }, 
+          mutation: GENERATE_GITHUB_TOKEN, errorPolicy: 'all', fetchPolicy: 'no-cache' })
         .finally(() => setLoadingToken(false));
         if(result.data && result.data.generateGitHubToken) {
           setToken(result.data.generateGitHubToken.code);
           logInfo('GitHub authorization token generated')
         } 
         if(result.errors) result.errors.forEach((e) => logError(e.message));
+      }
+    });
+    win.on('close', () => {
+      if(!hasCode) {
+        logError('Error while linking GitHub account.');
+        setLoadingToken(false);
+        setToken('');
       }
     });
     win.show();   
@@ -126,6 +135,7 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
    * @function register */
   const register = async () => {
     if(await validateInputs()) {
+      setLoading(true);
       let pictureUrl: string = '';
       if(photoChanged && file) {
         const fd = new FormData();
@@ -139,7 +149,10 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
       }
       const result = await client.mutate<RegisterPayload, RegisterVars>({ mutation: REGISTER, variables: { 
         user: { fullName, email: email.toLowerCase(), password, username: username.toLowerCase(), pictureUrl, gitHubToken: token }
-       }, errorPolicy: 'all', fetchPolicy: 'no-cache' }); 
+       }, errorPolicy: 'all', fetchPolicy: 'no-cache' })
+       .finally(() => {
+         setLoading(false);
+       }); 
       if(result.data && result.data.register) {
         localStorage.setItem('ELECTRA-CREDENTIALS', JSON.stringify({ username: username.toLowerCase(), password }));
         setUser(result.data.register);
