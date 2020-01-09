@@ -1,6 +1,12 @@
 import React from 'react';
-import { Workspace } from '../types';
+import { Workspace } from '../../types';
 
+/**
+ * Workspace item in navitgation view
+ * @visibleName Workspace Item
+ * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
+ * @author Luis Petrella (https://github.com/Ptthappy)
+*/
 const WorkspaceItem: React.FC<WorkspaceItemProps> = ({ workspace, onClick, active }) => {
   return (
     <div id='workspace-item' onClick={onClick}>

@@ -48,6 +48,9 @@ export default (state = initialState, action) => {
       };
     };
 
+    case 'LOGOUT': return initialState;
+      
+
     default: return { ...state };
   }
 };

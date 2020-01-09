@@ -1,6 +1,12 @@
 #workspace {
   @include full-sized();
   @include flex(initial, initial);
+
+  & > #workspace-content {
+    flex: 1;
+    @include flex(center, center);
+    @include opacity-keyframes(150ms);
+  }
   
   & > div:nth-of-type(1) {
     width: 300px;
@@ -51,10 +57,11 @@
         height: 40px;
         border-radius: 10px;
         &:hover { cursor: pointer; }
+        transition: background-color 300ms;
         
         &.active { 
-        background-color: $light-bg;
-       }
+          background-color: $light-bg;
+        }
 
         & > img {
           width: 25px;

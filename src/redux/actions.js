@@ -126,3 +126,23 @@ export const addWorkspace = (workspace) => {
     }
   };
 };
+
+/** Logouts user and resets user reducer state to initialState
+ * @function logout
+ * @returns Action with type LOGOUT
+ */
+export const logout = () => {
+  return {
+    type: 'LOGOUT'
+  };
+};
+
+/** resets settings reducer state to initialState
+ * @function resetSettings
+ * @returns Action with type RESET_SETTINGS
+ */
+export const resetSettings = () => {
+  return {
+    type: 'RESET_SETTINGS'
+  };
+};

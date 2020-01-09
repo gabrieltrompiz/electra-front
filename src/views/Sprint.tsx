@@ -1,17 +1,17 @@
 import React from 'react';
 
 /**
- * Notifications View
- * @visibleName Notification View
+ * Active sprint view
+ * @visibleName Sprint
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Notifications: React.FC = () => {
+const Sprint: React.FC = () => {
   return (
-    <div id='notifications'>
-      Notifications
+    <div id='backlog'>
+      Sprint
     </div>
   );
 };
 
-export default Notifications;
+export default Sprint;

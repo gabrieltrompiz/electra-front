@@ -1,6 +1,12 @@
 import React from 'react';
-import { Profile } from '../types';
+import { Profile } from '../../types';
 
+/**
+ * Collaborator item in workspace menu
+ * @visibleName Collaborator Item
+ * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
+ * @author Luis Petrella (https://github.com/Ptthappy)
+*/
 const CollaboratorItem: React.FC<CollaboratorItemProps> = ({ user }) => {
   return (
     <div className='collaborator-item'>

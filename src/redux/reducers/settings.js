@@ -32,6 +32,9 @@ export default (state = initialState, action) => {
       };
     };
 
+    case 'RESET_SETTINGS': return initialState;
+    
+
     default: return { ...state };
   }
 };

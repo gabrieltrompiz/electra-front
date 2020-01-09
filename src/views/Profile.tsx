@@ -2,6 +2,7 @@ import React, { useState, Fragment, forwardRef } from 'react';
 import { connect } from 'react-redux';
 import { Profile as ProfileI, State } from '../types';
 import { setShownProfile } from '../redux/actions';
+
 /**
  * Profile View to check or modify self profile or see other users profile
  * @visibleName Profile View

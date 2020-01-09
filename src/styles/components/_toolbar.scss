@@ -21,15 +21,11 @@
     }
 
     & > button {
-      @include clear-buttons(rgba(0, 0, 0, 0.1));
-      @include lato('Thin');
+      @include clear-buttons(rgba(0, 0, 0, 0.2));
+      @include lato('Regular');
       height: 30px;
       width: 40px;
       color: white;
-
-      & > span {
-        opacity: 0.5;
-      }
 
       & > img {
         height: 10px;

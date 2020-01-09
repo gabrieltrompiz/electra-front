@@ -3,10 +3,11 @@
   width: 300px;
   background-color: $darker-bg;
   overflow: hidden;
-  @include noice-scrollbar(#17191B);
+  @include flex(initial, initial);
+  flex-direction: column;
 
-  & > div {
-    @include full-sized();
+  & > div:nth-of-type(1) {
+    flex: 1;
     overflow-y: scroll;
     color: white;
 
@@ -104,6 +105,28 @@
         height: 40px;
         border-radius: 100%;
         background-color: $main-color;
+      }
+    }
+  }
+
+  & > div:nth-of-type(2) {
+    width: 100%;
+    height: 60px;
+    @include flex(center, center);
+
+    & > button {
+      @include clear-buttons(transparent);
+      @include flex(center, center);
+      color: $error;
+      @include lato('Bold');
+      font-size: 18px;
+      padding: 10px;
+
+      & > img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        margin: 0px 8px;
       }
     }
   }

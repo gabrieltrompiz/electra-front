@@ -7,6 +7,12 @@ import { useApolloClient } from '@apollo/react-hooks';
 import Loading from '../components/Loading';
 import { State } from '../types';
 
+/**
+ * Root-level navigation controller
+ * @visibleName Navigattion Controller
+ * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
+ * @author Luis Petrella (https://github.com/Ptthappy)
+*/
 const NavController: React.FC<NavControllerProps> = ({ loggedIn, loginWithCredentials, setUser }) => {
   const [showAuth, setShowAuth] = useState<boolean>(true);
   const [showDashboard, setShowDashboard] = useState<boolean>(false);

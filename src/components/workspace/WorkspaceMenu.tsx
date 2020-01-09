@@ -1,8 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { State, Workspace } from '../types';
+import { State, Workspace } from '../../types';
 import CollaboratorItem from './CollaboratorItem';
 
+/**
+ * Menu showing workspace options
+ * @visibleName Workspace Menu
+ * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
+ * @author Luis Petrella (https://github.com/Ptthappy)
+*/
 const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setActive, userId }) => {
   return (
     <div>
@@ -10,12 +16,12 @@ const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setAct
         <p>{workspace.name}</p>
       </div>
       <div>
-        <div className={active === 'Sprint' ? 'active' : undefined}>
-          <img src={require('../assets/images/active-sprint.png')} alt='active' />
+        <div className={active === 'Sprint' ? 'active' : undefined} onClick={() => setActive('Sprint')}>
+          <img src={require('../../assets/images/active-sprint.png')} alt='active' />
           <p>Active Sprint</p>
         </div>
-        <div className={active === 'Backlog' ? 'active' : undefined}>
-          <img src={require('../assets/images/backlog.png')} alt='backlog' />
+        <div className={active === 'Backlog' ? 'active' : undefined} onClick={() => setActive('Backlog')}>
+          <img src={require('../../assets/images/backlog.png')} alt='backlog' />
           <p>Sprint Backlog</p>
         </div>
       </div>

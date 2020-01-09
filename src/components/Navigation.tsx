@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setVisibleProfile, selectWorkspace, setShowCreateWorkspace } from '../redux/actions';
+import { setVisibleProfile, selectWorkspace, setShowCreateWorkspace, logout, resetSettings } from '../redux/actions';
 import { Workspace, State } from '../types';
-import WorkspaceItem from './WorkspaceItem';
+import WorkspaceItem from './workspace/WorkspaceItem';
 
 /**
  * Navigation module to change app views (workspaces, notifications, profile and logout button)
@@ -10,7 +10,13 @@ import WorkspaceItem from './WorkspaceItem';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, setVisibleProfile, selectWorkspace, active, setActive, setShowCreateWorkspace }) => {
+const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, setVisibleProfile, selectWorkspace, active, setActive, setShowCreateWorkspace, logout, resetSettings }) => {
+  const onLogout = () => {
+    localStorage.clear();
+    logout();
+    resetSettings();
+  };
+
   return (
     <div id='navigation'>
       <div>
@@ -43,6 +49,12 @@ const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, 
           </p>
         </div>
       </div>
+      <div>
+        <button onClick={() => onLogout()}>
+          <img src={require('../assets/images/logout.png')} alt='logout'/>
+          <span>Logout</span>
+        </button>
+      </div>
     </div>
   );
 };
@@ -55,7 +67,7 @@ const mapStateToProps = (state: State) => {
   };
 };
 
-export default connect(mapStateToProps, { setVisibleProfile, selectWorkspace, setShowCreateWorkspace })(Navigation);
+export default connect(mapStateToProps, { setVisibleProfile, selectWorkspace, setShowCreateWorkspace, logout, resetSettings })(Navigation);
 
 interface NavigationProps {
   /** Array containing all workspaces */
@@ -72,4 +84,8 @@ interface NavigationProps {
   setActive: Function
   /** Shows the create workspace view */
   setShowCreateWorkspace: Function
+  /** Logout method */
+  logout: Function
+  /** Reset settings method */
+  resetSettings: Function
 }

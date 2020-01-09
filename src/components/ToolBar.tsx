@@ -1,13 +1,6 @@
 import React from 'react';
 import { remote } from 'electron';
 
-interface ToolBarProps {
-  /** Sets if the toolbar is transparent. Defaults to false. */
-  transparent?: boolean;
-  /** Sets the background color of the toolbar. If transparent is true this won't take effect. Defaults to #202225. */
-  color?: string;
-}
-
 /**
  * Toolbar showing app's logo and minimize, maximize and close buttons
  * @visibleName Toolbar
@@ -44,3 +37,10 @@ const ToolBar: React.FC<ToolBarProps> = ({ transparent = false, color = '#202225
 };
 
 export default ToolBar;
+
+interface ToolBarProps {
+  /** Sets if the toolbar is transparent. Defaults to false. */
+  transparent?: boolean;
+  /** Sets the background color of the toolbar. If transparent is true this won't take effect. Defaults to #202225. */
+  color?: string;
+}

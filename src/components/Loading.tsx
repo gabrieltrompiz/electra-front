@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * Loading view
+ * @visibleName Loading
+ * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
+ * @author Luis Petrella (https://github.com/Ptthappy)
+*/
 const Loading: React.FC<LoadingProps> = ({ color = 'white' }) => {
   return (
     <div id='loading' style={{ color }}>
