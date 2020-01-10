@@ -8,6 +8,7 @@ import Workspace from './Workspace';
 import Notifications from './Notifications';
 import CreateWorkspace from './CreateWorkspace';
 import CreateSprint from './CreateSprint';
+import CreateTask from './CreateTask';
 
 /**
  * Dashboard view
@@ -44,6 +45,7 @@ const Dashboard: React.RefForwardingComponent<HTMLDivElement, DashboardProps> = 
       {visibleProfile && <Profile ref={profileRef} user={showing.profile ? showing.profile : undefined} />}
       {showing.createWorkspace && <CreateWorkspace />}
       {showing.createSprint && <CreateSprint />}
+      {showing.createTask && <CreateTask />}
       <div id='dashboard' className='opacityIn' ref={ref}>
         <ToolBar />
         <div>

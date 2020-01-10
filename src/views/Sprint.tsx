@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Sprint as SprintI, State } from '../types';
-import { setShowCreateSprint } from '../redux/actions';
+import { Sprint as SprintI, State, TaskStatus } from '../types';
+import { setShowCreateSprint, setShowCreateTask } from '../redux/actions';
 
 /**
  * Active sprint view
@@ -9,7 +9,7 @@ import { setShowCreateSprint } from '../redux/actions';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint }) => {
+const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, setShowCreateTask }) => {
   return sprint ? (
     <div id='sprint'>
       <div id='header'>
@@ -20,19 +20,43 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint })
         <div id='to-do'>
           <p>To Do</p>
           <div>
-
+            {sprint.tasks.filter((t) => t.status === 'TODO' as unknown as TaskStatus).map((t) =>
+              <div>
+                {t.name}
+              </div>
+            )}
+            <button onClick={() => setShowCreateTask(true, 'TODO')}>
+              <p>Add a new task</p>
+              <img src={require('../assets/images/plus.png')} alt='add' />
+            </button>
           </div>
         </div>
         <div id='in-progress'>
           <p>In Progress</p>
           <div>
-
+            {sprint.tasks.filter((t) => t.status === 'IN_PROGRESS' as unknown as TaskStatus).map((t) =>
+              <div>
+                {t.name}
+              </div>
+            )}
+            <button onClick={() => setShowCreateTask(true, 'IN_PROGRESS')}>
+              <p>Add a new task</p>
+              <img src={require('../assets/images/plus.png')} alt='add' />
+            </button>
           </div>
         </div>
         <div id='done'>
           <p>Done</p>
           <div>
-            
+            {sprint.tasks.filter((t) => t.status === 'DONE' as unknown as TaskStatus).map((t) =>
+              <div>
+                {t.name}
+              </div>
+            )}
+            <button onClick={() => setShowCreateTask(true, 'DONE')}>
+              <p>Add a new task</p>
+              <img src={require('../assets/images/plus.png')} alt='add' />
+            </button>
           </div>
         </div>
       </div>
@@ -56,7 +80,7 @@ const mapStateToProps = (state: State) => {
   };  
 };
 
-export default connect(mapStateToProps, { setShowCreateSprint })(Sprint);
+export default connect(mapStateToProps, { setShowCreateSprint, setShowCreateTask })(Sprint);
 
 interface SprintProps {
   /** Sprint of the selected workspace */
@@ -65,4 +89,6 @@ interface SprintProps {
   isAdmin: boolean
   /** Show the create sprint view */
   setShowCreateSprint: Function
+  /** Show the create task view */
+  setShowCreateTask: Function
 }

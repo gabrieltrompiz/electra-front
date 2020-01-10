@@ -3,7 +3,9 @@ const initialState = {
     profile: null,
     profileView: false,
     createWorkspace: false,
-    createSprint: false
+    createSprint: false,
+    createTask: false,
+    taskType: 'TODO'
   }
 };
 
@@ -51,6 +53,18 @@ export default (state = initialState, action) => {
         show: {
           ...state.show,
           createSprint: visible
+        }
+      };
+    };
+
+    case 'SHOW_CREATE_TASK': {
+      const { visible, type } = action.payload;
+      return {
+        ...state,
+        show: {
+          ...state.show,
+          createTask: visible,
+          taskType: type
         }
       };
     };

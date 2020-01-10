@@ -13,6 +13,8 @@ export interface State {
       profileView: boolean
       createWorkspace: boolean
       createSprint: boolean
+      createTask: boolean
+      taskType: TaskStatus
     }
   }
 };
@@ -37,7 +39,7 @@ export interface Workspace {
   members: Array<Member>
   sprint: Sprint
   backlog: Array<Sprint>
-  issues: Array<JSON>
+  // issues: Array<JSON>
   repo: JSON
 }
 
@@ -74,7 +76,7 @@ export interface Task {
   // comments: Array<Comment>
   // subtasks: Array<SubTask>
   users: Array<Profile>
-  issue: JSON
+  // issue?: JSON
 }
 
 export interface GitHubUser {

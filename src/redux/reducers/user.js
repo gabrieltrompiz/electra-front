@@ -57,9 +57,9 @@ export default (state = initialState, action) => {
     };
 
     case 'ADD_SPRINT': {
-      const { sprint } = action.payload;
+      const { sprint, workspaceId } = action.payload;
       const _workspaces = [...state.workspaces];
-      const index = _workspaces.findIndex((w) => w.id === state.selectedWorkspace.id);
+      const index = _workspaces.findIndex((w) => w.id === workspaceId);
       const newWorkspace = {
         ..._workspaces[index],
         sprint
@@ -68,9 +68,31 @@ export default (state = initialState, action) => {
       return {
         ...state,
         workspaces: _workspaces,
-        selectedWorkspace: newWorkspace,
         selectedSprint: sprint
       }
+    };
+
+    case 'ADD_TASK': {
+      const { task, workspaceId } = action.payload;
+      const _workspaces = [...state.workspaces];
+      const index = _workspaces.findIndex((w) => workspaceId === w.id);
+      const newWorkspace = {
+        ..._workspaces[index],
+        sprint: {
+          ..._workspaces[index].sprint,
+          tasks: [..._workspaces[index].sprint.tasks, task]
+        }
+      }
+      _workspaces[index] = newWorkspace;
+      return {
+        ...state,
+        workspaces: _workspaces,
+        selectedSprint: {
+          ...state.selectedSprint,
+          tasks: [...state.selectedSprint.tasks, task]
+        },
+
+      };
     };
 
     case 'LOGOUT': return initialState;

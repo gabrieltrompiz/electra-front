@@ -1,0 +1,133 @@
+#create-task {
+  @include opacity-keyframes(300ms);
+  @include full-sized();
+  @include flex(center, center);
+  position: absolute;
+  background-color: $opaque-bg;
+  z-index: 9999;
+  color: white;
+
+  & > #container {
+    @include card(600px, initial);
+    min-height: 500px;
+    @include flex(initial, initial);
+    flex-direction: column;
+    background-color: $bg;
+    padding-bottom: 25px;
+    position: relative;
+
+    & > div:nth-of-type(1) {
+      width: 100%;
+      height: 50px;
+      @include flex(flex-start, center);
+      position: relative;
+
+      & > p {
+        @include lato('Bold');
+        padding: 0px 20px;
+        margin: 0;
+        font-size: 24px;
+      }
+
+      & > img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        &:hover { cursor: pointer; }
+      }
+    }
+
+    & > div:nth-of-type(2) {
+      flex: 1;
+      padding: 0px 25px;
+
+      & > div:nth-of-type(1) {
+        @include flex(center, center);
+
+        & > div {
+          flex: 1;
+          &:nth-of-type(1) { padding-right: 10px; }
+          &:nth-of-type(2) { padding-left: 10px; }
+          height: 80px;
+          @include flex(initial, space-between);
+          flex-direction: column;
+
+          & > p {
+            @include lato('Semibold');
+            margin: 0px 0px 5px 0px;
+            font-size: 22px;  
+            color: $light-grey-font;
+          }
+    
+          & > input {
+            @include clear-input($darker-bg);
+            padding: 10px 10px;
+            color: white;
+            @include lato('Regular');
+            width: 300px;
+            margin-bottom: 15px;
+            font-size: 16px;
+          }
+
+          & > select {
+            background-color: $darker-bg;
+            border: none;
+            color: white;
+            @include lato('Semibold');
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 10px;
+            height: 39px;
+          }
+        }
+      }
+
+      & > p {
+        @include lato('Semibold');
+        margin: 0px 0px 5px 0px;
+        font-size: 22px;  
+        color: $light-grey-font;
+      }
+
+      & > input, & > textarea {
+        @include clear-input($darker-bg);
+        padding: 10px 10px;
+        color: white;
+        @include lato('Regular');
+        width: 525px;
+        margin-bottom: 15px;
+        font-size: 16px;
+      }
+
+      & > textarea {
+        height: 100px;
+        resize: none;
+      }
+
+      & > #members {
+        margin-top: 10px;
+        max-height: 210px;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+    }
+    
+    & > div:nth-of-type(3) {
+      @include flex(flex-end, center);
+      padding: 0px 30px;
+      margin-top: 10px;
+
+      & > button {
+        @include clear-buttons($main-color);
+        @include lato('Bold');
+        padding: 10px 15px;
+        color: white;
+        font-size: 16px;
+        border-radius: 10px;;
+      }
+    }
+  }
+}

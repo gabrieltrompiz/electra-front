@@ -171,11 +171,48 @@ export const setShowCreateSprint = (visible) => {
   };
 };
 
-export const addSprint = (sprint) => {
+/** Adds a sprint to the array of sprints
+ * @function addSprint
+ * @param {Sprint} sprint - sprint to be added
+ * @returns Action with type ADD_SPRINT 
+ */
+export const addSprint = (sprint, workspaceId) => {
   return {
     type: 'ADD_SPRINT',
     payload: {
-      sprint
+      sprint,
+      workspaceId
+    }
+  };
+};
+
+/** Changes wether the 'Create a Task' view is visible or not
+ * @function setShowCreateTask
+ * @param {boolean} visible - wether it is visible or not
+ * @param {string} type - enum TaskStatus that defaults in create a task view
+ * @returns Action with type SHOW_CREATE_TASK  
+ */
+export const setShowCreateTask = (visible, type = 'TODO') => {
+  return {
+    type: 'SHOW_CREATE_TASK',
+    payload: {
+      visible,
+      type
+    }
+  };
+};
+
+/** Adds a task to the array of tasks of a sprint
+ * @function addTask
+ * @param {Task} task - task to be added
+ * @returns Action with type ADD_TASK 
+ */
+export const addTask = (task, workspaceId) => {
+  return {
+    type: 'ADD_TASK',
+    payload: {
+      task,
+      workspaceId
     }
   };
 };

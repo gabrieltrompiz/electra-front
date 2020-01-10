@@ -276,6 +276,33 @@ export const CREATE_SPRINT =  gql`
         estimatedHours
         loggedHours
         status
+        users {
+          id
+          username
+          email
+          pictureUrl
+          fullName
+        }
+      }
+    }
+  }
+`;
+
+export const CREATE_TASK = gql`
+  mutation CreateTask($task: TaskInput!) {
+    createTask(task: $task) {
+      id
+      name
+      status
+      description
+      estimatedHours
+      loggedHours
+      users {
+        id
+        username
+        email
+        pictureUrl
+        fullName
       }
     }
   }
