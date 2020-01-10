@@ -1,7 +1,10 @@
 const initialState = {
-  shownProfile: null,
-  showProfileView: false,
-  showCreateWorkspace: false
+  show: {
+    profile: null,
+    profileView: false,
+    createWorkspace: false,
+    createSprint: false
+  }
 };
 
 export default (state = initialState, action) => {
@@ -11,8 +14,11 @@ export default (state = initialState, action) => {
       const { profile } = action.payload;
       return {
         ...state,
-        shownProfile: profile,
-        showProfileView: !!profile
+        show: {
+          ...state.show,
+          profile,
+          profileView: !!profile
+        }
       };
     };
 
@@ -20,7 +26,10 @@ export default (state = initialState, action) => {
       const { visible } = action.payload;
       return {
         ...state,
-        showProfileView: visible
+        show: {
+          ...state.show,
+          profileView: visible
+        }
       };
     };
 
@@ -28,7 +37,21 @@ export default (state = initialState, action) => {
       const { visible } = action.payload;
       return {
         ...state,
-        showCreateWorkspace: visible
+        show: {
+          ...state.show,
+          createWorkspace: visible
+        }
+      };
+    };
+
+    case 'SHOW_CREATE_SPRINT': {
+      const { visible } = action.payload;
+      return {
+        ...state,
+        show: {
+          ...state.show,
+          createSprint: visible
+        }
       };
     };
 

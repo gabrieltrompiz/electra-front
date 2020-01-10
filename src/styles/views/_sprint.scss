@@ -1,0 +1,72 @@
+#sprint {
+  width: 100%;
+  height: 100%;
+  @include flex(initial, initial);
+  flex-direction: column;
+
+  & > #header {
+    @include flex(flex-start, center);
+    width: 100%;
+    height: 45px;
+    border-bottom: 1.5px solid $darker-bg;
+
+    & > img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      margin: 0px 10px 0px 20px;
+    }
+
+    & > span {
+      @include lato('Black');
+      color: white;
+      font-size: 18px;
+    }
+  }
+
+  & > #cards {
+    flex: 1;
+    @include flex(initial, initial);
+    padding: 0px 20px;
+
+    & > div > p {
+      @include lato('Black');
+      color: white;
+      font-size: 24px;
+    }
+
+    & > #to-do, & > #in-progress, & > #done {
+      flex: 1;
+      @include flex(center, center);
+      flex-direction: column;
+      padding: 0px 20px 50px 20px;
+
+      & > div {
+        @include card(100%, 100px);
+        flex: 1;
+        background-color: $darker-bg;
+      }
+    }
+  }
+}
+
+#empty-sprint {
+  @include flex(center, center);
+  flex-direction: column;
+
+  & > p {
+    @include lato('Black');
+    font-size: 24px;
+    color: $light-grey-font;
+    margin: 10px;
+  }
+
+  & > button {
+    @include lato('Black');
+    @include clear-buttons($main-color);
+    color: white;
+    font-size: 20px;
+    padding: 10px 15px;
+    border-radius: 10px;
+  }
+}

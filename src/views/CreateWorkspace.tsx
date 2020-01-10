@@ -37,7 +37,7 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
     if(name.trim() === '') {
       logError('Name must be provided to create a workspace.');
     } else if(description.trim() === '') {
-      logError('Description must be provided to create a Workspace.');
+      logError('Description must be provided to create a workspace.');
     } else {
       setLoading(true);
       const workspace: CreateVars["workspace"] = { // TODO: Add repoOwner and repoName
@@ -47,11 +47,9 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
       }
       const result = await client.mutate<CreatePayload, CreateVars>({ mutation: CREATE_WORKSPACE, variables: { workspace }, 
         errorPolicy: 'all', fetchPolicy: 'no-cache' })
-        .finally(() => {
-          setLoading(false);
-        });
+        .finally(() => setLoading(false));
       if(result.data && result.data.createWorkspace) {
-        logInfo(`Created ${name} successfully.`);
+        logInfo(`Created '${name}' successfully.`);
         addWorkspace(result.data.createWorkspace);
         close();
       }

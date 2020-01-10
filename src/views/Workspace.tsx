@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
-import { Workspace as WorkspaceI, State } from '../types';
 import WorkspaceMenu from '../components/workspace/WorkspaceMenu';
 import Sprint from './Sprint';
 import Backlog from './Backlog';
@@ -11,7 +9,7 @@ import Backlog from './Backlog';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Workspace: React.FC<WorkspaceProps> = ({ workspace }) => {
+const Workspace: React.FC = () => {
   const [active, setActive] = useState<string>('Sprint');
   const [showing, setShowing] = useState<string>('Sprint');
 
@@ -40,16 +38,4 @@ const Workspace: React.FC<WorkspaceProps> = ({ workspace }) => {
   );
 };
 
-const mapStateToProps = (state: State) => {
-  const { userReducer } = state;
-  return {
-    workspace: userReducer.selectedWorkspace
-  };
-};
-
-export default connect(mapStateToProps)(Workspace);
-
-interface WorkspaceProps {
-  /** Current selected workspace */
-  workspace: WorkspaceI
-}
+export default Workspace;

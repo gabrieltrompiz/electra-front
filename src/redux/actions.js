@@ -1,4 +1,4 @@
-import { LOGIN } from '../graphql';
+import { LOGIN, GET_PROFILE } from '../graphql';
 import { logError, logInfo } from '../utils';
 
 
@@ -40,20 +40,30 @@ export const loginWithCredentials = (client, { username, password }, setLoading)
   return (dispatch) => {
     client.mutate({ mutation: LOGIN, variables: { user: { username, password } }, errorPolicy: 'all', fetchPolicy: 'no-cache' })
     .then(result => {
-      if(result.data && result.data.login) {
+      const alreadyLogged = result.errors ? result.errors.findIndex((err) => err.message.includes('Already logged in')) !== -1 : false;
+      if(result.data && result.data.login && !alreadyLogged) {
         logInfo(`Welcome back, ${result.data.login.username}`)
         dispatch(setUser(result.data.login));
-      } else {
+      } else if(alreadyLogged) {
+        setLoading(true);
+        client.query({ query: GET_PROFILE, errorPolicy: 'all', fetchPolicy: 'no-cache' })
+        .then(res => {
+          if(res.data) {
+            logInfo(`Welcome back, ${res.data.profile.username}`);
+            dispatch(setUser(res.data.profile));
+          }
+        })
+        .finally(() => setLoading(false));
+      }
+      else {
         logError('You need to login again.')
         localStorage.removeItem('ELECTRA-CREDENTIALS');
       }
       if(result.errors) result.errors.forEach((e) => {
-        if(!e.message.includes('Credentials')) logError(e.message)
+        if(!e.message.includes('Credentials') && !e.message.includes('Already logged in')) logError(e.message);
       })
     })
-    .finally(() => {
-      setLoading(false);
-    })
+    .finally(() => setLoading(false))
   }
 };
 
@@ -144,5 +154,28 @@ export const logout = () => {
 export const resetSettings = () => {
   return {
     type: 'RESET_SETTINGS'
+  };
+};
+
+/** Changes wether the 'Create a Sprint' view is visible or not
+ * @function setShowCreateSprint
+ * @param {boolean} visible - wether it is visible or not
+ * @returns Action with type SHOW_CREATE_SPRINT  
+ */
+export const setShowCreateSprint = (visible) => {
+  return {
+    type: 'SHOW_CREATE_SPRINT',
+    payload: {
+      visible
+    }
+  };
+};
+
+export const addSprint = (sprint) => {
+  return {
+    type: 'ADD_SPRINT',
+    payload: {
+      sprint
+    }
   };
 };

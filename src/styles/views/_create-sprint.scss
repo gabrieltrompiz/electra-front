@@ -1,4 +1,4 @@
-#create-workspace {
+#create-sprint {
   @include opacity-keyframes(300ms);
   @include full-sized();
   @include flex(center, center);
@@ -6,19 +6,19 @@
   background-color: $opaque-bg;
   z-index: 9999;
   color: white;
-  
+ 
   & > #container {
     @include card(600px, initial);
+    min-height: 300px;
     @include flex(initial, initial);
     flex-direction: column;
     background-color: $bg;
-    min-height: 300px;
     padding-bottom: 25px;
     position: relative;
 
     & > div:nth-of-type(1) {
       width: 100%;
-      height: 60px;
+      height: 50px;
       @include flex(flex-start, center);
       position: relative;
 
@@ -51,7 +51,7 @@
         color: $light-grey-font;
       }
 
-      & > input, & > textarea {
+      & > input {
         @include clear-input($darker-bg);
         padding: 10px 10px;
         color: white;
@@ -59,18 +59,6 @@
         width: 525px;
         margin-bottom: 15px;
         font-size: 16px;
-      }
-
-      & > textarea {
-        height: 100px;
-        resize: none;
-      }
-
-      & > #members {
-        margin-top: 10px;
-        max-height: 210px;
-        overflow-y: auto;
-        overflow-x: hidden;
       }
     }
 

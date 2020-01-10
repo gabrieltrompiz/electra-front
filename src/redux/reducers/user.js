@@ -2,7 +2,9 @@ const initialState = {
   user: null,
   loggedIn: false,
   workspaces: [],
-  selectedWorkspace: null
+  selectedWorkspace: null,
+  selectedSprint: null,
+  isAdmin: false
 };
 
 /** User reducer containing states about the user like the user itself, if it is logged in, its workspaces and so on... */
@@ -31,9 +33,15 @@ export default (state = initialState, action) => {
 
     case 'SELECT_WORKSPACE': {
       const { id } = action.payload;
+      const workspace = state.workspaces.find(w => w.id === id);
+      const _workspace = Object.assign({}, workspace);
+      delete _workspace.sprint;
+      delete _workspace.backlog;
       return {
         ...state,
-        selectedWorkspace: state.workspaces.find(w => w.id === id)
+        selectedWorkspace: id ? _workspace : null,
+        selectedSprint: workspace ? workspace.sprint : null,
+        isAdmin: workspace ? _workspace.members.find((m) => m.user.id === state.user.id).role === 'ADMIN' : null
       };
     };
 
@@ -46,6 +54,23 @@ export default (state = initialState, action) => {
         ...state,
         workspaces: _workspaces
       };
+    };
+
+    case 'ADD_SPRINT': {
+      const { sprint } = action.payload;
+      const _workspaces = [...state.workspaces];
+      const index = _workspaces.findIndex((w) => w.id === state.selectedWorkspace.id);
+      const newWorkspace = {
+        ..._workspaces[index],
+        sprint
+      };
+      _workspaces[index] = newWorkspace;
+      return {
+        ...state,
+        workspaces: _workspaces,
+        selectedWorkspace: newWorkspace,
+        selectedSprint: sprint
+      }
     };
 
     case 'LOGOUT': return initialState;

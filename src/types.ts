@@ -4,11 +4,16 @@ export interface State {
     loggedIn: boolean
     workspaces: Array<Workspace>
     selectedWorkspace: Workspace
+    selectedSprint: Sprint
+    isAdmin: boolean
   }
   settingsReducer: {
-    shownProfile: Profile
-    showProfileView: boolean
-    showCreateWorkspace: boolean
+    show: {
+      profile: Profile
+      profileView: boolean
+      createWorkspace: boolean
+      createSprint: boolean
+    }
   }
 };
 
@@ -30,6 +35,10 @@ export interface Workspace {
   name: string
   description?: string
   members: Array<Member>
+  sprint: Sprint
+  backlog: Array<Sprint>
+  issues: Array<JSON>
+  repo: JSON
 }
 
 export interface Member {
@@ -40,10 +49,32 @@ export interface Member {
 export interface Notification {
   id: number
   receiver: number
-  type: NotificationType,
+  type: NotificationType
   description: string
   read: boolean
   meta: JSON
+}
+
+export interface Sprint {
+  id: number
+  title: string
+  startDate: Date
+  finishDate: Date
+  status: SprintStatus
+  tasks: Array<Task>
+}
+
+export interface Task {
+  id: number
+  name: string
+  estimatedHours: number
+  loggedHours: number
+  status: TaskStatus
+  description: string
+  // comments: Array<Comment>
+  // subtasks: Array<SubTask>
+  users: Array<Profile>
+  issue: JSON
 }
 
 export interface GitHubUser {
@@ -64,7 +95,18 @@ export enum WorkspaceRole {
   MEMBER
 }
 
-enum NotificationType {
+export enum NotificationType {
   INFORMATION,
   INVITATION
+}
+
+export enum SprintStatus {
+  COMPLETED,
+  IN_PROGRESS
+}
+
+export enum TaskStatus {
+  TODO,
+  IN_PROGRESS,
+  DONE
 }

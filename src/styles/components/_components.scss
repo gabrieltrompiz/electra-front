@@ -4,6 +4,7 @@
 @import 'navigation-item';
 @import 'collaborator-item';
 @import 'search-users';
+@import 'calendar';
 
 #loading {
   @include absolute-center(both);

@@ -1,0 +1,83 @@
+.react-calendar {
+  background-color: $darker-bg !important;
+  border: none !important;
+  width: 400px; 
+  @include lato('Semibold');
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 10px 10px;
+  position: absolute;
+
+  .react-calendar__navigation {
+    background-color: $darker-bg;
+    height: 30px;
+    margin-bottom: 10px;
+
+    .react-calendar__navigation__arrow {
+      &:disabled {
+        filter: brightness(0.4);
+      }
+      background-color: transparent !important;      
+      color: white;
+      border: none;
+      padding: 0px 10px;
+      &:hover { 
+        cursor: pointer; 
+        background-color: #141517 !important;
+      }
+      outline: 0;
+    }
+
+    .react-calendar__navigation__label {
+      background-color: inherit;
+      border: none;
+      color: white;
+      @include lato('Bold');
+    }
+  }
+
+  .react-calendar__viewContainer {
+    background-color: inherit;
+
+    .react-calendar__month-view  {
+      background-color: inherit;
+    }
+  }
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  background-color: #202225;
+
+  text-align: center;
+  & > abbr {
+    text-decoration: none;
+    user-select: none;
+  }
+}
+
+.react-calendar__month-view__days {
+  background-color: $darker-bg;
+
+  & > button {
+    &:disabled { 
+      background-color: transparent !important;
+      filter: brightness(0.4); 
+      &:hover { 
+        cursor: initial;
+        background-color: transparent !important;
+      }
+    }
+    &:hover { 
+      cursor: pointer; 
+      background-color: #141517 !important;
+    }
+    outline: 0;
+    color: white;
+    border: none;
+    padding: 5px 0px;
+  }
+}
+
+.react-calendar__tile--active {
+  background-color: #141517 !important;
+}

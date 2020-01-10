@@ -66,7 +66,9 @@ export const LOGIN = gql`
         id
         name
         description
-        # repo
+        repo {
+          url
+        }
         members {
           user {
             id
@@ -76,6 +78,31 @@ export const LOGIN = gql`
             fullName 
           }
           role
+        }
+        sprint {
+          id
+          title
+          startDate
+          finishDate
+          status
+          tasks {
+            id
+            name
+            description
+            estimatedHours
+            loggedHours
+            status
+            users {
+              id
+              username
+              email
+              pictureUrl
+              fullName
+            }
+            issue {
+              url
+            }
+          }
         }
       }
     }
@@ -131,6 +158,74 @@ export const LOGOUT = gql`
   }
 `;
 
+export const GET_PROFILE = gql`
+  {
+    profile {
+      id
+      username
+      fullName
+      email
+      gitHubToken
+      pictureUrl
+      gitHubUser {
+        login
+        email
+        avatarUrl
+        name
+        followers {
+          totalCount
+        }
+        following {
+          totalCount
+        }
+      }
+      workspaces {
+        id
+        name
+        description
+        repo {
+          url
+        }
+        members {
+          user {
+            id
+            username
+            email
+            pictureUrl
+            fullName 
+          }
+          role
+        }
+        sprint {
+          id
+          title
+          startDate
+          finishDate
+          status
+          tasks {
+            id
+            name
+            description
+            estimatedHours
+            loggedHours
+            status
+            users {
+              id
+              username
+              email
+              pictureUrl
+              fullName
+            }
+            issue {
+              url
+            }
+          }
+        }
+      }     
+    }
+  }
+`;
+
 export const SEARCH = gql`
   query Search($search: String!) {
     users(search: $search) {
@@ -161,6 +256,26 @@ export const CREATE_WORKSPACE = gql`
           fullName
         }
         role
+      }
+    }
+  }
+`;
+
+export const CREATE_SPRINT =  gql`
+  mutation CreateSprint($sprint: SprintInput!) {
+    createSprint(sprint: $sprint) {
+      id
+      title
+      startDate
+      finishDate
+      status
+      tasks {
+        id
+        name
+        description
+        estimatedHours
+        loggedHours
+        status
       }
     }
   }
