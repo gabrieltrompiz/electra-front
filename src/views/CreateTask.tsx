@@ -9,7 +9,7 @@ import { useApolloClient } from '@apollo/react-hooks';
 import { logError, logInfo } from '../utils';
 import { CREATE_TASK } from '../graphql';
 
-const CreateTask: React.FC<CreateTaskProps> = ({ defaultType, setShowCreateTask, sprintId, workspaceId, addTask }) => {
+const CreateTask: React.FC<CreateTaskProps> = ({ defaultType, setShowCreateTask, sprintId, workspaceId, addTask, toFilter }) => {
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [estimatedHours, setEstimatedHours] = useState<number>(0);
@@ -79,7 +79,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({ defaultType, setShowCreateTask,
             </div>
           </div>
           <p>Assigned To</p>
-          <SearchUsers members={members} setMembers={setMembers} />
+          <SearchUsers members={members} setMembers={setMembers} toFilter={toFilter} />
           <div id='members'>
             {members.map((m) => 
               <div id='user-card' key={m.user.id}>
@@ -107,7 +107,8 @@ const mapStateToProps = (state: State) => {
   return {
     defaultType: settingsReducer.show.taskType,
     sprintId: userReducer.selectedSprint.id,
-    workspaceId: userReducer.selectedWorkspace.id
+    workspaceId: userReducer.selectedWorkspace.id,
+    toFilter: userReducer.selectedWorkspace.members
   };
 };
 
@@ -124,6 +125,8 @@ interface CreateTaskProps {
   workspaceId: number
   /** method to add task to current sprint */
   addTask: Function
+  /** users that will be searched */
+  toFilter: Array<Member>
 }
 
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
 import { useApolloClient } from '@apollo/react-hooks';
 import { SEARCH } from '../graphql';
-import { Profile, Member } from '../types';
+import { Profile, Member, State } from '../types';
 import { logError } from '../utils';
 import { remove } from 'lodash';
 
@@ -11,7 +12,7 @@ import { remove } from 'lodash';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers }) => {
+const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers, toFilter, userId }) => {
   const [toSearch, setToSearch] = useState<string>('');
   const [result, setResult] = useState<Array<Profile>>([]);
   const [searching, setSearching] = useState<boolean>(false);
@@ -36,11 +37,12 @@ const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers }) => {
       setSearching(true);
       setShowResults(true);
     }
-    if(timeout.current) {
+    if(timeout.current && !toFilter) {
       clearTimeout(timeout.current);
       timeout.current = null;
     }
-    if(toSearch.trim() !== '') timeout.current = setTimeout(() => search(), 1000);
+    if(toSearch.trim() !== '' && !toFilter) timeout.current = setTimeout(() => search(), 1000);
+    if(toSearch.trim() !== '' && toFilter) search();
     // eslint-disable-next-line
   }, [toSearch]);
 
@@ -49,13 +51,25 @@ const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers }) => {
   }, [members]);
 
   const search = async () => {
-    setSearching(true);
-    const result = await client.query<SearchPayload, SearchVars>({ variables: { search: toSearch }, query: SEARCH, errorPolicy: 'all' })
-    .finally(() => setSearching(false));
-    if(result.data && result.data.users) {
-      setResult(result.data.users);
+    if(!toFilter) {
+      setSearching(true);
+      const result = await client.query<SearchPayload, SearchVars>({ variables: { search: toSearch }, query: SEARCH, errorPolicy: 'all' })
+      .finally(() => setSearching(false));
+      if(result.data && result.data.users) {
+        setResult(result.data.users);
+      }
+      if(result.errors) result.errors.forEach((e) => logError(e.message));
+    } else {
+      const result = toFilter.filter((m) => (
+        (m.user.email.toLowerCase().includes(toSearch.toLowerCase()) ||
+         m.user.fullName.toLowerCase().includes(toSearch.toLowerCase()) ||
+         m.user.username.toLowerCase().includes(toSearch.toLowerCase())) 
+         && m.user.id !== userId
+      ));
+      setResult(result.map((r) => r.user));
+      setSearching(false);
+      setShowResults(true);
     }
-    if(result.errors) result.errors.forEach((e) => logError(e.message));
   };
 
   return (
@@ -87,7 +101,14 @@ const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers }) => {
   );
 };
 
-export default SearchUsers;
+const mapStateToProps = (state: State) => {
+  const { userReducer } = state;
+  return {
+    userId: userReducer.user.id
+  };
+};
+
+export default connect(mapStateToProps)(SearchUsers);
 
 interface SearchPayload {
   /** Result from the query */
@@ -104,4 +125,8 @@ interface SearchUsersProps {
   members: Array<Member>
   /** Method to modify members */
   setMembers: Function
+  /** Wether the users should be filtered from a list or be fetched from the server */
+  toFilter?: Array<Member>
+  /** logged user id */
+  userId: number
 }

@@ -21,7 +21,7 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
           <p>To Do</p>
           <div>
             {sprint.tasks.filter((t) => t.status === 'TODO' as unknown as TaskStatus).map((t) =>
-              <div>
+              <div key={t.id}>
                 {t.name}
               </div>
             )}
@@ -35,7 +35,7 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
           <p>In Progress</p>
           <div>
             {sprint.tasks.filter((t) => t.status === 'IN_PROGRESS' as unknown as TaskStatus).map((t) =>
-              <div>
+              <div key={t.id}>
                 {t.name}
               </div>
             )}
@@ -49,7 +49,7 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
           <p>Done</p>
           <div>
             {sprint.tasks.filter((t) => t.status === 'DONE' as unknown as TaskStatus).map((t) =>
-              <div>
+              <div key={t.id}>
                 {t.name}
               </div>
             )}
