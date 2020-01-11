@@ -5,6 +5,7 @@
 @import 'collaborator-item';
 @import 'search-users';
 @import 'calendar';
+@import 'task-item';
 
 #loading {
   @include absolute-center(both);

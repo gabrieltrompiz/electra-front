@@ -29,10 +29,18 @@
     @include flex(initial, initial);
     padding: 0px 20px;
 
-    & > div > p {
+    & > div > p:nth-of-type(1) {
       @include lato('Black');
       color: white;
       font-size: 24px;
+      margin-bottom: 0;
+    }
+
+    & > div > p:nth-of-type(2) {
+      @include lato('Bold');
+      color: $grey-font;
+      font-size: 18px;
+      margin-top: 5px;
     }
 
     & > #to-do, & > #in-progress, & > #done {
@@ -40,9 +48,11 @@
       @include flex(center, center);
       flex-direction: column;
       padding: 0px 20px 50px 20px;
+      width: 1px;
 
       & > div {
         @include card(100%, 100px);
+        overflow: hidden;
         flex: 1;
         background-color: $darker-bg;
 

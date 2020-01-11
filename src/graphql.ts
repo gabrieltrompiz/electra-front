@@ -92,6 +92,11 @@ export const LOGIN = gql`
             estimatedHours
             loggedHours
             status
+            subtasks {
+              id
+              description
+              status
+            }
             users {
               id
               username
@@ -209,6 +214,11 @@ export const GET_PROFILE = gql`
             estimatedHours
             loggedHours
             status
+            subtasks {
+              id
+              description
+              status
+            }
             users {
               id
               username
@@ -276,6 +286,11 @@ export const CREATE_SPRINT =  gql`
         estimatedHours
         loggedHours
         status
+        subtasks {
+          id
+          description
+          status
+        }
         users {
           id
           username
@@ -297,6 +312,11 @@ export const CREATE_TASK = gql`
       description
       estimatedHours
       loggedHours
+      subtasks {
+        id
+        description
+        status
+      }
       users {
         id
         username
@@ -304,6 +324,79 @@ export const CREATE_TASK = gql`
         pictureUrl
         fullName
       }
+    }
+  }
+`;
+
+export const EDIT_PROFILE = gql`
+  mutation EditProfile($user: EditProfileInput!) {
+    editProfile(profile: $user) {
+      id
+      username
+      fullName
+      email
+      gitHubToken
+      pictureUrl
+      gitHubUser {
+        login
+        email
+        avatarUrl
+        name
+        followers {
+          totalCount
+        }
+        following {
+          totalCount
+        }
+      }
+      workspaces {
+        id
+        name
+        description
+        repo {
+          url
+        }
+        members {
+          user {
+            id
+            username
+            email
+            pictureUrl
+            fullName 
+          }
+          role
+        }
+        sprint {
+          id
+          title
+          startDate
+          finishDate
+          status
+          tasks {
+            id
+            name
+            description
+            estimatedHours
+            loggedHours
+            status
+            subtasks {
+              id
+              description
+              status
+            }
+            users {
+              id
+              username
+              email
+              pictureUrl
+              fullName
+            }
+            issue {
+              url
+            }
+          }
+        }
+      } 
     }
   }
 `;

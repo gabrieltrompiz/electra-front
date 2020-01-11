@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Sprint as SprintI, State, TaskStatus } from '../types';
 import { setShowCreateSprint, setShowCreateTask } from '../redux/actions';
+import TaskItem from '../components/sprint/TaskItem';
 
 /**
  * Active sprint view
@@ -10,6 +11,10 @@ import { setShowCreateSprint, setShowCreateTask } from '../redux/actions';
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
 const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, setShowCreateTask }) => {
+  const todo = sprint ? sprint.tasks.filter((t) => t.status === 'TODO' as unknown as TaskStatus) : [];
+  const inProgress = sprint ? sprint.tasks.filter((t) => t.status === 'IN_PROGRESS' as unknown as TaskStatus) : [];
+  const done = sprint ? sprint.tasks.filter((t) => t.status === 'DONE' as unknown as TaskStatus) : [];
+  
   return sprint ? (
     <div id='sprint'>
       <div id='header'>
@@ -18,13 +23,10 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
       </div>
       <div id='cards'>
         <div id='to-do'>
-          <p>To Do</p>
+          <p>TO DO</p>
+          <p>{`${todo.length} ${todo.length === 1 ? 'task' : 'tasks'}`}</p>
           <div>
-            {sprint.tasks.filter((t) => t.status === 'TODO' as unknown as TaskStatus).map((t) =>
-              <div key={t.id}>
-                {t.name}
-              </div>
-            )}
+            {todo.map((t) => <TaskItem task={t} key={t.id} />)}
             <button onClick={() => setShowCreateTask(true, 'TODO')}>
               <p>Add a new task</p>
               <img src={require('../assets/images/plus.png')} alt='add' />
@@ -32,13 +34,10 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
           </div>
         </div>
         <div id='in-progress'>
-          <p>In Progress</p>
+          <p>IN PROGRESS</p>
+          <p>{`${inProgress.length} ${inProgress.length === 1 ? 'task' : 'tasks'}`}</p>
           <div>
-            {sprint.tasks.filter((t) => t.status === 'IN_PROGRESS' as unknown as TaskStatus).map((t) =>
-              <div key={t.id}>
-                {t.name}
-              </div>
-            )}
+            {inProgress.map((t) => <TaskItem task={t} key={t.id} />)}
             <button onClick={() => setShowCreateTask(true, 'IN_PROGRESS')}>
               <p>Add a new task</p>
               <img src={require('../assets/images/plus.png')} alt='add' />
@@ -46,13 +45,10 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
           </div>
         </div>
         <div id='done'>
-          <p>Done</p>
+          <p>DONE</p>
+          <p>{`${done.length} ${done.length === 1 ? 'task' : 'tasks'}`}</p>
           <div>
-            {sprint.tasks.filter((t) => t.status === 'DONE' as unknown as TaskStatus).map((t) =>
-              <div key={t.id}>
-                {t.name}
-              </div>
-            )}
+            {done.map((t) => <TaskItem task={t} key={t.id} />)}
             <button onClick={() => setShowCreateTask(true, 'DONE')}>
               <p>Add a new task</p>
               <img src={require('../assets/images/plus.png')} alt='add' />

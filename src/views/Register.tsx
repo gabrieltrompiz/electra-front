@@ -114,7 +114,7 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
       link: authLink.concat(link),
       cache: new InMemoryCache()
     });
-    const result = await ghClient.query<UserPayload>({ query: GET_GITHUB_USER, errorPolicy: 'all' });
+    const result = await ghClient.query<UserPayload>({ query: GET_GITHUB_USER, errorPolicy: 'all', fetchPolicy: 'no-cache' });
     if(result.data && result.data.viewer) {
       setGitHubUser(result.data.viewer);
     }
@@ -128,6 +128,10 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
     setToken('');
     setGitHubUser(null);
     logInfo('GitHub account unlinked');
+    if(!file) {
+      setPhotoChanged(false);
+      imgRef.current.src = require('../assets/images/default-pic.png');
+    }
   };
 
   /** Registers an user and authenticates it.

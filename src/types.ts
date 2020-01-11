@@ -74,9 +74,15 @@ export interface Task {
   status: TaskStatus
   description: string
   // comments: Array<Comment>
-  // subtasks: Array<SubTask>
+  subtasks: Array<SubTask>
   users: Array<Profile>
   // issue?: JSON
+}
+
+export interface SubTask {
+  id: number
+  description: string
+  status: boolean
 }
 
 export interface GitHubUser {

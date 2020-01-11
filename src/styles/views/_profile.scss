@@ -6,33 +6,34 @@
   z-index: 9999;
   @include opacity-keyframes(300ms);
 
-  & > div {
+  & > #content {
+    position: relative;
     overflow: hidden;
     @include flex(center, center);
     width: 35%;
     height: 80%;
     border-radius: 25px;
 
-    & > div {
+    & > #inside {
       background-color: $bg;
-      @include card(100%, 100%);
-      overflow-y: scroll;
+      @include card(100%, initial);
+      max-height: 100%;
+      overflow-y: scroll; 
 
-      & > div:nth-child(1) {
+      & > div:nth-of-type(1) {
         @include flex(center, center);
         position: relative;
 
-        & > div:nth-child(1) {
+        & > div:nth-of-type(1) {
           @include lato('Black');
           @include flex(initial, center);
-          
           padding: 15px 0px 5px 25px;
           font-size: 32px;
           color: white;
           width: 100%;
         }
 
-        & > div:nth-child(2) {
+        & > div:nth-of-type(2) {
           position: absolute;
           right: 15px;
           top: 15px;
@@ -45,17 +46,17 @@
         }
       }
 
-      & > div:nth-child(2) {
+      & > div:nth-of-type(2) {
         padding: 0px 0px 20px 30px;
         @include flex(initial, center);
         flex-direction: column;
 
-        & > div:nth-child(2) {
+        & > div:nth-of-type(1) {
           @include flex(center, center);
           height: 150px;
           width: 100%;
 
-          & > div:nth-child(1) {
+          & > div:nth-of-type(1) {
             @include flex(center, center);
             width: 45%;
             height: 100%;
@@ -69,7 +70,7 @@
             }
           }
 
-          & > div:nth-child(2) {
+          & > div:nth-of-type(2) {
             @include flex(flex-start, flex-start);
             flex-direction: column;
             height: 100%;
@@ -84,8 +85,8 @@
               border-radius: 10px;
             }
 
-            & > button:nth-child(1) {
-              margin: 20px 0px 15px 0px;
+            & > button:not(:last-child) {
+              margin: 0px 0px 15px 0px;
             }
           }
         }
@@ -107,7 +108,7 @@
           margin: 0px 0px 5px 10px !important;
         }
 
-        & > p:nth-child(1) {
+        & > p:nth-of-type(1) {
           margin-top: 0px !important;
           margin-bottom: 10px !important;
         }
@@ -123,61 +124,62 @@
           padding: 3px 10px;
         }
 
-        & > #gh-info {
-          @include flex(initial, initial);
-          @include card(95%, 150px);
-          background-color: $darker-bg;
-          margin: 0;
-          align-self: flex-start;
+        & > div:nth-of-type(2) {
+          width: 100%;
+          @include flex(initial, center);
 
-          & > div:nth-child(1) {
-            @include flex(center, center);
-
-            & > img {
-              width: 100px;
-              height: 100px;
-              border-radius: 100%;
-              object-fit: contain;
-              margin: 0px 20px;
-              background-color: rgba(0, 0, 0, 0.5);
-            }
-          }
-          
-          & > div:nth-child(2) {
-            @include flex(flex-start, flex-start);
-            flex-direction: column;
-            padding-top: 20px;
-            @include lato('Regular');
-
-            & > span:nth-child(1) {
-              padding-bottom: 2px;
-              color: white;
-            }
-
-            & > span:nth-child(2) {
-              padding-bottom: 2px;
-              color: $main-color;
-            }
-          }
-
-          & > div:nth-child(3) {
-            @include flex(flex-end, flex-end);
-            padding: 0px 15px 15px 0px;
-            flex: 1;
+          & > #gh-profile {
+            @include card(95%, 180px);
+            box-shadow: none;
+            position: relative;
+            display: block;
+            background-color: $darker-bg;
 
             & > button {
+              position: absolute;
               @include clear-buttons($error);
-              align-self: flex-end;
+              @include lato('Bold');
               color: white;
-              @include lato('Regular');
-              font-size: 14px;
-              padding: 5px 15px;
+              right: 15px;
+              bottom: 15px;
+              padding: 10px;
               border-radius: 10px;
+            }
+  
+            & > p {
+              margin: 0;
+              padding: 0px 10px;
+              @include lato('Regular');
+              color: white;
+              & > span {
+                @include lato('Black');
+              }
+            }
+  
+            & > div {
+              @include flex(initial, initial);
+              & > img {
+                margin: 10px;
+                width: 80px;
+                height: 80px;
+                border-radius: 100%;
+              }
+              & > div > p {
+                @include lato('Regular');
+                color: white;
+                margin: 0;
+                margin-top: 4px;
+              }
+              & > div > p:nth-of-type(1) {
+                @include lato('Black');
+                color: white;
+                margin-top: 15px;
+              }
             }
           }
         }
 
-        & > div:nth-child(13) {
+        & > div:nth-of-type(3) {
           width: 100%;
           @include flex(flex-end, center);
           
@@ -203,6 +205,7 @@
           padding-right: 30px;
           margin-top: 10px;
           align-self: flex-start;
+          border-radius: 10px;
 
           & > img {
             width: 30px;

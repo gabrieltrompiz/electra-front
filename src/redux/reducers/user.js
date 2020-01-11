@@ -19,7 +19,8 @@ export default (state = initialState, action) => {
         ...state,
         user: _user,
         loggedIn: !!user,
-        workspaces: user.workspaces
+        workspaces: user.workspaces,
+        selectedWorkspace: state.selectedWorkspace ? user.workspaces.find((w) => w.id === state.selectedWorkspace.id) : null
        };
     };
 
