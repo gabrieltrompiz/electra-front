@@ -216,3 +216,17 @@ export const addTask = (task, workspaceId) => {
     }
   };
 };
+
+/** Sets the task that will be displayed in task view
+ * @function setShownTask
+ * @param {Task} task - task to be added
+ * @returns Action with type SET_SHOWN_TASK
+ */
+export const setShownTask = (task) => {
+  return {
+    type: 'SET_SHOWN_TASK',
+    payload: {
+      task
+    }
+  }
+};

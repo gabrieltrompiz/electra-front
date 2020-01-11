@@ -43,6 +43,9 @@ const Authentication: React.RefForwardingComponent<HTMLDivElement, Authenticatio
       setWidth(window.innerWidth);
       setHeight(window.innerHeight);
     });
+    return () => {
+      cancelAnimationFrame(AF.current);
+    }
     // eslint-disable-next-line
   }, []);
 

@@ -5,7 +5,9 @@ const initialState = {
     createWorkspace: false,
     createSprint: false,
     createTask: false,
-    taskType: 'TODO'
+    taskType: 'TODO',
+    task: null,
+    taskView: false
   }
 };
 
@@ -65,6 +67,18 @@ export default (state = initialState, action) => {
           ...state.show,
           createTask: visible,
           taskType: type
+        }
+      };
+    };
+
+    case 'SET_SHOWN_TASK': {
+      const { task } = action.payload;
+      return {
+        ...state,
+        show: {
+          ...state.show,
+          task,
+          taskView: !!task
         }
       };
     };

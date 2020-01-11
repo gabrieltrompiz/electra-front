@@ -15,6 +15,8 @@ export interface State {
       createSprint: boolean
       createTask: boolean
       taskType: TaskStatus
+      task: Task
+      taskView: boolean
     }
   }
 };

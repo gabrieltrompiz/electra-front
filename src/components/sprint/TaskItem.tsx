@@ -1,5 +1,7 @@
 import React from 'react';
 import { Task } from '../../types';
+import { connect } from 'react-redux';
+import { setShownTask } from '../../redux/actions';
 
 /**
  * Task item in sprint view
@@ -7,9 +9,9 @@ import { Task } from '../../types';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, setShownTask }) => {
   return (
-    <div className='task-item'>
+    <div className='task-item' onClick={() => setShownTask(task)}>
       <div>
         <p>{task.name}</p>
         <p>{`Estimated Hours: ${task.estimatedHours}h`}</p>
@@ -20,9 +22,11 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   );
 };
 
-export default TaskItem;
+export default connect(null, { setShownTask })(TaskItem);
 
 interface TaskItemProps {
   /** Task to be displayed */
   task: Task
+  /** Method to change the task that will be displayed in task view */
+  setShownTask: Function
 }

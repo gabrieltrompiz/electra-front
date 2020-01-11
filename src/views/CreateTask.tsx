@@ -64,7 +64,8 @@ const CreateTask: React.FC<CreateTaskProps> = ({ defaultType, setShowCreateTask,
           <div>
             <div>
               <p>Estimated Hours <span style={{ color: 'red' }}>*</span></p>
-              <input value={estimatedHours} onChange={(e) => setEstimatedHours(parseInt(e.target.value))} />
+              <input value={estimatedHours} type='numeric' onChange={(e) => 
+                setEstimatedHours(isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value))} />
             </div>
             <div>
               <p>Status <span style={{ color: 'red' }}>*</span></p>
