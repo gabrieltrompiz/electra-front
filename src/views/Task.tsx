@@ -1,5 +1,9 @@
-import React from 'react';
-import { Task as TaskI } from '../types';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { setShownTask } from '../redux/actions';
+import { Task as TaskI, State } from '../types';
+import Loading from '../components/Loading';
+import Subtasks from '../components/sprint/Subtasks';
 
 /**
  * Active task view
@@ -7,17 +11,99 @@ import { Task as TaskI } from '../types';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Task: React.FC<TaskProps> = ({ task }) => {
+const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const isAssigned = task.users.findIndex((u) => u.id === userId) !== -1;
+
   return (
     <div id='task'>
+      {loading && <Loading />}
+      <div id='container'>
+        <img src={require('../assets/images/close.png')} alt='close' onClick={() => setShownTask(null)} />
+        <div id='content'>
+          <div>
+            <p>{task.name.toUpperCase()}</p>
+            <p>Current Status: &nbsp;
+              {task.status as unknown as string === 'TODO' ? 'To Do' : task.status as unknown as string === 'IN_PROGRESS' ? "In Progress" : "Done"}
+            </p>
+            <p>
+              <img src={require('../assets/images/description.png')} alt='desc' />
+              Description
+            </p>
+            <p>{task.description}</p>
+            <p>
+              <img src={require('../assets/images/task-list.png')} alt='subtasks' />
+              Subtasks
+            </p>
+            {task.subtasks.length > 0 && <Subtasks setLoading={setLoading} subtasks={task.subtasks} taskId={task.id} />}
+            {task.subtasks.length === 0 &&
+            <div id='no-subtasks'>
+              No subtasks created in this task.
+            </div>}
+            <p>
+              <img src={require('../assets/images/comments.png')} alt='comments' />
+              Comments
+            </p>
+            {task.comments.length > 0 &&
+            <div id='comments'>
 
+            </div>}
+            {task.comments.length === 0 &&
+            <div id='no-comments'>
+              No comments in this task.
+            </div>}
+          </div>
+          <div>
+            <p>ADD TO TASK</p>
+            <button disabled={!isAdmin || (!isAdmin && !isAssigned)}>Subtask</button>
+            <p>ACTIONS</p>
+            <button disabled={!isAdmin}>Assign Task</button>
+            <button disabled={!isAdmin || (!isAdmin && !isAssigned)}>Change Status</button>
+            <button disabled={!isAdmin}>Delete Task</button>
+            <p>GITHUB ISSUE</p>
+            <button disabled={!isAdmin || (!isAdmin && !isAssigned)}>Assign GitHub Issue</button>
+            <p>ASSIGNED TO</p>
+            <div id='assignees'>
+              {task.users.map((u) => (
+                <div className='task-user-item' key={u.id}>
+                  <img src={u.pictureUrl} alt='avatar' />
+                  <div>
+                    <p>{u.fullName}</p>
+                    <p>{`@${u.username}`}</p>
+                  </div>
+                </div>
+              ))}
+              {task.users.length === 0 && <p>No users assigned.</p>}
+            </div>
+          </div>
+        </div>
+        <div id='comment-bar'>
+          <input placeholder='Add a comment...' />
+          <img src={require('../assets/images/send.png')} alt='send' />
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Task;
+const mapStateToProps = (state: State) => {
+  const { userReducer } = state;
+  return {
+    isAdmin: userReducer.isAdmin,
+    userId: userReducer.user.id
+  };
+};
+
+export default connect(mapStateToProps, { setShownTask })(Task);
 
 interface TaskProps {
   /** task to be displayed */
   task: TaskI
+  /** Method to close this view */
+  setShownTask: Function
+  /** Wether the user is admin of this workspace or not */
+  isAdmin: boolean
+  /** logged user id */
+  userId: number
 }

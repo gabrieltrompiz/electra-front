@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setShowCreateSprint, addSprint } from '../redux/actions';
+import { setShowCreateSprint, addSprint, selectSprint } from '../redux/actions';
 import Loading from '../components/Loading';
 import Calendar from 'react-calendar';
 import moment from 'moment';
@@ -9,7 +9,7 @@ import { logError, logInfo } from '../utils';
 import { Sprint, State } from '../types';
 import { CREATE_SPRINT } from '../graphql';
 
-const CreateSprint: React.FC<CreateSprintProps> = ({ setShowCreateSprint, workspaceId, addSprint }) => {
+const CreateSprint: React.FC<CreateSprintProps> = ({ setShowCreateSprint, workspaceId, addSprint, selectSprint }) => {
   const [title, setTitle] = useState<string>('');
   const [startDate, setStartDate] = useState<Date>(null);
   const [finishDate, setFinishDate] = useState<Date>(null);
@@ -48,6 +48,7 @@ const CreateSprint: React.FC<CreateSprintProps> = ({ setShowCreateSprint, worksp
       if(result.data && result.data.createSprint) {
         logInfo(`Created '${title}' sprint.`);
         addSprint(result.data.createSprint, workspaceId);
+        selectSprint(result.data.createSprint.id);
         setShowCreateSprint(false);
       }
       if(result.errors) result.errors.forEach((e) => logError(e.message));
@@ -93,7 +94,7 @@ const mapStateToProps = (state: State) => {
   };
 };
 
-export default connect(mapStateToProps, { setShowCreateSprint, addSprint })(CreateSprint);
+export default connect(mapStateToProps, { setShowCreateSprint, addSprint, selectSprint })(CreateSprint);
 
 interface CreateSprintProps {
   /** Method to close this view */
@@ -102,6 +103,8 @@ interface CreateSprintProps {
   workspaceId: number
   /** Add sprint to workspace */
   addSprint: Function
+  /** Method to select sprint */
+  selectSprint: Function
 }
 
 interface CreatePayload {

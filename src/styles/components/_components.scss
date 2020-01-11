@@ -6,6 +6,7 @@
 @import 'search-users';
 @import 'calendar';
 @import 'task-item';
+@import 'subtasks';
 
 #loading {
   @include absolute-center(both);

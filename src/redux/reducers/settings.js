@@ -7,7 +7,8 @@ const initialState = {
     createTask: false,
     taskType: 'TODO',
     task: null,
-    taskView: false
+    taskView: false,
+    createSubtask: false
   }
 };
 
@@ -59,6 +60,17 @@ export default (state = initialState, action) => {
       };
     };
 
+    case 'SHOW_CREATE_SUBTASK': {
+      const { visible } = action.payload;
+      return {
+        ...state,
+        show: {
+          ...state.show,
+          createSubtask: visible
+        }
+      };
+    };
+
     case 'SHOW_CREATE_TASK': {
       const { visible, type } = action.payload;
       return {
@@ -81,6 +93,24 @@ export default (state = initialState, action) => {
           taskView: !!task
         }
       };
+    };
+
+    case 'UPDATE_SUBTASK': {
+      const { subtask, taskId } = action.payload;
+      if(state.show.task && state.show.task.id === taskId) {
+        const _task = Object.assign({}, state.show.task);
+        const sIndex = state.show.task.subtasks.find((st) => st.id === subtask.id);
+        _task.subtasks[sIndex] = subtask;
+        return {
+          ...state,
+          show: {
+            ...state.show,
+            task: _task
+          }
+        }
+      } else {
+        return state;
+      }
     };
 
     case 'RESET_SETTINGS': return initialState;

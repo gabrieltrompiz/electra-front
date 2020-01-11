@@ -186,6 +186,20 @@ export const addSprint = (sprint, workspaceId) => {
   };
 };
 
+/** Sets the active sprint that will be shown in sprint view
+ * @function selectSprint
+ * @param {number} id - id of the sprint to be selected
+ * @returns Action with type SELECT_SPRINT
+ */
+export const selectSprint = (id) => {
+  return {
+    type: 'SELECT_SPRINT',
+    payload: {
+      id
+    }
+  };
+};
+
 /** Changes wether the 'Create a Task' view is visible or not
  * @function setShowCreateTask
  * @param {boolean} visible - wether it is visible or not
@@ -229,4 +243,35 @@ export const setShownTask = (task) => {
       task
     }
   }
+};
+
+
+/** Updates a subtask
+ * @function updateSubTask
+ * @param {subtask} subtask - task to be added
+ * @returns Action with type UPDATE_SUBTASK
+ */
+export const updateSubTask = (subtask, workspaceId, taskId) => {
+  return {
+    type: 'UPDATE_SUBTASK',
+    payload: {
+      subtask,
+      workspaceId,
+      taskId
+    } 
+  };
+};
+
+/** Changes wether the 'Create a Subtask' input is visible or not
+ * @function setShowCreateSubtask
+ * @param {boolean} visible - wether it is visible or not
+ * @returns Action with type SHOW_CREATE_SUBTASK 
+ */
+export const setShowCreateSubtask = (visible) => {
+  return {
+    type: 'SHOW_CREATE_SUBTASK',
+    payload: {
+      visible
+    }
+  };
 };

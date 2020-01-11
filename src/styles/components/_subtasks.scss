@@ -1,0 +1,60 @@
+#subtasks {
+  width: 100%;
+  min-height: 100px;
+  max-height: 250px;
+  overflow-y: scroll;
+  margin-top: 5px;
+
+
+  & > div:nth-of-type(1) {
+    width: 100%;
+    @include flex(space-around, center);
+
+    & > p {
+      @include lato('Bold');
+      color: $grey-font;
+    }
+    
+    & > #progress-bar {
+      width: 90%;
+      position: relative;
+      height: 20px;
+      border-radius: 10px;
+      background-color: $dark-bg;
+
+      & > div {
+        position: absolute;
+        left: 0;
+        background-color: $main-color;
+        height: 20px;
+        border-radius: 10px;
+        transition: width 300ms;
+      }
+    }
+  }
+
+  & > div:nth-of-type(2) {
+    & > .st-item {
+      width: 90%;
+      min-height: 30px;
+      @include flex(flex-start, flex-start);
+      margin: 0px 10px;
+
+      & > img {
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+        margin-top: 1px;
+        &:hover { cursor: pointer; }
+      }
+
+      & > p {
+        @include lato('Semibold');
+        margin: 0px 0px 0px 10px;
+        flex: 1;
+        min-height: 20px;
+        font-size: 18px;
+      }
+    }
+  }
+}

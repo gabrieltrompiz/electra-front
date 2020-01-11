@@ -92,6 +92,17 @@ export const LOGIN = gql`
             estimatedHours
             loggedHours
             status
+            comments {
+              id
+              user {
+                id
+                username
+                email
+                pictureUrl
+                fullName
+              }
+              description
+            }
             subtasks {
               id
               description
@@ -214,6 +225,17 @@ export const GET_PROFILE = gql`
             estimatedHours
             loggedHours
             status
+            comments {
+              id
+              user {
+                id
+                username
+                email
+                pictureUrl
+                fullName
+              }
+              description
+            }
             subtasks {
               id
               description
@@ -286,6 +308,17 @@ export const CREATE_SPRINT =  gql`
         estimatedHours
         loggedHours
         status
+        comments {
+          id
+          user {
+            id
+            username
+            email
+            pictureUrl
+            fullName
+          }
+          description
+        }
         subtasks {
           id
           description
@@ -312,6 +345,17 @@ export const CREATE_TASK = gql`
       description
       estimatedHours
       loggedHours
+      comments {
+        id
+        user {
+          id
+          username
+          email
+          pictureUrl
+          fullName
+        }
+        description
+      }
       subtasks {
         id
         description
@@ -379,6 +423,17 @@ export const EDIT_PROFILE = gql`
             estimatedHours
             loggedHours
             status
+            comments {
+              id
+              user {
+                id
+                username
+                email
+                pictureUrl
+                fullName
+              }
+              description
+            }
             subtasks {
               id
               description
@@ -397,6 +452,16 @@ export const EDIT_PROFILE = gql`
           }
         }
       } 
+    }
+  }
+`;
+
+export const CHANGE_SUBTASK_STATUS = gql`
+  mutation SetSubtaskStatus($status: Boolean!, $subTaskId: ID!) {
+    setSubTaskStatus(status: $status, subTaskId: $subTaskId) {
+      id
+      status
+      description
     }
   }
 `;

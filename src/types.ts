@@ -75,10 +75,16 @@ export interface Task {
   loggedHours: number
   status: TaskStatus
   description: string
-  // comments: Array<Comment>
+  comments: Array<TaskComment>
   subtasks: Array<SubTask>
   users: Array<Profile>
   // issue?: JSON
+}
+
+export interface TaskComment {
+  id: number
+  user: Profile
+  description: string
 }
 
 export interface SubTask {
