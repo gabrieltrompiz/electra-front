@@ -1,5 +1,7 @@
 import React from 'react';
-import { SubTask } from '../../types';
+import { connect } from 'react-redux';
+import { setShowCreateSubtask } from '../../redux/actions';
+import { SubTask, State } from '../../types';
 import SubtaskItem from './SubtaskItem';
 
 /**
@@ -8,7 +10,7 @@ import SubtaskItem from './SubtaskItem';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Subtasks: React.FC<SubtaskProps> = ({ subtasks, setLoading, taskId }) => {
+const Subtasks: React.FC<SubtaskProps> = ({ subtasks, setLoading, taskId, showCreate }) => {
   const completedRatio = parseInt((subtasks.filter((s) => s.status).length / subtasks.length).toString()) * 100;
 
   return (
@@ -26,7 +28,15 @@ const Subtasks: React.FC<SubtaskProps> = ({ subtasks, setLoading, taskId }) => {
   );
 };
 
-export default Subtasks;
+const mapStateToProps = (state: State) => {
+  const { settingsReducer } = state;
+  return {
+    showCreate: settingsReducer.show.createSubtask,
+    subtasks: settingsReducer.show.task.subtasks
+  };
+};
+
+export default connect(mapStateToProps)(Subtasks);
 
 interface SubtaskProps {
   /** Array of subtasks to be showed */
@@ -35,4 +45,6 @@ interface SubtaskProps {
   setLoading: Function
   /** Task id */
   taskId: number  
+  /** show create subtask input or not */
+  showCreate: boolean
 }

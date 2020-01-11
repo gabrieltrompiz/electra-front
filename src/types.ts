@@ -17,6 +17,7 @@ export interface State {
       taskType: TaskStatus
       task: Task
       taskView: boolean
+      createSubtask: boolean
     }
   }
 };

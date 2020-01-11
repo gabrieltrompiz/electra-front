@@ -147,16 +147,6 @@ export const logout = () => {
   };
 };
 
-/** resets settings reducer state to initialState
- * @function resetSettings
- * @returns Action with type RESET_SETTINGS
- */
-export const resetSettings = () => {
-  return {
-    type: 'RESET_SETTINGS'
-  };
-};
-
 /** Changes wether the 'Create a Sprint' view is visible or not
  * @function setShowCreateSprint
  * @param {boolean} visible - wether it is visible or not

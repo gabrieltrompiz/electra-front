@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setVisibleProfile, selectWorkspace, setShowCreateWorkspace, logout, resetSettings } from '../redux/actions';
+import { setVisibleProfile, selectWorkspace, setShowCreateWorkspace, logout } from '../redux/actions';
 import { Workspace, State } from '../types';
 import WorkspaceItem from './workspace/WorkspaceItem';
 
@@ -10,11 +10,10 @@ import WorkspaceItem from './workspace/WorkspaceItem';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, setVisibleProfile, selectWorkspace, active, setActive, setShowCreateWorkspace, logout, resetSettings }) => {
+const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, setVisibleProfile, selectWorkspace, active, setActive, setShowCreateWorkspace, logout }) => {
   const onLogout = () => {
     localStorage.clear();
     logout();
-    resetSettings();
   };
 
   return (
@@ -67,7 +66,7 @@ const mapStateToProps = (state: State) => {
   };
 };
 
-export default connect(mapStateToProps, { setVisibleProfile, selectWorkspace, setShowCreateWorkspace, logout, resetSettings })(Navigation);
+export default connect(mapStateToProps, { setVisibleProfile, selectWorkspace, setShowCreateWorkspace, logout })(Navigation);
 
 interface NavigationProps {
   /** Array containing all workspaces */
@@ -86,6 +85,4 @@ interface NavigationProps {
   setShowCreateWorkspace: Function
   /** Logout method */
   logout: Function
-  /** Reset settings method */
-  resetSettings: Function
 }

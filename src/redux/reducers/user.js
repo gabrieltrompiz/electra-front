@@ -110,8 +110,10 @@ export default (state = initialState, action) => {
       const wIndex = _workspaces.findIndex((w) => workspaceId === w.id);
       const _tasks = _workspaces[wIndex].sprint.tasks;
       const tIndex = _tasks.findIndex((t) => taskId === t.id);
-      const sIndex = _tasks[tIndex].subtasks.findIndex((s) => s.id === subtask.id)
-      _tasks[tIndex].subtasks[sIndex] = subtask;
+      const sIndex = _tasks[tIndex].subtasks.findIndex((s) => s.id === subtask.id);
+      const _subtasks = [..._tasks[tIndex].subtasks];
+      _subtasks[sIndex] = subtask;
+      _tasks.subtasks = _subtasks;
       const newWorkspace = {
         ..._workspaces[wIndex],
         sprint: {

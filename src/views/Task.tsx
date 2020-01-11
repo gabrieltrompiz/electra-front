@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { setShownTask } from '../redux/actions';
+import { setShownTask, setShowCreateSubtask } from '../redux/actions';
 import { Task as TaskI, State } from '../types';
 import Loading from '../components/Loading';
 import Subtasks from '../components/sprint/Subtasks';
@@ -11,7 +11,7 @@ import Subtasks from '../components/sprint/Subtasks';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId }) => {
+const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setShowCreateSubtask }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const isAssigned = task.users.findIndex((u) => u.id === userId) !== -1;
@@ -36,7 +36,7 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId }) => {
               <img src={require('../assets/images/task-list.png')} alt='subtasks' />
               Subtasks
             </p>
-            {task.subtasks.length > 0 && <Subtasks setLoading={setLoading} subtasks={task.subtasks} taskId={task.id} />}
+            {task.subtasks.length > 0 && <Subtasks setLoading={setLoading} taskId={task.id} />}
             {task.subtasks.length === 0 &&
             <div id='no-subtasks'>
               No subtasks created in this task.
@@ -56,7 +56,7 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId }) => {
           </div>
           <div>
             <p>ADD TO TASK</p>
-            <button disabled={!isAdmin || (!isAdmin && !isAssigned)}>Subtask</button>
+            <button disabled={!isAdmin || (!isAdmin && !isAssigned)} onClick={() => setShowCreateSubtask(true)}>Subtask</button>
             <p>ACTIONS</p>
             <button disabled={!isAdmin}>Assign Task</button>
             <button disabled={!isAdmin || (!isAdmin && !isAssigned)}>Change Status</button>
@@ -88,14 +88,15 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId }) => {
 };
 
 const mapStateToProps = (state: State) => {
-  const { userReducer } = state;
+  const { userReducer, settingsReducer } = state;
   return {
     isAdmin: userReducer.isAdmin,
-    userId: userReducer.user.id
+    userId: userReducer.user.id,
+    task: settingsReducer.show.task
   };
 };
 
-export default connect(mapStateToProps, { setShownTask })(Task);
+export default connect(mapStateToProps, { setShownTask, setShowCreateSubtask })(Task);
 
 interface TaskProps {
   /** task to be displayed */
@@ -106,4 +107,6 @@ interface TaskProps {
   isAdmin: boolean
   /** logged user id */
   userId: number
+  /** Function to change wether the create subtask input is shown or not */
+  setShowCreateSubtask: Function
 }
