@@ -120,6 +120,27 @@ export default (state = initialState, action) => {
       }
     };
 
+    case 'ADD_COMMENT': {
+      const { comment, taskId } = action.payload;
+      if(state.show.task && state.show.task.id === taskId) {
+        const _comment = Object.assign({}, comment);
+        const _task = Object.assign({}, state.show.task);
+        const comments = clone([..._task.comments, _comment]);
+        return {
+          ...state,
+          show: {
+            ...state.show,
+            task: {
+              ..._task,
+              comments
+            }
+          }
+        }
+      } else {
+        return state;
+      }
+    }
+
     case 'UPDATE_SUBTASK': {
       const { subtask, taskId } = action.payload;
       if(state.show.task && state.show.task.id === taskId) {
@@ -135,6 +156,21 @@ export default (state = initialState, action) => {
               ..._task,
               subtasks: _subtasks
             }
+          }
+        }
+      } else {
+        return state;
+      }
+    };
+
+    case 'UPDATE_TASK': {
+      const { task } = action.payload;
+      if(state.show.task && state.show.task.id === task.id) {
+        return {
+          ...state,
+          show: {
+            ...state.show,
+            task
           }
         }
       } else {

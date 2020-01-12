@@ -54,10 +54,10 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
           <div id='container'>
             <div>
               {done.map((t) => <TaskItem task={t} key={t.id} />)}
-              <button onClick={() => setShowCreateTask(true, 'DONE')}>
+              {isAdmin && <button onClick={() => setShowCreateTask(true, 'DONE')}>
                 <p>Add a new task</p>
                 <img src={require('../assets/images/plus.png')} alt='add' />
-              </button>
+              </button>}
             </div>
           </div>
         </div>

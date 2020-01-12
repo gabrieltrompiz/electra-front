@@ -78,7 +78,23 @@
         flex-direction: column;
         padding-top: 40px;
 
-        & > p {
+        & > #seach-users {
+          margin: 0px 0px 10px 0px !important;
+          width: 80%;
+          & > input {
+            background-color: $dark-bg !important;
+          }
+
+          & > .opacityIn {
+            width: 500px;
+            z-index: 9999999;
+            & > #user-card {
+              width: 500px !important;
+            }
+          }
+        }
+
+        & > p:not(#no-user) {
           @include lato('Bold');
           color: $grey-font;
           font-size: 17px;
@@ -174,4 +190,28 @@
   color: $grey-font;
   font-size: 18px;
   margin: 10px 0px 10px 30px;
+}
+
+#no-user {
+  margin: 0;
+  @include lato('Semibold'); 
+}
+
+::-webkit-scrollbar-thumb {
+  background: $dark-bg !important;
+  border-radius: 5px;
+}
+
+select {
+  background-color: $dark-bg;
+  border: none;
+  color: white;
+  @include lato('Semibold');
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 10px;
+  height: 50px;
+  width: 80%;
+  margin-bottom: 15px;
+  &:hover { cursor: pointer; }
 }

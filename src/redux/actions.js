@@ -221,6 +221,22 @@ export const addTask = (task, workspaceId) => {
   };
 };
 
+/** Updates a task
+ * @function updateTask
+ * @param {subtask} task - task to be updated
+ * @param {number} workspaceId - id of the workspace
+ * @returns Action with type UPDATE_TASK
+ */
+export const updateTask = (task, workspaceId) => {
+  return {
+    type: 'UPDATE_TASK',
+    payload: {
+      task,
+      workspaceId
+    }
+  }
+};
+
 /** Sets the task that will be displayed in task view
  * @function setShownTask
  * @param {Task} task - task to be added
@@ -235,10 +251,9 @@ export const setShownTask = (task) => {
   }
 };
 
-
 /** Updates a subtask
  * @function updateSubTask
- * @param {subtask} subtask - subtask to be added
+ * @param {subtask} subtask - subtask to be updated
  * @param {number} workspaceId - id of the workspace
  * @param {number} taskId - id of the task
  * @returns Action with type UPDATE_SUBTASK
@@ -255,7 +270,7 @@ export const updateSubTask = (subtask, workspaceId, taskId) => {
 };
 
 /** Adds a subtask
- * @function updateSubTask
+ * @function addSubtask
  * @param {subtask} subtask - subtask to be added
  * @param {number} workspaceId - id of the workspace
  * @param {number} taskId - id of the task
@@ -270,6 +285,24 @@ export const addSubtask = (subtask, workspaceId, taskId) => {
       taskId
     }
   }
+};
+
+/** Adds a comment
+ * @function addComment
+ * @param {subtask} comment - comment to be added
+ * @param {number} workspaceId - id of the workspace
+ * @param {number} taskId - id of the task
+ * @returns Action with type ADD_COMMENT
+ */
+export const addComment = (comment, workspaceId, taskId) => {
+  return {
+    type: 'ADD_COMMENT',
+    payload: {
+      comment,
+      workspaceId,
+      taskId
+    }
+  };
 };
 
 /** Changes wether the 'Create a Subtask' input is visible or not

@@ -67,7 +67,21 @@ export const LOGIN = gql`
         name
         description
         repo {
+          id
           url
+          issues(first: 100) {
+            nodes {
+              id
+              url
+              state
+              title
+              author {
+                avatarUrl
+                login
+                url
+              }
+            }
+          }
         }
         members {
           user {
@@ -108,7 +122,7 @@ export const LOGIN = gql`
               description
               status
             }
-            users {
+            user {
               id
               username
               email
@@ -151,7 +165,21 @@ export const REGISTER = gql`
         name
         description
         repo {
+          id
           url
+          issues(first: 100) {
+            nodes {
+              id
+              url
+              state
+              title
+              author {
+                avatarUrl
+                login
+                url
+              }
+            }
+          }
         }
         members {
           user {
@@ -200,7 +228,21 @@ export const GET_PROFILE = gql`
         name
         description
         repo {
+          id
           url
+          issues(first: 100) {
+            nodes {
+              id
+              url
+              state
+              title
+              author {
+                avatarUrl
+                login
+                url
+              }
+            }
+          }
         }
         members {
           user {
@@ -241,7 +283,7 @@ export const GET_PROFILE = gql`
               description
               status
             }
-            users {
+            user {
               id
               username
               email
@@ -324,7 +366,7 @@ export const CREATE_SPRINT =  gql`
           description
           status
         }
-        users {
+        user {
           id
           username
           email
@@ -361,7 +403,7 @@ export const CREATE_TASK = gql`
         description
         status
       }
-      users {
+      user {
         id
         username
         email
@@ -398,7 +440,21 @@ export const EDIT_PROFILE = gql`
         name
         description
         repo {
+          id
           url
+          issues(first: 100) {
+            nodes {
+              id
+              url
+              state
+              title
+              author {
+                avatarUrl
+                login
+                url
+              }
+            }
+          }
         }
         members {
           user {
@@ -439,7 +495,7 @@ export const EDIT_PROFILE = gql`
               description
               status
             }
-            users {
+            user {
               id
               username
               email
@@ -473,5 +529,33 @@ export const CREATE_SUBTASK = gql`
       description
       status
     }
+  }
+`;
+
+export const CREATE_COMMENT = gql`
+  mutation CreateComment($comment: CommentInput!) {
+    createComment(comment: $comment) {
+      id
+      description
+      user { 
+        id
+        username
+        fullName
+        email
+        pictureUrl
+      }
+    }
+  }
+`;
+
+export const CHANGE_TASK_STATUS = gql`
+  mutation ChangeStatus($status: TaskStatus!, $taskId: ID!) {
+    updateTaskStatus(status: $status, taskId: $taskId)
+  }
+`;
+
+export const CHANGE_TASK_USER = gql`
+  mutation ChangeUser($input: UserTaskInput!) {
+    changeUserTask(input: $input)
   }
 `;

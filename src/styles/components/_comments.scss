@@ -1,5 +1,37 @@
 #comments {
   width: 100%;
   flex: 1;
-  height: 1px;
+  height: 50px;
+  max-height: 200px;
+  overflow-y: scroll;
+
+  & > div {
+    @include flex(flex-start, flex-start);
+    height: 50px;
+    margin-top: 5px;
+
+    & > img {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+      background-color: rgba($color: #000000, $alpha: 0.2);
+      border-radius: 100%;
+    }
+
+    & > div {
+      flex: 1;
+
+      & > p:nth-of-type(1) {
+        margin: 0px 0px 0px 10px;
+        @include lato('Bold');
+        color: white;
+      }
+
+      & > p:nth-of-type(2) {
+        margin: 0px 0px 0px 10px;
+        @include lato('Regular');
+
+      }
+    }
+  }
 }

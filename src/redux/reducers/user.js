@@ -106,6 +106,31 @@ export default (state = initialState, action) => {
       };
     };
 
+    case 'UPDATE_TASK': {
+      const { task, workspaceId } = action.payload;
+      const _workspaces = clone([...state.workspaces]);
+      const wIndex = _workspaces.findIndex((w) => workspaceId === w.id);
+      const _tasks = _workspaces[wIndex].sprint.tasks
+      const tIndex = _tasks.findIndex((t) => t.id === task.id);
+      _tasks[tIndex] = task;
+      const newWorkspace = {
+        ..._workspaces[wIndex],
+        sprint: {
+          ..._workspaces[wIndex].sprint,
+          tasks: _tasks
+        }
+      }
+      _workspaces[wIndex] = newWorkspace;
+      return {
+        ...state,
+        workspaces: _workspaces,
+        selectedSprint: state.selectedWorkspace.id === workspaceId ? ({
+          ..._workspaces[wIndex].sprint,
+          tasks: _tasks
+        }) : state.selectedSprint
+      };
+    };
+
     case 'ADD_SUBTASK': {
       const { subtask, workspaceId, taskId } = action.payload;
       const _workspaces = clone([...state.workspaces]);
@@ -113,13 +138,12 @@ export default (state = initialState, action) => {
       const sprint = _workspaces[wIndex].sprint;
       const _tasks = _workspaces[wIndex].sprint.tasks;
       const tIndex = _tasks.findIndex((t) => taskId === t.id);
-      const newTasks = _tasks;
-      newTasks[tIndex].subtasks = [...newTasks[tIndex].subtasks, subtask]
+      _tasks[tIndex].subtasks = [..._tasks[tIndex].subtasks, subtask]
       const newWorkspace = {
         ..._workspaces[wIndex],
         sprint: {
           ...sprint,
-          tasks: newTasks
+          tasks: _tasks
         }
       }
       _workspaces[wIndex] = newWorkspace;
@@ -128,8 +152,34 @@ export default (state = initialState, action) => {
         workspaces: _workspaces,
         selectedSprint: state.selectedWorkspace.id === workspaceId ? ({
           ...sprint,
-          tasks: newTasks
+          tasks: _tasks
         }) : state.selectedSprint
+      };
+    };
+
+    case 'ADD_COMMENT': {
+      const { comment, workspaceId, taskId } = action.payload;
+      const _workspaces = clone([...state.workspaces]);
+      const wIndex = _workspaces.findIndex((w) => workspaceId === w.id);
+      const sprint = _workspaces[wIndex].sprint;
+      const _tasks = _workspaces[wIndex].sprint.tasks;
+      const tIndex = _tasks.findIndex((t) => taskId === t.id);
+      _tasks[tIndex].comments = [..._tasks[tIndex].comments, comment];
+      const newWorkspace = {
+        ..._workspaces[wIndex],
+        sprint: {
+          ...sprint,
+          tasks: _tasks
+        }
+      };
+      _workspaces[wIndex] = newWorkspace;
+      return {
+        ...state,
+        workspaces: _workspaces,
+        selectedSprint: state.selectedWorkspace.id === workspaceId ? ({
+          ...sprint,
+          tasks: _tasks
+        }) : state.selectedSprint 
       };
     };
 

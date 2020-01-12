@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setShowCreateTask, addTask } from '../redux/actions';
 import { State, TaskStatus, Member, Task } from '../types';
@@ -19,6 +19,13 @@ const CreateTask: React.FC<CreateTaskProps> = ({ defaultType, setShowCreateTask,
 
   const client = useApolloClient();
 
+  useEffect(() => {
+    if(members.length > 1) {
+      setMembers([ { user: members[members.length - 1].user, role: members[members.length - 1].role } ]);
+    }
+    // eslint-disable-next-line
+  }, [members]);
+
   const createTask = async () => {
     if(name.trim() === '') {
       logError('Name must be provided to create a task.');
@@ -34,7 +41,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({ defaultType, setShowCreateTask,
         description,
         status,
         estimatedHours,
-        users: members.map((m) => m.user.id)
+        user: members[members.length - 1].user.id
       }
       const result = await client.mutate<CreatePayload, CreateVars>({ mutation: CREATE_TASK, variables: { task }, 
         errorPolicy: 'all', fetchPolicy: 'no-cache' })
@@ -150,6 +157,6 @@ interface CreateVars {
     /** estimated hours that the task will take */
     estimatedHours: number
     /** users that will be assignet to this task */
-    users: Array<number>
+    user: number
   }
 }

@@ -42,8 +42,7 @@ export interface Workspace {
   members: Array<Member>
   sprint: Sprint
   backlog: Array<Sprint>
-  // issues: Array<JSON>
-  repo: JSON
+  repo: Repository
 }
 
 export interface Member {
@@ -54,10 +53,10 @@ export interface Member {
 export interface Notification {
   id: number
   receiver: number
+  sender: number
   type: NotificationType
   description: string
   read: boolean
-  meta: JSON
 }
 
 export interface Sprint {
@@ -78,8 +77,8 @@ export interface Task {
   description: string
   comments: Array<TaskComment>
   subtasks: Array<SubTask>
-  users: Array<Profile>
-  // issue?: JSON
+  user: Profile
+  issue: Issue
 }
 
 export interface TaskComment {
@@ -105,6 +104,31 @@ export interface GitHubUser {
   following?: {
     totalCount: number
   }
+}
+
+export interface Issue {
+  id: number
+  url: string
+  author: {
+    avatarUrl: string
+    login: string
+    url: string
+  },
+  state: IssueState
+  title: string
+}
+
+export interface Repository {
+  issues: {
+    nodes: Issue[]
+  }
+  name: string
+  url: string
+}
+
+export enum IssueState { 
+  OPEN,
+  CLOSED
 }
 
 export enum WorkspaceRole {

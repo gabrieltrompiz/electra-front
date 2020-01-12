@@ -72,7 +72,7 @@ const Register: React.FC<RegisterProps> = ({ toggleView, setUser }) => {
       parent: remote.getCurrentWindow()
     });
     win.webContents.session.clearStorageData();
-    win.loadURL('https://github.com/login/oauth/authorize?client_id=ea3c96b4c3db26131d73');
+    win.loadURL('https://github.com/login/oauth/authorize?client_id=ea3c96b4c3db26131d73&scope=user');
     win.webContents.on('did-navigate', async (_, url) => {
       if(url.includes('code=')) {
         hasCode = true;
