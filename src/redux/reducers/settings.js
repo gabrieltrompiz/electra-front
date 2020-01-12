@@ -12,16 +12,21 @@ const initialState = {
   }
 };
 
+const clone = (obj) => {
+  return JSON.parse(JSON.stringify(obj))
+}
+
 export default (state = initialState, action) => {
   switch(action.type) {
 
     case 'SET_SHOWN_PROFILE': {
       const { profile } = action.payload;
+      const _profile = Object.assign({}, profile);
       return {
         ...state,
         show: {
           ...state.show,
-          profile,
+          profile: _profile,
           profileView: !!profile
         }
       };
@@ -85,14 +90,36 @@ export default (state = initialState, action) => {
 
     case 'SET_SHOWN_TASK': {
       const { task } = action.payload;
+      const _task = Object.assign({}, task);
       return {
         ...state,
         show: {
           ...state.show,
-          task,
+          task: _task,
           taskView: !!task
         }
       };
+    };
+
+    case 'ADD_SUBTASK': {
+      const { subtask, taskId } = action.payload;
+      if(state.show.task && state.show.task.id === taskId) {
+        const _subtask = Object.assign({}, subtask);
+        const _task = Object.assign({}, state.show.task);
+        const subtasks = clone([..._task.subtasks, _subtask]);
+        return {
+          ...state,
+          show: {
+            ...state.show,
+            task: {
+              ..._task,
+              subtasks
+            }
+          }
+        }
+      } else {
+        return state;
+      }
     };
 
     case 'UPDATE_SUBTASK': {
@@ -100,7 +127,7 @@ export default (state = initialState, action) => {
       if(state.show.task && state.show.task.id === taskId) {
         const _task = Object.assign({}, state.show.task);
         const sIndex = state.show.task.subtasks.findIndex((st) => st.id === subtask.id);
-        const _subtasks = [..._task.subtasks];
+        const _subtasks = clone([..._task.subtasks]);
         _subtasks[sIndex] = subtask;
         return {
           ...state,

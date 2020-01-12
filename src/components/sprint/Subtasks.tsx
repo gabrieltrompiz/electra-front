@@ -30,37 +30,42 @@ const Subtasks: React.FC<SubtaskProps> = ({ subtasks, setLoading, taskId, showCr
   }, [showCreate])
 
   const add = async () => {
-    setLoading(true);
-    const subtask: AddVars["subtask"] = {
-      description,
-      taskId
-    };
-    const result = await client.mutate<AddPayload, AddVars>({ mutation: CREATE_SUBTASK, variables: { subtask },
-      errorPolicy: 'all', fetchPolicy: 'no-cache' })
-      .finally(() => setLoading(false));
-    if(result.data && result.data.createSubTask) {
-      setLoading(false);
-      setShowCreate(false);
-      addSubtask(result.data.createSubTask, workspaceId, taskId);
-      if(subtaskRef.current) subtaskRef.current.scrollIntoView({ behavior: 'smooth' });
-      logInfo('Subtask added.');
+    if(description.trim() !== '') {
+      setLoading(true);
+      const subtask: AddVars["subtask"] = {
+        description,
+        taskId
+      };
+      const result = await client.mutate<AddPayload, AddVars>({ mutation: CREATE_SUBTASK, variables: { subtask },
+        errorPolicy: 'all', fetchPolicy: 'no-cache' })
+        .finally(() => setLoading(false));
+      if(result.data && result.data.createSubTask) {
+        setLoading(false);
+        setShowCreate(false);
+        addSubtask(result.data.createSubTask, workspaceId, taskId);
+        if(subtaskRef.current) subtaskRef.current.scrollIntoView({ behavior: 'smooth' });
+        logInfo('Subtask added.');
+      }
+      if(result.errors) result.errors.forEach((e) => logError(e.message));
+    } else {
+      logError('Please enter a description for the subtask.');
     }
-    if(result.errors) result.errors.forEach((e) => logError(e.message));
   };
 
   return (
     <div id='subtasks'>
       <div>
-        <p>{ratio}%</p>
+        <p>{isNaN(ratio) ? 0 : ratio}%</p>
         <div id='progress-bar'>
           <div style={{ width: `${ratio}%` }} />
         </div>
       </div>
       <div>
-        {subtasks.map((st) => <SubtaskItem subtask={st} taskId={taskId} setLoading={setLoading} key={st.id} />)}
+        {subtasks.length > 0 && subtasks.map((st) => <SubtaskItem subtask={st} taskId={taskId} setLoading={setLoading} key={st.id} />)}
+        {subtasks.length === 0 && <div id='no-subtasks'>No subtasks created in this task.</div>}
         {showCreate && 
         <div id='create-subtask' ref={subtaskRef}>
-          <input value={description} onChange={(e) => setDescription(e.target.value)}></input>
+          <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder='Subtask description...'></input>
           <button onClick={() => add()}>Add</button>
         </div>}
       </div>

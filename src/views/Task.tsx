@@ -36,23 +36,12 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
               <img src={require('../assets/images/task-list.png')} alt='subtasks' />
               Subtasks
             </p>
-            {task.subtasks.length > 0 && <Subtasks setLoading={setLoading} taskId={task.id} />}
-            {task.subtasks.length === 0 &&
-            <div id='no-subtasks'>
-              No subtasks created in this task.
-            </div>}
+            <Subtasks setLoading={setLoading} taskId={task.id} />
             <p>
               <img src={require('../assets/images/comments.png')} alt='comments' />
               Comments
             </p>
-            {task.comments.length > 0 &&
-            <div id='comments'>
-
-            </div>}
-            {task.comments.length === 0 &&
-            <div id='no-comments'>
-              No comments in this task.
-            </div>}
+            
           </div>
           <div>
             <p>ADD TO TASK</p>

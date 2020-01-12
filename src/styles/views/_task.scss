@@ -70,14 +70,6 @@
           margin: 10px 0px 0px 30px;
           font-size: 18px;
         }
-
-        & > #no-subtasks, & > #no-comments {
-          width: 100%;
-          @include lato('Semibold');
-          color: $grey-font;
-          font-size: 18px;
-          margin: 10px 0px 0px 30px;
-        }
       }
 
       & > div:nth-of-type(2) {
@@ -174,4 +166,12 @@
       }
     }
   }
+}
+
+#no-subtasks, #no-comments {
+  width: 90%;
+  @include lato('Semibold');
+  color: $grey-font;
+  font-size: 18px;
+  margin: 10px 0px 10px 30px;
 }

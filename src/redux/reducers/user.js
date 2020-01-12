@@ -7,6 +7,10 @@ const initialState = {
   isAdmin: false
 };
 
+const clone = (obj) => {
+  return JSON.parse(JSON.stringify(obj))
+}
+
 /** User reducer containing states about the user like the user itself, if it is logged in, its workspaces and so on... */
 export default (state = initialState, action) => {
   switch(action.type) {
@@ -48,7 +52,7 @@ export default (state = initialState, action) => {
 
     case 'ADD_WORKSPACE': {
       const { workspace } = action.payload;
-      const _workspaces = [...state.workspaces];
+      const _workspaces = clone([...state.workspaces]);
       _workspaces.push(workspace);
       _workspaces.sort((a, b) => (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0);
       return {
@@ -59,7 +63,7 @@ export default (state = initialState, action) => {
 
     case 'ADD_SPRINT': {
       const { sprint, workspaceId } = action.payload;
-      const _workspaces = [...state.workspaces];
+      const _workspaces = clone([...state.workspaces]);
       const index = _workspaces.findIndex((w) => w.id === workspaceId);
       const newWorkspace = {
         ..._workspaces[index],
@@ -83,13 +87,13 @@ export default (state = initialState, action) => {
 
     case 'ADD_TASK': {
       const { task, workspaceId } = action.payload;
-      const _workspaces = [...state.workspaces];
+      const _workspaces = clone([...state.workspaces]);
       const index = _workspaces.findIndex((w) => workspaceId === w.id);
       const newWorkspace = {
         ..._workspaces[index],
         sprint: {
           ..._workspaces[index].sprint,
-          tasks: [..._workspaces[index].sprint.tasks, task]
+          tasks: clone([..._workspaces[index].sprint.tasks, task])
         }
       }
       _workspaces[index] = newWorkspace;
@@ -99,23 +103,25 @@ export default (state = initialState, action) => {
         selectedSprint: state.selectedWorkspace.id === workspaceId ? 
         ({
           ...state.selectedSprint,
-          tasks: [...state.selectedSprint.tasks, task]
+          tasks: clone([...state.selectedSprint.tasks, task])
         }) : state.selectedSprint,
       };
     };
 
     case 'ADD_SUBTASK': {
       const { subtask, workspaceId, taskId } = action.payload;
-      const _workspaces = [...state.workspaces];
+      const _workspaces = clone([...state.workspaces]);
       const wIndex = _workspaces.findIndex((w) => workspaceId === w.id);
-      const _tasks = _workspaces[wIndex].sprint.tasks;
+      const sprint = Object.assign({}, _workspaces[wIndex].sprint);
+      const _tasks = clone([..._workspaces[wIndex].sprint.tasks]);
       const tIndex = _tasks.findIndex((t) => taskId === t.id);
-      _tasks[tIndex].subtasks = [..._tasks[tIndex].subtasks, subtask]
+      const newTasks = clone([..._tasks]);
+      newTasks[tIndex].subtasks = [...newTasks[tIndex].subtasks, subtask]
       const newWorkspace = {
         ..._workspaces[wIndex],
         sprint: {
-          ..._workspaces[wIndex].sprint,
-          tasks: _tasks
+          ...sprint,
+          tasks: newTasks
         }
       }
       _workspaces[wIndex] = newWorkspace;
@@ -123,27 +129,29 @@ export default (state = initialState, action) => {
         ...state,
         workspaces: _workspaces,
         selectedSprint: state.selectedWorkspace.id === workspaceId ? ({
-          ...state.selectedSprint,
-          tasks: _tasks
+          ...sprint,
+          tasks: newTasks
         }) : state.selectedSprint
       };
     };
 
     case 'UPDATE_SUBTASK': {
       const { subtask, workspaceId, taskId } = action.payload;
-      const _workspaces = [...state.workspaces];
+      const _workspaces = clone([...state.workspaces]);
       const wIndex = _workspaces.findIndex((w) => workspaceId === w.id);
+      const sprint = Object.assign({}, _workspaces[wIndex].sprint);
       const _tasks = _workspaces[wIndex].sprint.tasks;
       const tIndex = _tasks.findIndex((t) => taskId === t.id);
       const sIndex = _tasks[tIndex].subtasks.findIndex((s) => s.id === subtask.id);
-      const _subtasks = [..._tasks[tIndex].subtasks];
+      const _subtasks = clone([..._tasks[tIndex].subtasks]);
       _subtasks[sIndex] = subtask;
-      _tasks[tIndex].subtasks = _subtasks;
+      const newTasks = [..._tasks];
+      newTasks[tIndex].subtasks = _subtasks;
       const newWorkspace = {
         ..._workspaces[wIndex],
         sprint: {
           ..._workspaces[wIndex].sprint,
-          tasks: _tasks
+          tasks: newTasks
         }
       }
       _workspaces[wIndex] = newWorkspace;
@@ -151,8 +159,8 @@ export default (state = initialState, action) => {
         ...state,
         workspaces: _workspaces,
         selectedSprint: state.selectedWorkspace.id === workspaceId ? ({
-          ...state.selectedSprint,
-          tasks: _tasks
+          ...sprint,
+          tasks: newTasks
         }) : state.selectedSprint
       };
     };
