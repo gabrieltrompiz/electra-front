@@ -25,34 +25,40 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
         <div id='to-do'>
           <p>TO DO</p>
           <p>{`${todo.length} ${todo.length === 1 ? 'task' : 'tasks'}`}</p>
-          <div>
-            {todo.map((t) => <TaskItem task={t} key={t.id} />)}
-            <button onClick={() => setShowCreateTask(true, 'TODO')}>
-              <p>Add a new task</p>
-              <img src={require('../assets/images/plus.png')} alt='add' />
-            </button>
+          <div id='container'>
+            <div>
+              {todo.map((t) => <TaskItem task={t} key={t.id} />)}
+              <button onClick={() => setShowCreateTask(true, 'TODO')}>
+                <p>Add a new task</p>
+                <img src={require('../assets/images/plus.png')} alt='add' />
+              </button>
+            </div>
           </div>
         </div>
         <div id='in-progress'>
           <p>IN PROGRESS</p>
           <p>{`${inProgress.length} ${inProgress.length === 1 ? 'task' : 'tasks'}`}</p>
-          <div>
-            {inProgress.map((t) => <TaskItem task={t} key={t.id} />)}
-            <button onClick={() => setShowCreateTask(true, 'IN_PROGRESS')}>
-              <p>Add a new task</p>
-              <img src={require('../assets/images/plus.png')} alt='add' />
-            </button>
+          <div id='container'>
+            <div>
+              {inProgress.map((t) => <TaskItem task={t} key={t.id} />)}
+              <button onClick={() => setShowCreateTask(true, 'IN_PROGRESS')}>
+                <p>Add a new task</p>
+                <img src={require('../assets/images/plus.png')} alt='add' />
+              </button>
+            </div>
           </div>
         </div>
         <div id='done'>
           <p>DONE</p>
           <p>{`${done.length} ${done.length === 1 ? 'task' : 'tasks'}`}</p>
-          <div>
-            {done.map((t) => <TaskItem task={t} key={t.id} />)}
-            <button onClick={() => setShowCreateTask(true, 'DONE')}>
-              <p>Add a new task</p>
-              <img src={require('../assets/images/plus.png')} alt='add' />
-            </button>
+          <div id='container'>
+            <div>
+              {done.map((t) => <TaskItem task={t} key={t.id} />)}
+              <button onClick={() => setShowCreateTask(true, 'DONE')}>
+                <p>Add a new task</p>
+                <img src={require('../assets/images/plus.png')} alt='add' />
+              </button>
+            </div>
           </div>
         </div>
       </div>

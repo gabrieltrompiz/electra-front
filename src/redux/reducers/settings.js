@@ -1,3 +1,5 @@
+import { cloneDeep as clone } from 'lodash';
+
 const initialState = {
   show: {
     profile: null,
@@ -11,10 +13,6 @@ const initialState = {
     createSubtask: false
   }
 };
-
-const clone = (obj) => {
-  return JSON.parse(JSON.stringify(obj))
-}
 
 export default (state = initialState, action) => {
   switch(action.type) {

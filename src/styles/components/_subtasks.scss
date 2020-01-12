@@ -36,6 +36,10 @@
     overflow-y: scroll;
     flex: 1;
     max-height: 200px;
+    ::-webkit-scrollbar-thumb {
+      background: $main-color;
+      border-radius: 5px;
+    }
     
     & > #create-subtask {
       width: 90%;

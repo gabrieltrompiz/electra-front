@@ -4,6 +4,7 @@ import { setShownTask, setShowCreateSubtask } from '../redux/actions';
 import { Task as TaskI, State } from '../types';
 import Loading from '../components/Loading';
 import Subtasks from '../components/sprint/Subtasks';
+import Comments from '../components/sprint/Comments';
 
 /**
  * Active task view
@@ -41,7 +42,7 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
               <img src={require('../assets/images/comments.png')} alt='comments' />
               Comments
             </p>
-            
+            <Comments />
           </div>
           <div>
             <p>ADD TO TASK</p>
