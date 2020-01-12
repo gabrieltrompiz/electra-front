@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Task } from '../../types';
 import { connect } from 'react-redux';
 import { setShownTask } from '../../redux/actions';
@@ -10,6 +10,10 @@ import { setShownTask } from '../../redux/actions';
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
 const TaskItem: React.FC<TaskItemProps> = ({ task, setShownTask }) => {
+  useEffect(() => {
+    console.log('task')
+  }, [task])
+
   return (
     <div className='task-item' onClick={() => setShownTask(task)}>
       <div>

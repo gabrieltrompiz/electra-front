@@ -465,3 +465,13 @@ export const CHANGE_SUBTASK_STATUS = gql`
     }
   }
 `;
+
+export const CREATE_SUBTASK = gql`
+  mutation CreateSubtask($subtask: SubTaskInput!) {
+    createSubTask(subTask: $subtask) {
+      id
+      description
+      status
+    }
+  }
+`;

@@ -238,7 +238,9 @@ export const setShownTask = (task) => {
 
 /** Updates a subtask
  * @function updateSubTask
- * @param {subtask} subtask - task to be added
+ * @param {subtask} subtask - subtask to be added
+ * @param {number} workspaceId - id of the workspace
+ * @param {number} taskId - id of the task
  * @returns Action with type UPDATE_SUBTASK
  */
 export const updateSubTask = (subtask, workspaceId, taskId) => {
@@ -250,6 +252,24 @@ export const updateSubTask = (subtask, workspaceId, taskId) => {
       taskId
     } 
   };
+};
+
+/** Adds a subtask
+ * @function updateSubTask
+ * @param {subtask} subtask - subtask to be added
+ * @param {number} workspaceId - id of the workspace
+ * @param {number} taskId - id of the task
+ * @returns Action with type ADD_SUBTASK
+ */
+export const addSubtask = (subtask, workspaceId, taskId) => {
+  return {
+    type: 'ADD_SUBTASK',
+    payload: {
+      subtask,
+      workspaceId,
+      taskId
+    }
+  }
 };
 
 /** Changes wether the 'Create a Subtask' input is visible or not

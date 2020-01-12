@@ -1,8 +1,7 @@
 #subtasks {
-  width: 100%;
+  width: 99%;
   min-height: 100px;
   max-height: 250px;
-  overflow-y: scroll;
   margin-top: 5px;
 
 
@@ -34,6 +33,36 @@
   }
 
   & > div:nth-of-type(2) {
+    overflow-y: scroll;
+    flex: 1;
+    max-height: 200px;
+    
+    & > #create-subtask {
+      width: 90%;
+      @include flex(flex-start, flex-start);
+      margin: 0px 10px;
+
+      & > input {
+        @include clear-input($dark-bg);
+        flex: 1;
+        height: 30px;
+        @include lato('Semibold');
+        color: white;
+        padding: 0px 10px;
+        font-size: 16px;
+      }
+
+      & > button {
+        @include clear-buttons($main-color);
+        margin: 0px 10px;
+        @include lato('Bold');
+        color: white;
+        font-size: 16px;
+        border-radius: 10px;
+        padding: 5px 10px;
+      }
+    }
+
     & > .st-item {
       width: 90%;
       min-height: 30px;

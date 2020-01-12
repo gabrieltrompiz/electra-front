@@ -20,7 +20,7 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
     <div id='task'>
       {loading && <Loading />}
       <div id='container'>
-        <img src={require('../assets/images/close.png')} alt='close' onClick={() => setShownTask(null)} />
+        <img src={require('../assets/images/close.png')} alt='close' onClick={() => { setShownTask(null); setShowCreateSubtask(false); }} />
         <div id='content'>
           <div>
             <p>{task.name.toUpperCase()}</p>

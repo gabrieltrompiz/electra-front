@@ -104,6 +104,31 @@ export default (state = initialState, action) => {
       };
     };
 
+    case 'ADD_SUBTASK': {
+      const { subtask, workspaceId, taskId } = action.payload;
+      const _workspaces = [...state.workspaces];
+      const wIndex = _workspaces.findIndex((w) => workspaceId === w.id);
+      const _tasks = _workspaces[wIndex].sprint.tasks;
+      const tIndex = _tasks.findIndex((t) => taskId === t.id);
+      _tasks[tIndex].subtasks = [..._tasks[tIndex].subtasks, subtask]
+      const newWorkspace = {
+        ..._workspaces[wIndex],
+        sprint: {
+          ..._workspaces[wIndex].sprint,
+          tasks: _tasks
+        }
+      }
+      _workspaces[wIndex] = newWorkspace;
+      return {
+        ...state,
+        workspaces: _workspaces,
+        selectedSprint: state.selectedWorkspace.id === workspaceId ? ({
+          ...state.selectedSprint,
+          tasks: _tasks
+        }) : state.selectedSprint
+      };
+    };
+
     case 'UPDATE_SUBTASK': {
       const { subtask, workspaceId, taskId } = action.payload;
       const _workspaces = [...state.workspaces];
@@ -113,7 +138,7 @@ export default (state = initialState, action) => {
       const sIndex = _tasks[tIndex].subtasks.findIndex((s) => s.id === subtask.id);
       const _subtasks = [..._tasks[tIndex].subtasks];
       _subtasks[sIndex] = subtask;
-      _tasks.subtasks = _subtasks;
+      _tasks[tIndex].subtasks = _subtasks;
       const newWorkspace = {
         ..._workspaces[wIndex],
         sprint: {

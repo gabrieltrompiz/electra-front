@@ -98,7 +98,6 @@ export default (state = initialState, action) => {
     case 'UPDATE_SUBTASK': {
       const { subtask, taskId } = action.payload;
       if(state.show.task && state.show.task.id === taskId) {
-        console.log('sie')
         const _task = Object.assign({}, state.show.task);
         const sIndex = state.show.task.subtasks.findIndex((st) => st.id === subtask.id);
         const _subtasks = [..._task.subtasks];

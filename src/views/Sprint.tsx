@@ -14,7 +14,7 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
   const todo = sprint ? sprint.tasks.filter((t) => t.status === 'TODO' as unknown as TaskStatus) : [];
   const inProgress = sprint ? sprint.tasks.filter((t) => t.status === 'IN_PROGRESS' as unknown as TaskStatus) : [];
   const done = sprint ? sprint.tasks.filter((t) => t.status === 'DONE' as unknown as TaskStatus) : [];
-  
+
   return sprint ? (
     <div id='sprint'>
       <div id='header'>
@@ -26,7 +26,7 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
           <p>TO DO</p>
           <p>{`${todo.length} ${todo.length === 1 ? 'task' : 'tasks'}`}</p>
           <div>
-            {todo.map((t) => <TaskItem task={t} key={t.id} />)}
+            {todo.map((t) => <TaskItem task={Object.assign({}, t)} key={t.id} />)}
             <button onClick={() => setShowCreateTask(true, 'TODO')}>
               <p>Add a new task</p>
               <img src={require('../assets/images/plus.png')} alt='add' />
@@ -37,7 +37,7 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
           <p>IN PROGRESS</p>
           <p>{`${inProgress.length} ${inProgress.length === 1 ? 'task' : 'tasks'}`}</p>
           <div>
-            {inProgress.map((t) => <TaskItem task={t} key={t.id} />)}
+            {inProgress.map((t) => <TaskItem task={Object.assign({}, t)} key={t.id} />)}
             <button onClick={() => setShowCreateTask(true, 'IN_PROGRESS')}>
               <p>Add a new task</p>
               <img src={require('../assets/images/plus.png')} alt='add' />
@@ -48,7 +48,7 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
           <p>DONE</p>
           <p>{`${done.length} ${done.length === 1 ? 'task' : 'tasks'}`}</p>
           <div>
-            {done.map((t) => <TaskItem task={t} key={t.id} />)}
+            {done.map((t) => <TaskItem task={Object.assign({}, t)} key={t.id} />)}
             <button onClick={() => setShowCreateTask(true, 'DONE')}>
               <p>Add a new task</p>
               <img src={require('../assets/images/plus.png')} alt='add' />
