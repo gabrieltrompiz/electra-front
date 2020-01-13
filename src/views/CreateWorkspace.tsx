@@ -2,12 +2,13 @@ import React, { useRef, Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { setShowCreateWorkspace, addWorkspace } from '../redux/actions';
 import SearchUsers from '../components/SearchUsers';
-import { State, Profile, Member, WorkspaceRole, Workspace } from '../types';
+import { State, Profile, Member, WorkspaceRole, Workspace, Repository } from '../types';
 import { remove } from 'lodash';
 import { useApolloClient } from '@apollo/react-hooks';
 import { logError, logInfo } from '../utils';
 import { CREATE_WORKSPACE } from '../graphql';
 import Loading from '../components/Loading';
+import SearchRepos from '../components/SearchRepos';
 
 /**
  * View to create a new workspace
@@ -20,6 +21,7 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
   const [description, setDescription] = useState<string>('');
   const [members, setMembers] = useState<Array<Member>>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [repo, setRepo] = useState<Repository & { owner: { login: string } }>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -40,10 +42,12 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
       logError('Description must be provided to create a workspace.');
     } else {
       setLoading(true);
-      const workspace: CreateVars["workspace"] = { // TODO: Add repoOwner and repoName
+      const workspace: CreateVars["workspace"] = {
         name,
         description,
-        members: members.map((m) => ({ id: m.user.id, role: m.role }))
+        members: members.map((m) => ({ id: m.user.id, role: m.role })),
+        repoName: repo ? repo.name : null,
+        repoOwner: repo ? repo.owner.login : null
       }
       const result = await client.mutate<CreatePayload, CreateVars>({ mutation: CREATE_WORKSPACE, variables: { workspace }, 
         errorPolicy: 'all', fetchPolicy: 'no-cache' })
@@ -73,7 +77,7 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
           {user.gitHubUser && 
           <Fragment>
             <p>GitHub Repository</p>
-            <input />
+            <SearchRepos selectedRepo={repo} setSelectedRepo={setRepo} />
           </Fragment>}
           <p>Members</p>
           <SearchUsers members={members} setMembers={setMembers} />

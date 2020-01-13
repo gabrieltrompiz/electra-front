@@ -7,6 +7,12 @@ import { useApolloClient } from '@apollo/react-hooks';
 import { logError, logInfo } from '../../utils';
 import { COMPLETE_SPRINT } from '../../graphql';
 
+/**
+ * Complete sprint view
+ * @visibleName Complete Sprint
+ * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
+ * @author Luis Petrella (https://github.com/Ptthappy)
+ */
 const CompleteSprint: React.FC<CompleteSprintProps> = ({ setShowCompleteSprint, sprintId, sendSprintToBacklog, workspaceId }) => {
   const [loading, setLoading] = useState<boolean>(false);
 

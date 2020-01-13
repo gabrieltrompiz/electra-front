@@ -120,7 +120,8 @@ export interface Issue {
 }
 
 export interface Repository {
-  issues: {
+  id: number
+  issues?: {
     nodes: Issue[]
   }
   name: string

@@ -9,6 +9,7 @@
 @import 'subtasks';
 @import 'comments';
 @import 'complete-sprint';
+@import 'search-repos';
 
 #loading {
   @include absolute-center(both);

@@ -69,6 +69,7 @@ export const LOGIN = gql`
         repo {
           id
           url
+          name
           issues(first: 100, states: [OPEN]) {
             nodes {
               id
@@ -182,6 +183,7 @@ export const REGISTER = gql`
         repo {
           id
           url
+          name
           issues(first: 100, states: [OPEN]) {
             nodes {
               id
@@ -245,6 +247,7 @@ export const GET_PROFILE = gql`
         repo {
           id
           url
+          name
           issues(first: 100, states: [OPEN]) {
             nodes {
               id
@@ -349,7 +352,22 @@ export const CREATE_WORKSPACE = gql`
       name
       description
       repo {
+        id
         url
+        name
+        issues(first: 100, states: [OPEN]) {
+          nodes {
+            id
+            url
+            state
+            title
+            author {
+              avatarUrl
+              login
+              url
+            }
+          }
+        }
       }
       members {
         user {
@@ -622,5 +640,22 @@ export const UPDATE_TASK_HOURS = gql`
 export const COMPLETE_SPRINT = gql`
   mutation CompleteSprint($id: ID!) {
     sendSprintToBacklog(id: $id)
+  }
+`;
+
+export const GET_USER_REPOS = gql`
+  {
+    viewer {
+      repositories(first: 100, privacy: PUBLIC) {
+        nodes {
+          id
+          url
+          name
+          owner {
+            login
+          }
+        }
+      }
+    }  
   }
 `;

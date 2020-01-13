@@ -1,0 +1,103 @@
+#search-repos {
+  width: 100%;
+  @include flex(flex-start, flex-start);
+  flex-direction: column;
+  position: relative;
+  
+
+  & > p {
+    @include lato('Semibold');
+    font-size: 16px;
+  }
+
+  & > input {
+    @include clear-input($darker-bg);
+    flex: 1;
+    padding: 10px 30px 10px 10px;
+    @include lato('Regular');
+    margin-bottom: 15px;
+    font-size: 16px;
+    width: 93%;
+    color: white;
+    
+  }
+
+  & > #container-results {
+    overflow: hidden;
+    border-radius: 10px;
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    top: 50px;
+    z-index: 99999;
+    ::-webkit-scrollbar-thumb {
+      background: #1b1c1f !important;
+      border-radius: 5px;
+    }
+
+    & > #results {
+      background-color: $darker-bg;
+      width: 100%;
+      border-radius: 10px;
+      max-height: 200px;
+      overflow-y: scroll; 
+
+      & > div {
+        height: 50px;
+        @include flex(flex-start, center);
+        &:hover { 
+          cursor: pointer; 
+          background-color: #1b1c1f;
+        }
+        transition: background-color 300ms;
+        padding: 5px 10px;
+        
+        & > div {
+          & > p {
+            margin: 0;
+            @include lato('Bold');
+          }
+          
+          & > a {
+            color: white;
+            @include lato('Semibold');
+          }
+
+          & > a > img {
+            width: 15px;
+            height: 15px;
+            object-fit: contain;
+            margin-left: 5px;
+          }
+        }
+
+        & > img {
+          width: 30px;
+          height: 30px;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+
+  & > #selected-repo {
+    @include flex(flex-start, center);
+    width: 96%;
+    background-color: $darker-bg;
+    @include lato('Semibold');
+    padding: 0px 10px;
+    height: 40px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    position: relative;
+    
+    & > img {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      object-fit: contain;
+      right: 10px;
+      &:hover { cursor: pointer; }
+    }
+  }
+}
