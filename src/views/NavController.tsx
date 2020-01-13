@@ -16,7 +16,7 @@ import { State } from '../types';
 const NavController: React.FC<NavControllerProps> = ({ loggedIn, loginWithCredentials, setUser }) => {
   const [showAuth, setShowAuth] = useState<boolean>(true);
   const [showDashboard, setShowDashboard] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const authRef = useRef<HTMLDivElement>(null);
   const dashboardRef = useRef<HTMLDivElement>(null);

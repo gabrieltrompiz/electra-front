@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { setVisibleProfile, selectWorkspace, setShowCreateWorkspace, logout } from '../redux/actions';
 import { Workspace, State } from '../types';
 import WorkspaceItem from './workspace/WorkspaceItem';
+import { useApolloClient } from '@apollo/react-hooks';
+import { LOGOUT } from '../graphql';
 
 /**
  * Navigation module to change app views (workspaces, notifications, profile and logout button)
@@ -11,7 +13,10 @@ import WorkspaceItem from './workspace/WorkspaceItem';
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
 const Navigation: React.FC<NavigationProps> = ({ workspaces, selectedWorkspace, setVisibleProfile, selectWorkspace, active, setActive, setShowCreateWorkspace, logout }) => {
-  const onLogout = () => {
+  const client = useApolloClient();
+
+  const onLogout = async () => {
+    client.mutate({ mutation: LOGOUT });
     localStorage.clear();
     logout();
   };

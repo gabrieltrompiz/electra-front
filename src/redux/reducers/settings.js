@@ -10,7 +10,8 @@ const initialState = {
     taskType: 'TODO',
     task: null,
     taskView: false,
-    createSubtask: false
+    createSubtask: false,
+    completeSprint: false
   }
 };
 
@@ -176,6 +177,17 @@ export default (state = initialState, action) => {
       } else {
         return state;
       }
+    };
+
+    case 'SHOW_COMPLETE_SPRINT': {
+      const { visible } = action.payload;
+      return {
+        ...state,
+        show: {
+          ...state.show,
+          completeSprint: visible
+        }
+      };
     };
 
     case 'LOGOUT': return initialState;

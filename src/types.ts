@@ -18,6 +18,7 @@ export interface State {
       task: Task
       taskView: boolean
       createSubtask: boolean
+      completeSprint: boolean
     }
   }
 };

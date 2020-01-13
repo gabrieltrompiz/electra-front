@@ -48,9 +48,14 @@
           margin: 0px 0px 0px 10px;
           color: $grey-font;
           font-size: 20px;
+
+          & > p {
+            margin: 5px 0px 5px 0px;
+            @include lato('Semibold');
+          }
         }
 
-        & > p:nth-of-type(3), & > p:nth-of-type(5), & > p:nth-of-type(6) {
+        & > .subtitles {
           @include flex(center, center);
           @include lato('Bold');
           margin: 10px 0px 0px 20px;
@@ -76,11 +81,35 @@
         flex: 3;
         @include flex(flex-start, center);
         flex-direction: column;
-        padding-top: 40px;
+        padding-top: 30px;
+
+        & > #hours-logger {
+          height: 50px;
+          width: 80%;
+          @include flex(space-around, center);
+
+          & > input {
+            @include clear-input($dark-bg);
+            height: 40px;
+            color: white;
+            @include lato('Semibold');
+            padding: 0px 10px;
+          }
+
+          & > button {
+            @include clear-buttons($dark-bg);
+            height: 40px;
+            color: white;
+            @include lato('Semibold');
+            border-radius: 10px;
+            padding: 0px 15px;
+          }
+        }
 
         & > #seach-users {
           margin: 0px 0px 10px 0px !important;
           width: 80%;
+          height: 45px !important;
           & > input {
             background-color: $dark-bg !important;
           }
@@ -128,6 +157,7 @@
             width: 80%;
             height: 50px;
             @include flex(flex-start, center);
+            position: relative;
 
             & > div > p:nth-of-type(1) {
               @include lato('Bold');
@@ -146,6 +176,15 @@
               object-fit: contain;
               border-radius: 100%;
               background-color: rgba($color: #000000, $alpha: 0.2);
+            }
+
+            & > img:nth-of-type(2) {
+              width: 15px;
+              height: 15px;
+              position: absolute;
+              right: 0;
+              background-color: initial;
+              &:hover { cursor: pointer; }
             }
           }
 
@@ -214,4 +253,33 @@ select {
   width: 80%;
   margin-bottom: 15px;
   &:hover { cursor: pointer; }
+}
+
+textarea {
+  border: none;
+  outline: 0; 
+  resize: none;
+  color: white;
+  background-color: $dark-bg;
+  width: 90%;
+  height: 150px;
+  margin: 10px 10px;
+  @include lato('Semibold');
+  border-radius: 10px;
+  padding: 10px; 
+  font-size: 16px;
+}
+
+#edit-desc {
+  width: 95%;
+  @include flex(flex-end, center);
+
+  & > button {
+    @include clear-buttons($main-color);
+    padding: 5px 10px;
+    @include lato('Bold');
+    color: white;
+    font-size: 15px;
+    border-radius: 10px;
+  }
 }

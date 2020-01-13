@@ -12,7 +12,7 @@ import { remove } from 'lodash';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers, toFilter, userId }) => {
+const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers, toFilter, userId, showSelf = false }) => {
   const [toSearch, setToSearch] = useState<string>('');
   const [result, setResult] = useState<Array<Profile>>([]);
   const [searching, setSearching] = useState<boolean>(false);
@@ -64,7 +64,7 @@ const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers, toFilter
         (m.user.email.toLowerCase().includes(toSearch.toLowerCase()) ||
          m.user.fullName.toLowerCase().includes(toSearch.toLowerCase()) ||
          m.user.username.toLowerCase().includes(toSearch.toLowerCase())) 
-         && m.user.id !== userId
+         && (!showSelf ? m.user.id !== userId : true)
       ));
       setResult(result.map((r) => r.user));
       setSearching(false);
@@ -129,4 +129,6 @@ interface SearchUsersProps {
   toFilter?: Array<Member>
   /** logged user id */
   userId: number
+  /** Wether to show self user or not */
+  showSelf?: boolean
 }

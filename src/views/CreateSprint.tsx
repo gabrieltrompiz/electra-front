@@ -48,7 +48,6 @@ const CreateSprint: React.FC<CreateSprintProps> = ({ setShowCreateSprint, worksp
       if(result.data && result.data.createSprint) {
         logInfo(`Created '${title}' sprint.`);
         addSprint(result.data.createSprint, workspaceId);
-        selectSprint(result.data.createSprint.id);
         setShowCreateSprint(false);
       }
       if(result.errors) result.errors.forEach((e) => logError(e.message));

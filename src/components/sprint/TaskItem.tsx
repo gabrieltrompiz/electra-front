@@ -15,6 +15,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, setShownTask }) => {
       <div>
         <p>{task.name}</p>
         <p>{`Estimated Hours: ${task.estimatedHours}h`}</p>
+        <p>{`Logged Hours: ${task.loggedHours}h`}</p>
         <p>{`Subtasks Completed: ${task.subtasks.filter((st) => st.status).length}/${task.subtasks.length}`}</p>
         <p>{`Assigned to: ${task.user ? task.user.fullName : 'Not Assigned'}`}</p>
       </div>

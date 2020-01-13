@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { setShownTask, setShowCreateSubtask, addComment, updateTask } from '../redux/actions';
 import { Task as TaskI, State, TaskComment, TaskStatus, Repository, Member, WorkspaceRole } from '../types';
@@ -7,7 +7,7 @@ import Subtasks from '../components/sprint/Subtasks';
 import Comments from '../components/sprint/Comments';
 import { useApolloClient } from '@apollo/react-hooks';
 import { logError, logInfo } from '../utils';
-import { CREATE_COMMENT, CHANGE_TASK_STATUS, CHANGE_TASK_USER } from '../graphql';
+import { CREATE_COMMENT, CHANGE_TASK_STATUS, CHANGE_TASK_USER, CHANGE_TASK_DESCRIPTION, UPDATE_TASK_HOURS } from '../graphql';
 import SearchUsers from '../components/SearchUsers';
 
 /**
@@ -25,6 +25,8 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
   const [editingTaskDesc, setEditingTaskDesc] = useState<boolean>(false);
   const [assigningTask, setAssigningTask] = useState<boolean>(false);
   const [userAssigned, setUserAssigned] = useState<Member>(task.user ? { user: task.user, role: 'MEMBER' as unknown as WorkspaceRole } : null);
+  const [isLoggingHours, setIsLoggingHours] = useState<boolean>(false);
+  const [hoursToAdd, setHoursToAdd] = useState<number>(0);
 
   const commentsRef = useRef<HTMLDivElement>(null);
 
@@ -56,7 +58,8 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
         changeAssigned();
       }
     }
-  }, [userAssigned])
+    // eslint-disable-next-line
+  }, [userAssigned]);
 
   const changeStatus = async () => {
     if(status !== task.status) {
@@ -74,6 +77,50 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
     }
   };
 
+  const updateDescription = async () => {
+    if(taskDescription.trim() !== '') {
+      if(taskDescription.trim() === task.description) {
+        logInfo('Task description updated.');
+        setEditingTaskDesc(false);
+      } else {
+        setLoading(true);
+        const result = await client.mutate<ChangeDescriptionPayload, ChangeDescriptionVars>({ mutation: CHANGE_TASK_DESCRIPTION, 
+          variables: { taskId: task.id, description: taskDescription }, errorPolicy: 'all', fetchPolicy: 'no-cache' })
+          .finally(() => setLoading(false));
+        if(!result.errors) {
+          logInfo('Task description updated.');
+          updateTask({ ...task, description: taskDescription }, workspaceId);
+          setEditingTaskDesc(false);
+        } else {
+          result.errors.forEach((e) => logError(e.message));
+        }
+      }
+    } else {
+      logError('Task description cannot be empty.');
+    }
+  };
+
+  const logHours = async () => {
+    if(hoursToAdd > 0) {
+      setLoading(true);
+      const result = await client.mutate<AddHoursPayload, AddHoursVars>({ mutation: UPDATE_TASK_HOURS, 
+        variables: { taskId: task.id, hours: hoursToAdd }, errorPolicy: 'all', fetchPolicy: 'no-cache' })
+        .finally(() => setLoading(false));
+      if(!result.errors) {
+        logInfo('Hours logged to the task.');
+        updateTask({ ...task, loggedHours: task.loggedHours + hoursToAdd }, workspaceId);
+        setHoursToAdd(0);
+        setIsLoggingHours(false);
+      }
+    } else if(hoursToAdd < 0) {
+      logError('Logged hours must be positive.')
+    } else {
+      logInfo('Hours logged to the task.');
+      setHoursToAdd(0);
+      setIsLoggingHours(false);
+    }
+  };
+
   const changeAssigned = async () => {
     setLoading(true);
     const input: ChangeUserVars["input"] = {
@@ -86,6 +133,24 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
     if(!result.errors) {
       logInfo('User assigned to task.');
       updateTask({ ...task, user: workspaceUsers.find((m) => m.user.id === userAssigned.user.id).user }, workspaceId);
+      setAssigningTask(false);
+    } else {
+      result.errors.map((e) => logError(e.message));
+    }
+  };
+
+  const unassignUser = async () => {
+    setLoading(true);
+    const input: ChangeUserVars["input"] = {
+      taskId: task.id,
+      userId: null
+    }
+    const result = await client.mutate<ChangeUserPayload, ChangeUserVars>({ mutation: CHANGE_TASK_USER, variables: { input },
+      errorPolicy: 'all', fetchPolicy: 'no-cache' })
+      .finally(() => setLoading(false));
+    if(!result.errors) {
+      logInfo('Unassigned user from task.');
+      updateTask({ ...task, user: null }, workspaceId);
       setAssigningTask(false);
     } else {
       result.errors.map((e) => logError(e.message));
@@ -124,18 +189,28 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
             <p>{task.name.toUpperCase()}</p>
             <p>Current Status: &nbsp;
               {task.status as unknown as string === 'TODO' ? 'To Do' : task.status as unknown as string === 'IN_PROGRESS' ? "In Progress" : "Done"}
+              <br />
+              <p>{`Estimated Time: ${task.estimatedHours}h — Logged Time: ${task.loggedHours}h`}</p>
             </p>
-            <p>
+            <p className='subtitles'>
               <img src={require('../assets/images/description.png')} alt='desc' />
               Description
             </p>
-            <p>{task.description}</p>
-            <p>
+            {!editingTaskDesc && <p>{task.description}</p>}
+            {editingTaskDesc &&
+              <Fragment>
+                <textarea value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} />
+                <div id='edit-desc'>
+                  <button onClick={() => updateDescription()}>Update Description</button>
+                </div>
+              </Fragment>
+            }
+            <p className='subtitles'>
               <img src={require('../assets/images/task-list.png')} alt='subtasks' />
               Subtasks
             </p>
             <Subtasks setLoading={setLoading} taskId={task.id} />
-            <p>
+            <p className='subtitles'>
               <img src={require('../assets/images/comments.png')} alt='comments' />
               Comments
             </p>
@@ -146,7 +221,8 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
             <button disabled={!isAdmin || (!isAdmin && !isAssigned)} onClick={() => setShowCreateSubtask(true)}>Subtask</button>
             <p>ACTIONS</p>
             {!assigningTask && <button disabled={!isAdmin} onClick={() => setAssigningTask(true)}>Assign Task</button>}
-            {assigningTask && <SearchUsers members={!!userAssigned ? [userAssigned] : []} setMembers={(u: any) => setUserAssigned(u[0])} toFilter={workspaceUsers} />}
+            {assigningTask && <SearchUsers members={!!userAssigned ? [userAssigned] : []} setMembers={(u: any) => setUserAssigned(u[0])} 
+              toFilter={workspaceUsers} showSelf={true} />}
             {!settingStatus && <button disabled={!isAdmin || (!isAdmin && !isAssigned)} onClick={() => setSettingStatus(true)}>Change Status</button>}
             {settingStatus && 
             <select value={status as unknown as string} onChange={(e) => {
@@ -157,13 +233,21 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
               <option value='IN_PROGRESS'>In Progress</option>
               <option value='DONE'>Done</option>
             </select>}
-            <button disabled={!isAssigned}>Log Hours</button>
+            <button onClick={() => setEditingTaskDesc(t => !t)}>Edit task description</button>
+            {!isLoggingHours && <button disabled={!isAssigned} onClick={() => setIsLoggingHours(true)}>Log Hours</button>}
+            {isLoggingHours && 
+            <div id='hours-logger'>
+              <input type='numeric' value={hoursToAdd} onChange={(e) => 
+                setHoursToAdd(isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value))} />
+              <button onClick={() => logHours()}>Add</button>
+            </div>}
             {repo && <p>GITHUB ISSUE</p>}
             {repo && <button disabled={!isAdmin || (!isAdmin && !isAssigned)}>Assign GitHub Issue</button>}
             <p>ASSIGNED TO</p>
             {task.user && <div id='assignees'>
               <div className='task-user-item'>
                 <img src={task.user.pictureUrl} alt='avatar' />
+                <img src={require('../assets/images/close.png')} alt='delete' onClick={() => unassignUser()}/>
                 <div>
                   <p>{task.user.fullName}</p>
                   <p>{`@${task.user.username}`}</p>
@@ -257,6 +341,30 @@ interface ChangeUserVars {
     /** id of the task */
     taskId: number
     /** id of the user */
-    userId: number
+    userId?: number
   }
+}
+
+interface ChangeDescriptionPayload {
+  /** container of the mutation */
+  changeTaskDescription?: TaskI
+}
+
+interface ChangeDescriptionVars {
+  /** id of the task */
+  taskId: number
+  /** new description of the task */
+  description: string
+}
+
+interface AddHoursPayload {
+  /** result of the mutation */
+  updateTaskHours?: number
+}
+
+interface AddHoursVars {
+  /** id of the task */
+  taskId: number
+  /** hours to be added */
+  hours: number
 }

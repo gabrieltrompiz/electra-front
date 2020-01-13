@@ -10,7 +10,7 @@ import CollaboratorItem from './CollaboratorItem';
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
 const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setActive, userId }) => {
-  return (
+  return workspace ? (
     <div>
       <div>
         <p>{workspace.name}</p>
@@ -33,7 +33,7 @@ const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setAct
       <p>COLLABORATORS</p>
       {workspace.members.map(m => <CollaboratorItem key={m.user.id} user={m.user} />)}
     </div>
-  );
+  ): <div></div>;
 };
 
 const mapStateToProps = (state: State) => {

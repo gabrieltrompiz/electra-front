@@ -8,6 +8,7 @@
 @import 'task-item';
 @import 'subtasks';
 @import 'comments';
+@import 'complete-sprint';
 
 #loading {
   @include absolute-center(both);

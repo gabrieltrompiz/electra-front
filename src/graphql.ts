@@ -69,7 +69,7 @@ export const LOGIN = gql`
         repo {
           id
           url
-          issues(first: 100) {
+          issues(first: 100, states: [OPEN]) {
             nodes {
               id
               url
@@ -92,6 +92,13 @@ export const LOGIN = gql`
             fullName 
           }
           role
+        }
+        backlog {
+          id
+          title
+          startDate
+          finishDate
+          status
         }
         sprint {
           id
@@ -130,7 +137,15 @@ export const LOGIN = gql`
               fullName
             }
             issue {
+              id
               url
+              state
+              title
+              author {
+                avatarUrl
+                login
+                url
+              }
             }
           }
         }
@@ -167,7 +182,7 @@ export const REGISTER = gql`
         repo {
           id
           url
-          issues(first: 100) {
+          issues(first: 100, states: [OPEN]) {
             nodes {
               id
               url
@@ -230,7 +245,7 @@ export const GET_PROFILE = gql`
         repo {
           id
           url
-          issues(first: 100) {
+          issues(first: 100, states: [OPEN]) {
             nodes {
               id
               url
@@ -253,6 +268,13 @@ export const GET_PROFILE = gql`
             fullName 
           }
           role
+        }
+        backlog {
+          id
+          title
+          startDate
+          finishDate
+          status
         }
         sprint {
           id
@@ -291,7 +313,15 @@ export const GET_PROFILE = gql`
               fullName
             }
             issue {
+              id
               url
+              state
+              title
+              author {
+                avatarUrl
+                login
+                url
+              }
             }
           }
         }
@@ -442,7 +472,7 @@ export const EDIT_PROFILE = gql`
         repo {
           id
           url
-          issues(first: 100) {
+          issues(first: 100, states: [OPEN]) {
             nodes {
               id
               url
@@ -465,6 +495,13 @@ export const EDIT_PROFILE = gql`
             fullName 
           }
           role
+        }
+        backlog {
+          id
+          title
+          startDate
+          finishDate
+          status
         }
         sprint {
           id
@@ -503,7 +540,15 @@ export const EDIT_PROFILE = gql`
               fullName
             }
             issue {
+              id
               url
+              state
+              title
+              author {
+                avatarUrl
+                login
+                url
+              }
             }
           }
         }
@@ -557,5 +602,25 @@ export const CHANGE_TASK_STATUS = gql`
 export const CHANGE_TASK_USER = gql`
   mutation ChangeUser($input: UserTaskInput!) {
     changeUserTask(input: $input)
+  }
+`;
+
+export const CHANGE_TASK_DESCRIPTION = gql`
+  mutation ChangeDescription($taskId: ID!, $description: String!) {
+    changeTaskDescription(taskId: $taskId, description: $description) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_TASK_HOURS = gql`
+  mutation UpdateHours($taskId: ID!, $hours: Int!) {
+    updateTaskHours(taskId: $taskId, hours: $hours)
+  }
+`;
+
+export const COMPLETE_SPRINT = gql`
+  mutation CompleteSprint($id: ID!) {
+    sendSprintToBacklog(id: $id)
   }
 `;

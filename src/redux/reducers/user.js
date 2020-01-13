@@ -70,7 +70,30 @@ export default (state = initialState, action) => {
       _workspaces[index] = newWorkspace;
       return {
         ...state,
-        workspaces: _workspaces
+        workspaces: _workspaces,
+        selectedSprint: state.selectedWorkspace ? state.selectedWorkspace.id === workspaceId ? sprint : state.selectedSprint : null
+      }
+    };
+
+    case 'SEND_TO_BACKLOG': {
+      const { workspaceId } = action.payload;
+      const _workspaces = clone([...state.workspaces]);
+      const wIndex = _workspaces.findIndex((w) => w.id === workspaceId);
+      const _sprint = _workspaces[wIndex].sprint;
+      _sprint.status = 'COMPLETED';
+      delete _sprint.tasks;
+      const _backlog = [..._workspaces[wIndex].backlog, _sprint]
+      const newWorkspace = {
+        ..._workspaces[wIndex],
+        sprint: null,
+        backlog: _backlog
+      }
+      _workspaces[wIndex] = newWorkspace;
+      return {
+        ...state,
+        workspaces: _workspaces,
+        selectedSprint: null,
+        selectedWorkspace: state.selectedWorkspace.id === workspaceId ? _workspaces[wIndex] : state.selectedWorkspace
       }
     };
 

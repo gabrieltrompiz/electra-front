@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Sprint as SprintI, State, TaskStatus } from '../types';
-import { setShowCreateSprint, setShowCreateTask } from '../redux/actions';
+import { setShowCreateSprint, setShowCreateTask, setShowCompleteSprint } from '../redux/actions';
 import TaskItem from '../components/sprint/TaskItem';
+import moment from 'moment';
 
 /**
  * Active sprint view
@@ -10,7 +11,7 @@ import TaskItem from '../components/sprint/TaskItem';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, setShowCreateTask }) => {
+const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, setShowCreateTask, setShowCompleteSprint }) => {
   const todo = sprint ? sprint.tasks.filter((t) => t.status === 'TODO' as unknown as TaskStatus) : [];
   const inProgress = sprint ? sprint.tasks.filter((t) => t.status === 'IN_PROGRESS' as unknown as TaskStatus) : [];
   const done = sprint ? sprint.tasks.filter((t) => t.status === 'DONE' as unknown as TaskStatus) : [];
@@ -19,7 +20,9 @@ const Sprint: React.FC<SprintProps> = ({ sprint, isAdmin, setShowCreateSprint, s
     <div id='sprint'>
       <div id='header'>
         <img src={require('../assets/images/active-sprint.png')} alt='sprint' />
-        <span>Active Sprint &nbsp;&nbsp;—&nbsp;&nbsp; {sprint.title}</span>
+        <span>Active Sprint &nbsp;&nbsp;—&nbsp;&nbsp; {sprint.title} &nbsp;&nbsp;—&nbsp;&nbsp; 
+          Due Date: &nbsp; {moment(sprint.finishDate).format('MMMM Do, YYYY')} </span>
+        {isAdmin && <button onClick={() => setShowCompleteSprint(true)}>Complete Sprint</button>}
       </div>
       <div id='cards'>
         <div id='to-do'>
@@ -82,7 +85,7 @@ const mapStateToProps = (state: State) => {
   };  
 };
 
-export default connect(mapStateToProps, { setShowCreateSprint, setShowCreateTask })(Sprint);
+export default connect(mapStateToProps, { setShowCreateSprint, setShowCreateTask, setShowCompleteSprint })(Sprint);
 
 interface SprintProps {
   /** Sprint of the selected workspace */
@@ -93,4 +96,6 @@ interface SprintProps {
   setShowCreateSprint: Function
   /** Show the create task view */
   setShowCreateTask: Function
+  /** Function to show complete sprint view */
+  setShowCompleteSprint: Function
 }

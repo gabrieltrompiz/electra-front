@@ -44,6 +44,7 @@ export const loginWithCredentials = (client, { username, password }, setLoading)
       if(result.data && result.data.login && !alreadyLogged) {
         logInfo(`Welcome back, ${result.data.login.username}`)
         dispatch(setUser(result.data.login));
+        setLoading(false);
       } else if(alreadyLogged) {
         setLoading(true);
         client.query({ query: GET_PROFILE, errorPolicy: 'all', fetchPolicy: 'no-cache' })
@@ -51,9 +52,9 @@ export const loginWithCredentials = (client, { username, password }, setLoading)
           if(res.data) {
             logInfo(`Welcome back, ${res.data.profile.username}`);
             dispatch(setUser(res.data.profile));
+            setLoading(false);
           }
         })
-        .finally(() => setLoading(false));
       }
       else {
         logError('You need to login again.')
@@ -63,7 +64,6 @@ export const loginWithCredentials = (client, { username, password }, setLoading)
         if(!e.message.includes('Credentials') && !e.message.includes('Already logged in')) logError(e.message);
       })
     })
-    .finally(() => setLoading(false))
   }
 };
 
@@ -317,4 +317,32 @@ export const setShowCreateSubtask = (visible) => {
       visible
     }
   };
+};
+
+/** Changes wether the 'Complete Sprint' view is visible or not
+ * @function setShowCompleteSprint
+ * @param {boolean} visible - wether it is visible or not
+ * @returns Action with type SHOW_COMPLETE_SPRINT 
+ */
+export const setShowCompleteSprint = (visible) => {
+  return {
+    type: 'SHOW_COMPLETE_SPRINT',
+    payload: {
+      visible
+    }
+  }
+};
+
+/** Sends a sprint to the backlog
+ * @function setShowCompleteSprint
+ * @param {number} workspaceId - id of the workspace
+ * @returns Action with type SEND_TO_BACKLOG
+ */
+export const sendSprintToBacklog = (workspaceId) => {
+  return {
+    type: 'SEND_TO_BACKLOG',
+    payload: {
+      workspaceId
+    }
+  }
 };
