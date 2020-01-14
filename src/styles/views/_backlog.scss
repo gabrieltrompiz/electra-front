@@ -1,0 +1,107 @@
+#backlog {
+  @include full-sized();
+  @include flex(initial, center);
+  flex-direction: column;
+
+  & > #header {
+    @include flex(flex-start, center);
+    width: 100%;
+    height: 45px;
+    border-bottom: 1.5px solid $darker-bg;
+    position: relative;
+
+    & > img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      margin: 0px 10px 0px 20px;
+    }
+
+    & > span {
+      @include lato('Black');
+      color: white;
+      font-size: 18px;
+    }
+
+    & > button {
+      @include clear-buttons($main-color);
+      color: white;
+      @include lato('Semibold');
+      position: absolute;
+      right: 10px;
+      font-size: 16px;
+      padding: 4px 10px;
+      border-radius: 10px;
+    }
+  }
+
+  & > #table-container {
+    flex: 1;
+    margin: 10px;
+    padding: 20px 0 20px 0;
+    width: 95%;
+    border-radius: 15px;
+    background-color: $darker-bg;
+    overflow-y: scroll;
+    @include flex(center, flex-start);
+
+    & > table {
+      width: 95%;
+      // height: 95%;
+      
+      padding: 0 !important;
+  
+      & > tr {
+        & > th {
+          @include lato('Bold');
+          color: white;
+          font-size: 16px;
+        }
+  
+        & > th:nth-of-type(1) {
+          width: 25%;
+        }
+  
+        & > th:nth-of-type(2) {
+          width: 15%;
+        }
+        
+        & > th:nth-of-type(3) {
+          width: 15%;
+        }
+  
+        & > th:nth-of-type(4) {
+          width: 15%;
+        }
+  
+        & > th:nth-of-type(5) {
+          width: 10%;
+        }
+  
+        & > th:nth-of-type(6) {
+          width: 10%;
+        }
+  
+        & > th:nth-of-type(7) {
+          width: 10%;
+        }
+      }
+  
+      & > tbody > tr {
+        & > td {
+          // @include flex(center, center);
+          text-align: center;
+          @include lato('');
+          color: white;
+          font-size: 14px;
+          padding: 15px 0 15px 0;
+        }
+  
+        & > td:nth-of-type(1) {
+          @include lato('Bold');
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

@@ -65,6 +65,7 @@ export interface Sprint {
   title: string
   startDate: Date
   finishDate: Date
+  endDate: Date
   status: SprintStatus
   tasks: Array<Task>
 }

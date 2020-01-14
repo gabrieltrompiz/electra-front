@@ -41,7 +41,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({ defaultType, setShowCreateTask,
         description,
         status,
         estimatedHours,
-        user: members[members.length - 1].user.id
+        user: members.length === 1 ? members[members.length - 1].user.id : null
       }
       const result = await client.mutate<CreatePayload, CreateVars>({ mutation: CREATE_TASK, variables: { task }, 
         errorPolicy: 'all', fetchPolicy: 'no-cache' })

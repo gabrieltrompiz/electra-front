@@ -39,7 +39,6 @@ export default (state = initialState, action) => {
       const workspace = state.workspaces.find(w => w.id === id);
       const _workspace = Object.assign({}, workspace);
       delete _workspace.sprint;
-      delete _workspace.backlog;
       return {
         ...state,
         selectedWorkspace: id ? _workspace : null,
@@ -81,8 +80,8 @@ export default (state = initialState, action) => {
       const wIndex = _workspaces.findIndex((w) => w.id === workspaceId);
       const _sprint = _workspaces[wIndex].sprint;
       _sprint.status = 'COMPLETED';
-      delete _sprint.tasks;
       const _backlog = [..._workspaces[wIndex].backlog, _sprint]
+      // delete _sprint.tasks;
       const newWorkspace = {
         ..._workspaces[wIndex],
         sprint: null,

@@ -100,6 +100,10 @@ export const LOGIN = gql`
           startDate
           finishDate
           status
+          tasks {
+            estimatedHours
+            loggedHours
+          }
         }
         sprint {
           id
@@ -278,6 +282,10 @@ export const GET_PROFILE = gql`
           startDate
           finishDate
           status
+          tasks {
+            estimatedHours
+            loggedHours
+          }
         }
         sprint {
           id
@@ -391,6 +399,13 @@ export const CREATE_SPRINT =  gql`
       startDate
       finishDate
       status
+      # backlog {
+      #   id
+      #   tasks {
+      #     estimatedHours
+      #     loggedHours
+      #   }
+      # }
       tasks {
         id
         name
@@ -520,6 +535,10 @@ export const EDIT_PROFILE = gql`
           startDate
           finishDate
           status
+          tasks {
+            estimatedHours
+            loggedHours
+          }
         }
         sprint {
           id
