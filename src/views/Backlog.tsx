@@ -19,22 +19,22 @@ const Backlog: React.FC<BacklogProps> = ({ backlog }) => {
       </div>
       <div id="table-container">
         <table>
-          <tr>
-            <th>Title</th>
-            <th>Start Date</th>
-            <th>Finish Date</th>
-            <th>Completion Date</th>
-            <th>Estimated Hrs.</th>
-            <th>Total Logged Hrs.</th>
-            <th># of Tasks</th>
-          </tr>
           <tbody>
+            <tr>
+              <th>Title</th>
+              {/* <th>Start Date</th> */}
+              <th>Finish Date</th>
+              <th>Completion Date</th>
+              <th>Estimated Hrs.</th>
+              <th>Total Logged Hrs.</th>
+              <th># of Tasks</th>
+            </tr>
             {backlog.map((s) =>
             <tr>
               <td>{s.title}</td>
-              <td>{moment(s.startDate).format('MMMM Do, YYYY')}</td>
-              <td>{moment(s.finishDate).format('MMMM Do, YYYY')}</td>
-              <td>{moment(s.endDate).format('MMMM Do, YYYY')}</td>
+              {/* <td>{moment(s.startDate).format('MMMM Do, YYYY')}</td> */}
+              <td>{moment(s.finishDate).format('YYYY/MM/DD')}</td>
+              <td>{moment(s.endDate).format('YYYY/MM/DD')}</td>
               <td>{sum(s.tasks.map((t) => t.estimatedHours)) + 'Hrs'}</td>
               <td>{sum(s.tasks.map((t) => t.loggedHours)) + 'Hrs'}</td>
               <td>{s.tasks.length}</td>

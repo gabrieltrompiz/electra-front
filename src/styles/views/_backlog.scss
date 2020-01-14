@@ -38,27 +38,59 @@
   & > #table-container {
     flex: 1;
     margin: 10px;
-    padding: 20px 0 20px 0;
+    // padding: 20px 0 20px 0;
     width: 95%;
     border-radius: 15px;
-    background-color: $darker-bg;
-    overflow-y: scroll;
+    background-color: $dark-bg;
+    overflow-y: auto;
     @include flex(center, flex-start);
 
     & > table {
-      width: 95%;
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid $darker-bg;
+      border-collapse: collapse;
       // height: 95%;
       
       padding: 0 !important;
   
-      & > tr {
-        & > th {
+      & > tbody > tr {
+        & > th:first-child, & > td:first-child {
+          border-left: none;
+        }
+
+        & > th:last-child, & > td:last-child {
+          border-right: none;
+        }
+
+        & > td {
+          border-left: 1px solid $darker-bg;
+          border-right: 1px solid $darker-bg;
+          text-align: center;
+          @include lato('');
+          color: white;
+          font-size: 14px;
+          padding: 15px 0 15px 0;
+        }
+  
+        & > td:nth-of-type(1) {
           @include lato('Bold');
+          font-size: 16px;
+        }
+
+        & > th {
+          border: 1px solid $darker-bg;
+          @include lato('Bold');
+          background-color: $darker-bg;
           color: white;
           font-size: 16px;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          border: none;
         }
   
         & > th:nth-of-type(1) {
+          border-top-left-radius: 15px;
           width: 25%;
         }
   
@@ -75,31 +107,12 @@
         }
   
         & > th:nth-of-type(5) {
-          width: 10%;
+          width: 20%;
         }
   
         & > th:nth-of-type(6) {
+          border-top-right-radius: 15px;
           width: 10%;
-        }
-  
-        & > th:nth-of-type(7) {
-          width: 10%;
-        }
-      }
-  
-      & > tbody > tr {
-        & > td {
-          // @include flex(center, center);
-          text-align: center;
-          @include lato('');
-          color: white;
-          font-size: 14px;
-          padding: 15px 0 15px 0;
-        }
-  
-        & > td:nth-of-type(1) {
-          @include lato('Bold');
-          font-size: 16px;
         }
       }
     }
