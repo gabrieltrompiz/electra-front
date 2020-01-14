@@ -745,3 +745,9 @@ export const CHANGE_TASK_ISSUE = gql`
     changeTaskIssue(taskId: $taskId, issueId: $issueId)
   }
 `;
+
+export const INVITE_USER = gql`
+  mutation InviteUser($users: [MemberInput]!, $workspace: ID!) {
+    inviteUserToWorkspace(users: $users, workspace: $workspace)
+  }
+`;

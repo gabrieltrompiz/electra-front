@@ -1,7 +1,6 @@
 @import 'toolbar';
 @import 'carousel';
 @import 'navigation';
-@import 'navigation-item';
 @import 'collaborator-item';
 @import 'search-users';
 @import 'calendar';
@@ -11,7 +10,6 @@
 @import 'complete-sprint';
 @import 'search-repos';
 @import 'search-issues';
-@import 'invite-users';
 
 #loading {
   @include absolute-center(both);

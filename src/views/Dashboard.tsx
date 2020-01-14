@@ -11,6 +11,7 @@ import CreateSprint from './CreateSprint';
 import CreateTask from './CreateTask';
 import Task from './Task';
 import CompleteSprint from '../components/sprint/CompleteSprint';
+import InviteUsers from '../components/workspace/InviteUsers';
 
 /**
  * Dashboard view
@@ -50,7 +51,7 @@ const Dashboard: React.RefForwardingComponent<HTMLDivElement, DashboardProps> = 
       {showing.createTask && <CreateTask />}
       {showing.taskView && <Task />}
       {showing.completeSprint && <CompleteSprint />}
-      {showing.inviteUsers && <div></div>}
+      {showing.inviteUsers && <InviteUsers />}
       <div id='dashboard' className='opacityIn' ref={ref}>
         <ToolBar />
         <div>

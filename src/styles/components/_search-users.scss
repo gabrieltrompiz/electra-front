@@ -36,6 +36,7 @@
     border-radius: 10px;
     overflow: hidden;
     @include opacity-keyframes(300ms);
+    padding: 10px 0px;
   }
 }
 

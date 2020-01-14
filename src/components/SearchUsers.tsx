@@ -12,7 +12,7 @@ import { remove } from 'lodash';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
  */
-const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers, toFilter, userId, showSelf = false }) => {
+const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers, toFilter, userId, showSelf = false, exclude }) => {
   const [toSearch, setToSearch] = useState<string>('');
   const [result, setResult] = useState<Array<Profile>>([]);
   const [searching, setSearching] = useState<boolean>(false);
@@ -56,7 +56,11 @@ const SearchUsers: React.FC<SearchUsersProps> = ({ members, setMembers, toFilter
       const result = await client.query<SearchPayload, SearchVars>({ variables: { search: toSearch }, query: SEARCH, errorPolicy: 'all' })
       .finally(() => setSearching(false));
       if(result.data && result.data.users) {
-        setResult(result.data.users);
+        if(exclude) {
+          setResult(result.data.users.filter((u) => !exclude.includes(u.id)))
+        } else {
+          setResult(result.data.users);
+        }
       }
       if(result.errors) result.errors.forEach((e) => logError(e.message));
     } else {
@@ -131,4 +135,6 @@ interface SearchUsersProps {
   userId: number
   /** Wether to show self user or not */
   showSelf?: boolean
+  /** Users to be excluded from search */
+  exclude?: number[]
 }

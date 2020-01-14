@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
         ...state,
         show: {
           ...state.show,
-          profile: _profile,
+          profile: profile ? _profile : null,
           profileView: !!profile
         }
       };

@@ -218,7 +218,7 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
             <p>Current Status: &nbsp;
               {task.status as unknown as string === 'TODO' ? 'To Do' : task.status as unknown as string === 'IN_PROGRESS' ? "In Progress" : "Done"}
               <br />
-              <p>{`Estimated Time: ${task.estimatedHours}h — Logged Time: ${task.loggedHours}h`}</p>
+              <span>{`Estimated Time: ${task.estimatedHours}h — Logged Time: ${task.loggedHours}h`}</span>
             </p>
             <p className='subtitles'>
               <img src={require('../assets/images/description.png')} alt='desc' />
