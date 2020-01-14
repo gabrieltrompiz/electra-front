@@ -1,6 +1,6 @@
 import React, { useState, Fragment, forwardRef, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
-import { Profile as ProfileI, State, GitHubUser } from '../types';
+import { Profile as ProfileI, State, GitHubUser } from 'electra';
 import { setShownProfile, setUser } from '../redux/actions';
 import { remote } from 'electron';
 import { useApolloClient } from '@apollo/react-hooks';

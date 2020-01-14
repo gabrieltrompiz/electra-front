@@ -6,7 +6,7 @@ import { LOGIN } from '../graphql';
 import ShowcaseCarousel from '../components/ShowcaseCarousel';
 import Loading from '../components/Loading';
 import { logError, logInfo } from '../utils';
-import { Profile } from '../types';
+import { Profile } from 'electra';
 
 /**
  * Login view to give user access to the application

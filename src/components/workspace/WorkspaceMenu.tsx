@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { State, Workspace } from '../../types';
+import { setShowInvite } from '../../redux/actions';
+import { State, Workspace } from 'electra';
 import CollaboratorItem from './CollaboratorItem';
 
 /**
@@ -9,7 +10,7 @@ import CollaboratorItem from './CollaboratorItem';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setActive, userId }) => {
+const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setActive, setShowInvite }) => {
   return workspace ? (
     <div>
       <div>
@@ -32,6 +33,10 @@ const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setAct
       </div>
       <p>COLLABORATORS</p>
       {workspace.members.map(m => <CollaboratorItem key={m.user.id} user={m.user} />)}
+      <div id='invite-user' onClick={() => setShowInvite(true)}>
+        <img src={require('../../assets/images/add-circle-border.png')} alt='add' />
+        <p>Add Collaborators</p>
+      </div>
     </div>
   ): <div></div>;
 };
@@ -39,12 +44,11 @@ const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setAct
 const mapStateToProps = (state: State) => {
   const { userReducer } = state;
   return {
-    workspace: userReducer.selectedWorkspace,
-    userId: userReducer.user ? userReducer.user.id : 0
+    workspace: userReducer.selectedWorkspace
   };
 };
 
-export default connect(mapStateToProps)(WorkspaceMenu);
+export default connect(mapStateToProps, { setShowInvite })(WorkspaceMenu);
 
 interface WorkspaceMenuProps {
   /** The current selected workspace */
@@ -53,6 +57,6 @@ interface WorkspaceMenuProps {
   active: string
   /** Function to change the active view in workspace view */
   setActive: Function
-  /** Logged user id */
-  userId: number
+  /** Function to show invite users view */
+  setShowInvite: Function
 }

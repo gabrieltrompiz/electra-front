@@ -5,7 +5,7 @@ import Authentication from './Authentication';
 import Dashboard from './Dashboard';
 import { useApolloClient } from '@apollo/react-hooks';
 import Loading from '../components/Loading';
-import { State } from '../types';
+import { State } from 'electra';
 
 /**
  * Root-level navigation controller

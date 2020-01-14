@@ -11,7 +11,7 @@ import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-boost';
 import Loading from '../components/Loading';
 import * as EmailValidator from 'email-validator';
-import { GitHubUser, Profile } from '../types';
+import { GitHubUser, Profile } from 'electra';
 
 /**
  * Gives user the ability to create a new user in the app

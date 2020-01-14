@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setShowCompleteSprint, sendSprintToBacklog } from '../../redux/actions';
 import Loading from '../Loading';
-import { State } from '../../types';
+import { State } from 'electra';
 import { useApolloClient } from '@apollo/react-hooks';
 import { logError, logInfo } from '../../utils';
 import { COMPLETE_SPRINT } from '../../graphql';

@@ -6,7 +6,7 @@ import Calendar from 'react-calendar';
 import moment from 'moment';
 import { useApolloClient } from '@apollo/react-hooks';
 import { logError, logInfo } from '../utils';
-import { Sprint, State } from '../types';
+import { Sprint, State } from 'electra';
 import { CREATE_SPRINT } from '../graphql';
 
 const CreateSprint: React.FC<CreateSprintProps> = ({ setShowCreateSprint, workspaceId, addSprint, selectSprint }) => {

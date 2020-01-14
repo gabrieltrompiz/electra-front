@@ -31,6 +31,24 @@
       margin: 5px 0px 5px 15px;
     }
 
+    & > #invite-user {
+      width: 100%;
+      height: 45px;
+      @include flex(flex-start, center);
+      &:hover { cursor: pointer; }
+
+      & > img {
+        width: 35px;
+        height: 35px;
+        object-fit: contain;
+        margin: 0px 10px;
+      }
+
+      & > p {
+        @include lato('Black');
+      }
+    }
+
     & > div:nth-of-type(1) {
       @include lato('Black');
       @include flex(flex-start, center);

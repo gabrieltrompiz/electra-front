@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { State, Sprint } from '../types';
+import { State, Sprint } from 'electra';
 import moment from 'moment';
 import { sum } from 'lodash';
 

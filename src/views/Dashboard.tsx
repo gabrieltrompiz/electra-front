@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ToolBar from '../components/ToolBar';
 import Navigation from '../components/Navigation';
 import Profile from './Profile';
-import { Workspace as WorkspaceI, State } from '../types';
+import { Workspace as WorkspaceI, State } from 'electra';
 import Workspace from './Workspace';
 import Notifications from './Notifications';
 import CreateWorkspace from './CreateWorkspace';
@@ -50,6 +50,7 @@ const Dashboard: React.RefForwardingComponent<HTMLDivElement, DashboardProps> = 
       {showing.createTask && <CreateTask />}
       {showing.taskView && <Task />}
       {showing.completeSprint && <CompleteSprint />}
+      {showing.inviteUsers && <div></div>}
       <div id='dashboard' className='opacityIn' ref={ref}>
         <ToolBar />
         <div>

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { setShownTask, setShowCreateSubtask, addComment, updateTask } from '../redux/actions';
-import { Task as TaskI, State, TaskComment, TaskStatus, Repository, Member, WorkspaceRole, Issue } from '../types';
+import { Task as TaskI, State, TaskComment, TaskStatus, Repository, Member, WorkspaceRole, Issue } from 'electra';
 import Loading from '../components/Loading';
 import Subtasks from '../components/sprint/Subtasks';
 import Comments from '../components/sprint/Comments';

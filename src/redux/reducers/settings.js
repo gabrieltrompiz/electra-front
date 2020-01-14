@@ -11,7 +11,8 @@ const initialState = {
     task: null,
     taskView: false,
     createSubtask: false,
-    completeSprint: false
+    completeSprint: false,
+    inviteUsers: false
   }
 };
 
@@ -96,6 +97,17 @@ export default (state = initialState, action) => {
           ...state.show,
           task: _task,
           taskView: !!task
+        }
+      };
+    };
+
+    case 'SHOW_INVITE_USERS': {
+      const { visible } = action.payload;
+      return {
+        ...state,
+        show: {
+          ...state.show,
+          inviteUsers: visible
         }
       };
     };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateSubTask } from '../../redux/actions';
-import { SubTask, State } from '../../types';
+import { SubTask, State } from 'electra';
 import { useApolloClient } from '@apollo/react-hooks';
 import { CHANGE_SUBTASK_STATUS } from '../../graphql';
 import { logInfo, logError } from '../../utils';

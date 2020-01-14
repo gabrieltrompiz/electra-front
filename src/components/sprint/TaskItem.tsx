@@ -1,5 +1,5 @@
 import React from 'react';
-import { Task } from '../../types';
+import { Task } from 'electra';
 import { connect } from 'react-redux';
 import { setShownTask } from '../../redux/actions';
 

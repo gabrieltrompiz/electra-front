@@ -4,7 +4,7 @@ import ToolBar from '../components/ToolBar';
 import Login from './Login';
 import Register from './Register';
 import bezier from '../utils/bezier';
-import { State } from '../types';
+import { State } from 'electra';
 
 /**
  * Login and register views

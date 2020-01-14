@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { connect } from 'react-redux';
-import { TaskComment, State } from '../../types';
+import { TaskComment, State } from 'electra';
 
 /**
  * Comments section in task view

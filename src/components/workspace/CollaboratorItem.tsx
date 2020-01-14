@@ -1,5 +1,5 @@
 import React from 'react';
-import { Profile } from '../../types';
+import { Profile } from 'electra';
 
 /**
  * Collaborator item in workspace menu

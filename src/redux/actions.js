@@ -206,6 +206,20 @@ export const setShowCreateTask = (visible, type = 'TODO') => {
   };
 };
 
+/** Changes wether the 'Invite Users' view is visible or not
+ * @function setShowInvite
+ * @param {boolean} visible - wether it is visible or not
+ * @returns Action with type SHOW_INVITE_USERS  
+ */
+export const setShowInvite = (visible) => {
+  return {
+    type: 'SHOW_INVITE_USERS',
+    payload: {
+      visible
+    }
+  };
+};
+
 /** Adds a task to the array of tasks of a sprint
  * @function addTask
  * @param {Task} task - task to be added

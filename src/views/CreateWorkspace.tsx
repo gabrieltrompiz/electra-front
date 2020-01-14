@@ -2,7 +2,7 @@ import React, { useRef, Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { setShowCreateWorkspace, addWorkspace } from '../redux/actions';
 import SearchUsers from '../components/SearchUsers';
-import { State, Profile, Member, WorkspaceRole, Workspace, Repository } from '../types';
+import { State, Profile, Member, WorkspaceRole, Workspace, Repository } from 'electra';
 import { remove } from 'lodash';
 import { useApolloClient } from '@apollo/react-hooks';
 import { logError, logInfo } from '../utils';

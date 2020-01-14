@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useApolloClient } from '@apollo/react-hooks';
 import { SEARCH } from '../graphql';
-import { Profile, Member, State } from '../types';
+import { Profile, Member, State } from 'electra';
 import { logError } from '../utils';
 import { remove } from 'lodash';
 

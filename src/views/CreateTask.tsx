@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setShowCreateTask, addTask } from '../redux/actions';
-import { State, TaskStatus, Member, Task } from '../types';
+import { State, TaskStatus, Member, Task } from 'electra';
 import Loading from '../components/Loading';
 import SearchUsers from '../components/SearchUsers';
 import { remove } from 'lodash';

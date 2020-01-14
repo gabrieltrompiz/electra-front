@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setVisibleProfile, selectWorkspace, setShowCreateWorkspace, logout } from '../redux/actions';
-import { Workspace, State } from '../types';
+import { Workspace, State } from 'electra';
 import WorkspaceItem from './workspace/WorkspaceItem';
 import { useApolloClient } from '@apollo/react-hooks';
 import { LOGOUT } from '../graphql';

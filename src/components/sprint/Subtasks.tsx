@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setShowCreateSubtask, addSubtask } from '../../redux/actions';
-import { SubTask, State } from '../../types';
+import { SubTask, State } from 'electra';
 import SubtaskItem from './SubtaskItem';
 import { useApolloClient } from '@apollo/react-hooks';
 import { CREATE_SUBTASK } from '../../graphql';

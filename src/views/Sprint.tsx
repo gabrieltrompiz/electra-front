@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Sprint as SprintI, State, TaskStatus } from '../types';
+import { Sprint as SprintI, State, TaskStatus } from 'electra';
 import { setShowCreateSprint, setShowCreateTask, setShowCompleteSprint } from '../redux/actions';
 import TaskItem from '../components/sprint/TaskItem';
 import moment from 'moment';

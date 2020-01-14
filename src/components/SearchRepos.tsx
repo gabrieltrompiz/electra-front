@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Repository } from '../types';
+import { Repository } from 'electra';
 import { useApolloClient } from '@apollo/react-hooks';
 import { GET_USER_REPOS } from '../graphql';
 import { logError } from '../utils';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { State, Notification } from '../types';
+import { State, Notification } from 'electra';
 
 /**
  * Notifications View

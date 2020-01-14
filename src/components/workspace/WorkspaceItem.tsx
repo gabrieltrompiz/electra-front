@@ -1,5 +1,5 @@
 import React from 'react';
-import { Workspace } from '../../types';
+import { Workspace } from 'electra';
 
 /**
  * Workspace item in navitgation view

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Issue } from '../types';
+import { Issue } from 'electra';
 import { shell } from 'electron';
 
 const SearchIssues: React.FC<SearchIssuesProps> = ({ issues, setSelectedIssue }) => {
