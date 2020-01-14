@@ -50,6 +50,31 @@ export const LOGIN = gql`
       email
       gitHubToken
       pictureUrl
+      notifications {
+        id
+        type
+        read
+        date
+        sender {
+          id
+          username
+          fullName
+        }
+        target {
+          ... on Workspace {
+            id
+            name
+          }
+          ... on Task {
+            id
+            name
+          }
+          ... on Sprint {
+            id
+            title	
+          }
+        }
+      }
       gitHubUser {
         login
         email
@@ -99,7 +124,7 @@ export const LOGIN = gql`
           title
           startDate
           finishDate
-          status
+          sprintStatus
           tasks {
             estimatedHours
             loggedHours
@@ -110,7 +135,7 @@ export const LOGIN = gql`
           title
           startDate
           finishDate
-          status
+          sprintStatus
           tasks {
             id
             name
@@ -232,6 +257,31 @@ export const GET_PROFILE = gql`
       email
       gitHubToken
       pictureUrl
+      notifications {
+        id
+        type
+        read
+        date
+        sender {
+          id
+          username
+          fullName
+        }
+        target {
+          ... on Workspace {
+            id
+            name
+          }
+          ... on Task {
+            id
+            name
+          }
+          ... on Sprint {
+            id
+            title	
+          }
+        }
+      }
       gitHubUser {
         login
         email
@@ -281,7 +331,7 @@ export const GET_PROFILE = gql`
           title
           startDate
           finishDate
-          status
+          sprintStatus
           tasks {
             estimatedHours
             loggedHours
@@ -292,7 +342,7 @@ export const GET_PROFILE = gql`
           title
           startDate
           finishDate
-          status
+          sprintStatus
           tasks {
             id
             name
@@ -398,7 +448,7 @@ export const CREATE_SPRINT =  gql`
       title
       startDate
       finishDate
-      status
+      sprintStatus
       # backlog {
       #   id
       #   tasks {
@@ -545,7 +595,7 @@ export const EDIT_PROFILE = gql`
           title
           startDate
           finishDate
-          status
+          sprintStatus
           tasks {
             estimatedHours
             loggedHours
@@ -556,7 +606,7 @@ export const EDIT_PROFILE = gql`
           title
           startDate
           finishDate
-          status
+          sprintStatus
           tasks {
             id
             name

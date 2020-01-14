@@ -79,12 +79,15 @@
   }
 
   & > select {
-    background-color: $darker-bg;
-    border: none;
-    color: white;
+    background-color: $darker-bg !important;
+    border: none !important;
+    color: white !important;
     @include lato('Semibold');
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 10px;
+    padding: 8px !important;
+    font-size: 16px !important;
+    border-radius: 10px !important;
+    width: initial !important;
+    height: initial !important;
+    margin-bottom: initial !important;
   }
 }

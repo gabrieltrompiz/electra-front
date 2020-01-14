@@ -53,11 +53,11 @@ export interface Member {
 
 export interface Notification {
   id: number
-  receiver: number
-  sender: number
+  sender: Profile
   type: NotificationType
-  description: string
+  date: Date
   read: boolean
+  target: Sprint | Workspace | Task
 }
 
 export interface Sprint {
@@ -66,7 +66,7 @@ export interface Sprint {
   startDate: Date
   finishDate: Date
   endDate: Date
-  status: SprintStatus
+  sprintStatus: SprintStatus
   tasks: Array<Task>
 }
 
