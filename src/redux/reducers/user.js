@@ -81,7 +81,6 @@ export default (state = initialState, action) => {
       const _sprint = _workspaces[wIndex].sprint;
       _sprint.status = 'COMPLETED';
       const _backlog = [..._workspaces[wIndex].backlog, _sprint]
-      // delete _sprint.tasks;
       const newWorkspace = {
         ..._workspaces[wIndex],
         sprint: null,

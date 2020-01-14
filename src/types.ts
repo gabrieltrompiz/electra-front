@@ -109,7 +109,7 @@ export interface GitHubUser {
 }
 
 export interface Issue {
-  id: number
+  id: string
   url: string
   author: {
     avatarUrl: string

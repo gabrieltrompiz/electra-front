@@ -450,6 +450,17 @@ export const CREATE_TASK = gql`
       description
       estimatedHours
       loggedHours
+      issue {
+        id
+        url
+        state
+        title
+        author {
+          avatarUrl
+          login
+          url
+        }
+      }
       comments {
         id
         user {
@@ -676,5 +687,11 @@ export const GET_USER_REPOS = gql`
         }
       }
     }  
+  }
+`;
+
+export const CHANGE_TASK_ISSUE = gql`
+  mutation ChangeIssue($taskId: ID!, $issueId: ID) {
+    changeTaskIssue(taskId: $taskId, issueId: $issueId)
   }
 `;

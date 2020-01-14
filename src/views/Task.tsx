@@ -1,14 +1,15 @@
 import React, { useState, useRef, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { setShownTask, setShowCreateSubtask, addComment, updateTask } from '../redux/actions';
-import { Task as TaskI, State, TaskComment, TaskStatus, Repository, Member, WorkspaceRole } from '../types';
+import { Task as TaskI, State, TaskComment, TaskStatus, Repository, Member, WorkspaceRole, Issue } from '../types';
 import Loading from '../components/Loading';
 import Subtasks from '../components/sprint/Subtasks';
 import Comments from '../components/sprint/Comments';
 import { useApolloClient } from '@apollo/react-hooks';
 import { logError, logInfo } from '../utils';
-import { CREATE_COMMENT, CHANGE_TASK_STATUS, CHANGE_TASK_USER, CHANGE_TASK_DESCRIPTION, UPDATE_TASK_HOURS } from '../graphql';
+import { CREATE_COMMENT, CHANGE_TASK_STATUS, CHANGE_TASK_USER, CHANGE_TASK_DESCRIPTION, UPDATE_TASK_HOURS, CHANGE_TASK_ISSUE } from '../graphql';
 import SearchUsers from '../components/SearchUsers';
+import SearchIssues from '../components/SearchIssues';
 
 /**
  * Active task view
@@ -27,6 +28,8 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
   const [userAssigned, setUserAssigned] = useState<Member>(task.user ? { user: task.user, role: 'MEMBER' as unknown as WorkspaceRole } : null);
   const [isLoggingHours, setIsLoggingHours] = useState<boolean>(false);
   const [hoursToAdd, setHoursToAdd] = useState<number>(0);
+  const [assigningIssue, setAssigningIssue] = useState<boolean>(false);
+  const [issue, setIssue] = useState<Issue>(task.issue);
 
   const commentsRef = useRef<HTMLDivElement>(null);
 
@@ -48,6 +51,19 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
     changeStatus();
     // eslint-disable-next-line
   }, [status]);
+
+  useEffect(() => {
+    if(issue) {
+      if(task.issue) {
+        if(issue.id !== task.issue.id) {
+          assignIssue(true);
+        }
+      } else {
+        assignIssue(true);
+      }
+    }
+    // eslint-disable-next-line
+  }, [issue]);
 
   useEffect(() => {
     if(userAssigned) {
@@ -168,7 +184,6 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
         errorPolicy: 'all', fetchPolicy: 'no-cache' })
         .finally(() => setLoading(false));
       if(result.data && result.data.createComment) {
-        setLoading(false);
         addComment(result.data.createComment, workspaceId, task.id);
         if(commentsRef.current) commentsRef.current.scrollIntoView({ behavior: 'smooth' });
         logInfo('Comment published.');
@@ -176,6 +191,19 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
       if(result.errors) result.errors.forEach((e) => logError(e.message));
     } else {
       logError('Please enter a comment first.');
+    }
+  };
+
+  const assignIssue = async (assign: boolean) => {
+    setLoading(true);
+    const result = await client.mutate<IssuePayload, IssueVars>({ mutation: CHANGE_TASK_ISSUE, 
+      variables: { taskId: task.id, issueId: assign ? issue.id : null }, errorPolicy: 'all', fetchPolicy: 'no-cache' })
+      .finally(() => setLoading(false));
+    if(!result.errors) {
+      logInfo('Issue assigned to task.');
+      updateTask({ ...task, issue: assign ? issue : null }, workspaceId);
+      if(!assign) setIssue(null);
+      setAssigningIssue(false);
     }
   };
 
@@ -242,7 +270,18 @@ const Task: React.FC<TaskProps> = ({ task, setShownTask, isAdmin, userId, setSho
               <button onClick={() => logHours()}>Add</button>
             </div>}
             {repo && <p>GITHUB ISSUE</p>}
-            {repo && <button disabled={!isAdmin || (!isAdmin && !isAssigned)}>Assign GitHub Issue</button>}
+            {repo && !assigningIssue && !issue &&
+              <button disabled={!isAdmin || (!isAdmin && !isAssigned)} onClick={() => setAssigningIssue(true)}>Assign GitHub Issue</button>}
+            {repo && issue && 
+            <div id='issue'>
+              <p>{issue.title}</p>
+              <p>State: <span style={{ color: issue.state as unknown as string === 'OPEN' ? 'green' : 'red' }}>
+                {issue.state as unknown as string}
+              </span></p>
+              <img src={require('../assets/images/close.png')} alt='close' onClick={() => assignIssue(false)}/>
+            </div>}
+            {repo && assigningIssue && !issue &&
+            <SearchIssues issues={repo.issues.nodes} setSelectedIssue={setIssue}/>}
             <p>ASSIGNED TO</p>
             {task.user && <div id='assignees'>
               <div className='task-user-item'>
@@ -367,4 +406,16 @@ interface AddHoursVars {
   taskId: number
   /** hours to be added */
   hours: number
+}
+
+interface IssuePayload {
+  /** result of the mutation */
+  changeTaskIssue?: number
+}
+
+interface IssueVars {
+  /** id of the task */
+  taskId: number
+  /** id of the issue */
+  issueId?: string
 }

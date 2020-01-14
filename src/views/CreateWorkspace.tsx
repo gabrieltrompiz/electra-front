@@ -54,7 +54,7 @@ const CreateWorkspace: React.FC<CreateWorkspaceProps> = ({ setShowCreateWorkspac
         .finally(() => setLoading(false));
       if(result.data && result.data.createWorkspace) {
         logInfo(`Created '${name}' successfully.`);
-        addWorkspace(result.data.createWorkspace);
+        addWorkspace({ ...result.data.createWorkspace, backlog: [] });
         close();
       }
       if(result.errors) result.errors.forEach((e) => logError(e.message));
