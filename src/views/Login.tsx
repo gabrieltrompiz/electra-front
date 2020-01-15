@@ -56,7 +56,9 @@ const Login: React.FC<LoginProps> = ({ toggleView, setUser }) => {
           <p>USERNAME OR EMAIL</p>
           <input maxLength={30} onChange={(e) => setUsername(e.target.value.trim())} onSubmit={() => submitLogin()}></input>
           <p>PASSWORD</p>
-          <input maxLength={30} type='password' onChange={(e) => setPassword(e.target.value.trim())}></input>
+          <input maxLength={30} type='password' onKeyPress={(e) => {
+            if(e.key == 'Enter') submitLogin();
+          }} onChange={(e) => setPassword(e.target.value.trim())}></input>
           <a href='/'>Forgot your password?</a>
           <button onClick={() => submitLogin()}>Log in</button>
           <span>Don't have an account? <a href='/' onClick={(e) => { e.preventDefault(); toggleView() }}> Create one.</a></span>

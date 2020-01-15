@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { State, Notification } from 'electra';
+import { setAllNotificationsAsRead, addWorkspace, deleteNotification } from '../redux/actions';
+import { State, Notification, NotificationType, Profile, Sprint, Workspace, Task, WorkspaceRole } from 'electra';
+import { useApolloClient } from '@apollo/react-hooks';
+import { READ_ALL_NOTIFICATIONS, DELETE_NOTIFICATION, JOIN_WORKSPACE } from '../graphql';
+import { logError, logInfo } from '../utils';
+import Loading from '../components/Loading';
 
 /**
  * Notifications View
@@ -8,18 +13,85 @@ import { State, Notification } from 'electra';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Notifications: React.FC<NotificationProps> = ({ notifications }) => {
+const Notifications: React.FC<NotificationProps> = ({ notifications, userId, setAllNotificationsAsRead }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const client = useApolloClient();
+
+  const getNotificationText = (type: NotificationType, sender: Profile, obj: Sprint | Workspace | Task ) => {
+    switch(type as unknown as String) {
+      case 'INVITED_TO_WORKSPACE': return `${sender.fullName} invited you to join to his workspace: ${(obj as Workspace).name}`;
+      case 'KICKED_FROM_WORKSPACE': return `You have been kicked from ${(obj as Workspace).name} by ${sender.fullName}`;
+      case 'CHANGED_WORKSPACE_ROLE': return `Your role within ${(obj as Workspace).name} has been changed by ${sender.fullName}`
+      case 'WORKSPACE_DELETED': return `${sender.fullName} has deleted a workspace from where you were participant: ${(obj as Workspace).name}`
+      case 'CREATED_SPRINT': return `${sender.fullName} created a sprint in ${(obj as Workspace).name}`;
+      case 'SPRINT_TO_BACKLOG': return `${sender.fullName} sent a sprint to backlog in ${(obj as Workspace).name}`
+      case 'ASSIGNED_TASK': return `${sender.fullName} assigned you a task in ${(obj as Sprint).title}`
+      case 'CHANGED_TASK_STATUS': return `${sender.fullName} changed the status of ${(obj as Task).name}`;
+      case 'CREATED_TASK_COMMENT': return `${sender.fullName} commented on ${(obj as Task).name}`
+      case 'CREATED_TASK_SUBTASK': return `${sender.fullName} created a subtask in ${(obj as Task).name}`;
+      default: return ''
+    }
+  }
+
+  const markAllAsRead = async () => {
+    setLoading(true);
+    const result = await client.mutate<MarkAllPayload, any>({ mutation: READ_ALL_NOTIFICATIONS, variables: {}, errorPolicy: 'all', fetchPolicy: 'no-cache' })
+      .finally(() => setLoading(false));
+    if(result.data && result.data.markAllNotificationsAsRead) {
+      setAllNotificationsAsRead();
+      logInfo(`All notifications have been marked as read.`);
+    }
+    if(result.errors) result.errors.forEach((e) => logError(e.message));
+  }
+
+  const accept = async (n: Notification) => {
+    setLoading(true);
+    const result = await client.mutate<AddPayload, AddVars>({ mutation: JOIN_WORKSPACE, 
+      variables: { input: { userId, workspaceId: (n.target as Workspace).id, role: 'MEMBER' as unknown as WorkspaceRole } },
+      errorPolicy: 'all', fetchPolicy: 'no-cache' }).finally(() => setLoading(false));
+    if(result.data && result.data.addUserToWorkspace) {
+      deleteNotification(n.id);
+      // addWorkspace((n.target as Workspace));
+      logInfo(`You have joined to ${(n.target as Workspace).name}!`);
+    }
+
+    if(result.errors) result.errors.forEach((e) => logError(e.message));
+  }
+
+  const decline = async (n: Notification) => {
+    setLoading(true);
+    const id: DeleteVars["id"] = n.id;
+    const result = await client.mutate<DeletePayload, DeleteVars>({ mutation: DELETE_NOTIFICATION,
+      variables: { id }, fetchPolicy: 'no-cache', errorPolicy: 'ignore' }).finally(() => setLoading(false));
+
+    if(result.data && result.data.deleteNotification) {
+      deleteNotification((n.target as Workspace).id);
+      logInfo(`Notification Deleted`);
+    }
+
+    if(result.errors) result.errors.forEach((e) => logError(e.message));
+  }
+
+  console.log(notifications);
   return (
     <div id='notifications'>
+      {loading && <Loading />}
       <div id='header'>
         <img src={require('../assets/images/notifications-icon.png')} alt='notifications' />
         <span>Notifications</span>
-        <button onClick={() => {}}>Mark All as Read</button>
+        <button onClick={() => markAllAsRead()}>Mark All as Read</button>
       </div>
       <div id='content'>
         {notifications.map((n) => 
         <div key={n.id} className='card'>
           <img src={n.sender.pictureUrl} alt='avatar' />
+          <span>{getNotificationText(n.type, n.sender, n.target)}</span>
+          {n.type as unknown as String === 'INVITED_TO_WORKSPACE' &&
+          <div id="buttons">
+            <button onClick={() => decline(n)}>Decline Invitation</button>
+            <button onClick={() => accept(n)}>Join to Workspace</button>
+          </div>}
+          {!n.read && <div id="pop"></div>}
         </div>)}
       </div>
     </div>
@@ -29,13 +101,47 @@ const Notifications: React.FC<NotificationProps> = ({ notifications }) => {
 const mapStateToProps = (state: State) => {
   const { userReducer } = state;
   return {
-    notifications: userReducer.user ? userReducer.user.notifications : []
+    notifications: userReducer.user ? userReducer.user.notifications : [],
+    userId: userReducer.user ? userReducer.user.id : 0
   };
 };
 
-export default connect(mapStateToProps)(Notifications);
+export default connect(mapStateToProps, { setAllNotificationsAsRead, deleteNotification })(Notifications);
 
 interface NotificationProps {
   /** user notifications */
   notifications: Notification[]
+
+  userId: number
+
+  setAllNotificationsAsRead: Function
+
+  deleteNotification: Function
+}
+
+interface MarkAllPayload {
+  /** Contains the mutation result */
+  markAllNotificationsAsRead: boolean
+}
+
+interface DeletePayload {
+  /** Contains the mutation result */
+  deleteNotification: number
+}
+
+interface AddPayload {
+  /** Contains the mutation result */
+  addUserToWorkspace: number
+}
+
+interface DeleteVars {
+  id: number
+}
+
+interface AddVars {
+  input: {
+    userId: number
+    workspaceId: number
+    role: WorkspaceRole
+  }
 }

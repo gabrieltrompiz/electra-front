@@ -257,6 +257,16 @@ export default (state = initialState, action) => {
 
     case 'LOGOUT': return initialState;
       
+    case 'SET_ALL_NOTIFICATIONS_AS_READ': {
+      const notifications = clone([...state.user.notifications]);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          notifications: notifications.map(n => ({ ...n, read: true }))
+        }
+      }
+    }
 
     default: return { ...state };
   }

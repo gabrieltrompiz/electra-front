@@ -856,6 +856,24 @@ export const INVITE_USER = gql`
   }
 `;
 
+export const READ_ALL_NOTIFICATIONS = gql`
+  mutation markAllNotificationsAsRead {
+    markAllNotificationsAsRead
+  }
+`
+
+export const DELETE_NOTIFICATION = gql`
+  mutation deleteNotification($id: ID!) {
+    deleteNotification(id: $id)
+  }
+`
+
+export const JOIN_WORKSPACE = gql`
+mutation addUserToWorksace($input: UserWorkspaceInput!) {
+  addUserToWorkspace(input: $input)
+}
+`
+
 export const SEND_MESSAGE = gql`
   mutation SendMessage($message: MessageInput!) {
     sendMessage(message: $message) {

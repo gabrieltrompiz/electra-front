@@ -129,7 +129,7 @@ export const setShowCreateWorkspace = (visible) => {
   };
 };
 
-/** Adds a workspace to the array of worksapces
+/** Adds a workspace to the array of workspaces
  * @function addWorkspace
  * @param {Worksapce} workspace - workspace to be added
  * @returns Action with type ADD_WORKSPACE 
@@ -386,3 +386,19 @@ export const setChat = (chat) => {
     }
   };
 };
+
+export const setAllNotificationsAsRead = () => {
+  return {
+    type: 'SET_ALL_NOTIFICATIONS_AS_READ'
+  }
+}
+
+export const deleteNotification = (notificationId) => {
+  console.log(notificationId);
+  return {
+    type: 'DELETE_NOTIFICATION',
+    payload: {
+      notificationId
+    }
+  }
+}
