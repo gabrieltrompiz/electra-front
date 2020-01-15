@@ -38,6 +38,7 @@ export const setLoggedIn = (loggedIn) => {
  */
 export const loginWithCredentials = (client, { username, password }, setLoading) => {
   return (dispatch) => {
+    setLoading(true);
     client.mutate({ mutation: LOGIN, variables: { user: { username, password } }, errorPolicy: 'all', fetchPolicy: 'no-cache' })
     .then(result => {
       const alreadyLogged = result.errors ? result.errors.findIndex((err) => err.message.includes('Already logged in')) !== -1 : false;
@@ -47,23 +48,29 @@ export const loginWithCredentials = (client, { username, password }, setLoading)
         setLoading(false);
       } else if(alreadyLogged) {
         setLoading(true);
-        client.query({ query: GET_PROFILE, errorPolicy: 'all', fetchPolicy: 'no-cache' })
+        client.query({ query: GET_PROFILE, errorPolicy: 'all', fetchPolicy: 'no-cache' }).finally(() => setLoading(false))
         .then(res => {
           if(res.data) {
             logInfo(`Welcome back, ${res.data.profile.username}`);
             dispatch(setUser(res.data.profile));
             setLoading(false);
+          } else {
+            setLoading(false);
+            logError('You need to login again.')
+            localStorage.removeItem('ELECTRA-CREDENTIALS');
           }
         })
       }
       else {
+        setLoading(false);
         logError('You need to login again.')
         localStorage.removeItem('ELECTRA-CREDENTIALS');
       }
       if(result.errors) result.errors.forEach((e) => {
+        setLoading(false);
         if(!e.message.includes('Credentials') && !e.message.includes('Already logged in')) logError(e.message);
       })
-    })
+    }).catch(() => setLoading(false)).finally(() => setLoading(false));
   }
 };
 

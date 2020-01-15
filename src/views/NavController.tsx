@@ -16,7 +16,7 @@ import { State } from 'electra';
 const NavController: React.FC<NavControllerProps> = ({ loggedIn, loginWithCredentials, setUser }) => {
   const [showAuth, setShowAuth] = useState<boolean>(true);
   const [showDashboard, setShowDashboard] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const authRef = useRef<HTMLDivElement>(null);
   const dashboardRef = useRef<HTMLDivElement>(null);
@@ -54,7 +54,6 @@ const NavController: React.FC<NavControllerProps> = ({ loggedIn, loginWithCreden
   const _retrieveState = async () => {
     const _credentials = await localStorage.getItem('ELECTRA-CREDENTIALS');
     if(_credentials) {
-      setLoading(true);
       loginWithCredentials(client, JSON.parse(_credentials), setLoading);
     }
   };

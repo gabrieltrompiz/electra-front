@@ -9,9 +9,20 @@ import { State, Notification } from 'electra';
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
 const Notifications: React.FC<NotificationProps> = ({ notifications }) => {
+  console.log(notifications)
   return (
     <div id='notifications'>
-      Notifications
+      <div id='header'>
+        <img src={require('../assets/images/notifications-icon.png')} alt='notifications' />
+        <span>Notifications</span>
+        <button onClick={() => {}}>Mark All as Read</button>
+      </div>
+      <div id='content'>
+        {notifications.map((n) => 
+        <div key={n.id} className='card'>
+          <img src={n.sender.pictureUrl} alt='avatar' />
+        </div>)}
+      </div>
     </div>
   );
 };

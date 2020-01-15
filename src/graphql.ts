@@ -59,6 +59,7 @@ export const LOGIN = gql`
           id
           username
           fullName
+          pictureUrl
         }
         target {
           ... on Workspace {
@@ -91,6 +92,30 @@ export const LOGIN = gql`
         id
         name
         description
+        chats {
+          id
+          type
+          name
+          description
+          users {
+            id
+            username
+            fullName
+            pictureUrl
+          }
+          messages {
+            id
+            user {
+              id
+              username
+              fullName
+              pictureUrl
+            }
+            type
+            content
+            date
+          }
+        }
         repo {
           id
           url
@@ -193,6 +218,9 @@ export const REGISTER = gql`
       fullName
       gitHubToken
       pictureUrl
+      notifications {
+        id
+      }
       gitHubUser {
         login
         email
@@ -209,6 +237,9 @@ export const REGISTER = gql`
         id
         name
         description
+        chats {
+          id
+        }
         repo {
           id
           url
@@ -266,6 +297,7 @@ export const GET_PROFILE = gql`
           id
           username
           fullName
+          pictureUrl
         }
         target {
           ... on Workspace {
@@ -298,6 +330,30 @@ export const GET_PROFILE = gql`
         id
         name
         description
+        chats {
+          id
+          type
+          name
+          description
+          users {
+            id
+            username
+            fullName
+            pictureUrl
+          }
+          messages {
+            id
+            user {
+              id
+              username
+              fullName
+              pictureUrl
+            }
+            type
+            content
+            date
+          }
+        }
         repo {
           id
           url
@@ -409,6 +465,30 @@ export const CREATE_WORKSPACE = gql`
       id
       name
       description
+      chats {
+        id
+        type
+        name
+        description
+        users {
+          id
+          username
+          fullName
+          pictureUrl
+        }
+        messages {
+          id
+          user {
+            id
+            username
+            fullName
+            pictureUrl
+          }
+          type
+          content
+          date
+        }
+      }
       repo {
         id
         url
@@ -563,6 +643,30 @@ export const EDIT_PROFILE = gql`
         id
         name
         description
+        chats {
+          id
+          type
+          name
+          description
+          users {
+            id
+            username
+            fullName
+            pictureUrl
+          }
+          messages {
+            id
+            user {
+              id
+              username
+              fullName
+              pictureUrl
+            }
+            type
+            content
+            date
+          }
+        }
         repo {
           id
           url

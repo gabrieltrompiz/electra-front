@@ -34,18 +34,19 @@ declare namespace electra {
     gitHubUser?: GitHubUser
     password?: string
     pictureUrl: string
-    workspaces: Array<Workspace>
-    notifications: Array<Notification>
+    workspaces: Workspace[]
+    notifications: Notification[]
   }
 
   interface Workspace {
     id: number
     name: string
     description?: string
-    members: Array<Member>
+    members: Member[]
     sprint: Sprint
-    backlog: Array<Sprint>
+    backlog: Sprint[]
     repo: Repository
+    chats: Chat[]
   }
 
   interface Member {
@@ -69,7 +70,7 @@ declare namespace electra {
     finishDate: Date
     endDate: Date
     sprintStatus: SprintStatus
-    tasks: Array<Task>
+    tasks: Task[]
   }
 
   interface Task {
@@ -79,8 +80,8 @@ declare namespace electra {
     loggedHours: number
     status: TaskStatus
     description: string
-    comments: Array<TaskComment>
-    subtasks: Array<SubTask>
+    comments: TaskComment[]
+    subtasks: SubTask[]
     user: Profile
     issue: Issue
   }
@@ -131,6 +132,34 @@ declare namespace electra {
     url: string
   }
 
+  interface Chat {
+    id: number
+    type: ChatType
+    name: string
+    description: string
+    users: Profile[]
+    messages: Message[]
+  }
+
+  interface Message {
+    id: number
+    user: Profile
+    type: MessageType
+    content: string
+    date: Date
+  }
+
+  enum ChatType {
+    CHANNEL,
+    DIRECT
+  }
+
+  enum MessageType {
+    TEXT,
+    FILE,
+    INFO
+  }
+
   enum IssueState { 
     OPEN,
     CLOSED
@@ -142,8 +171,16 @@ declare namespace electra {
   }
 
   enum NotificationType {
-    INFORMATION,
-    INVITATION
+    INVITED_TO_WORKSPACE,
+    KICKED_FROM_WORKSPACE,
+    CHANGED_WORKSPACE_ROLE,
+    WORKSPACE_DELETED,
+    CREATED_SPRINT,
+    SPRINT_TO_BACKLOG,
+    ASSIGNED_TASK,
+    CHANGED_TASK_STATUS,
+    CREATED_TASK_COMMENT,
+    CREATED_TASK_SUBTASK
   }
 
   enum SprintStatus {

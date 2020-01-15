@@ -11,6 +11,7 @@ import CollaboratorItem from './CollaboratorItem';
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
 const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setActive, setShowInvite }) => {
+  console.log(workspace.chats)
   return workspace ? (
     <div>
       <div>
