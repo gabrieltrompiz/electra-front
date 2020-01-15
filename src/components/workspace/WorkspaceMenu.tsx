@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setShowInvite } from '../../redux/actions';
+import { setShowInvite, setChat } from '../../redux/actions';
 import { State, Workspace } from 'electra';
 import CollaboratorItem from './CollaboratorItem';
 
@@ -10,8 +10,7 @@ import CollaboratorItem from './CollaboratorItem';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setActive, setShowInvite }) => {
-  console.log(workspace.chats)
+const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setActive, setShowInvite, userId, setChat }) => {
   return workspace ? (
     <div>
       <div>
@@ -29,11 +28,18 @@ const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setAct
       </div>
       <p>CHANNELS</p>
       <div id='channels'>
-        <p>#general</p>
-        <p>#development</p>
+        {workspace.chats.filter((c) => c.type as unknown as string === 'CHANNEL').map((c) => 
+          <p onClick={() => { setChat(c); setActive('Chat'); }} key={c.id}>
+            #{c.name}
+          </p>
+        )}
       </div>
       <p>COLLABORATORS</p>
-      {workspace.members.map(m => <CollaboratorItem key={m.user.id} user={m.user} />)}
+      {workspace.members.map(m => <CollaboratorItem key={m.user.id} user={m.user} setActive={setActive} self={m.user.id === userId} 
+        setChat={() => {
+          setChat(workspace.chats.find(((c) => c.type as unknown as string === 'DIRECT' && c.users.map((u) => u.id).includes(m.user.id))));
+          setActive('Chat');
+        }} />)}
       <div id='invite-user' onClick={() => setShowInvite(true)}>
         <img src={require('../../assets/images/add-circle-border.png')} alt='add' />
         <p>Add Collaborators</p>
@@ -45,11 +51,12 @@ const WorkspaceMenu: React.FC<WorkspaceMenuProps> = ({ workspace, active, setAct
 const mapStateToProps = (state: State) => {
   const { userReducer } = state;
   return {
-    workspace: userReducer.selectedWorkspace
+    workspace: userReducer.selectedWorkspace,
+    userId: userReducer.user.id
   };
 };
 
-export default connect(mapStateToProps, { setShowInvite })(WorkspaceMenu);
+export default connect(mapStateToProps, { setShowInvite, setChat })(WorkspaceMenu);
 
 interface WorkspaceMenuProps {
   /** The current selected workspace */
@@ -60,4 +67,8 @@ interface WorkspaceMenuProps {
   setActive: Function
   /** Function to show invite users view */
   setShowInvite: Function
+  /** id of the user logged */
+  userId: number
+  /** change active chat view */
+  setChat: Function
 }

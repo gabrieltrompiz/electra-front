@@ -233,6 +233,28 @@ export default (state = initialState, action) => {
       };
     };
 
+    case 'ADD_MESSAGE': {
+      const { message, chatId, workspaceId } = action.payload;
+      const _workspaces = clone([...state.workspaces]);
+      const wIndex = _workspaces.findIndex((w) => workspaceId === w.id);
+      const _chats = _workspaces[wIndex].chats;
+      const cIndex = _chats.findIndex((c) => c.id === chatId);
+      _chats[cIndex] = {
+        ..._chats[cIndex],
+        messages: [..._chats[cIndex].messages, message]
+      }
+      const newWorkspace = {
+        ..._workspaces[wIndex],
+        chats: _chats
+      };
+      _workspaces[wIndex] = newWorkspace;
+      return {
+        ...state,
+        workspaces: _workspaces,
+        selectedWorkspace: state.selectedWorkspace.id === workspaceId ? _workspaces[wIndex] : state.selectedWorkspace
+      };
+    };
+
     case 'LOGOUT': return initialState;
       
 

@@ -3,6 +3,7 @@
   height: 45px;
   @include flex(flex-start, center);
   margin: 5px 0px;
+  &:hover { cursor: pointer; }
 
   & > div {
     flex: 1;

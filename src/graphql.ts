@@ -855,3 +855,20 @@ export const INVITE_USER = gql`
     inviteUserToWorkspace(users: $users, workspace: $workspace)
   }
 `;
+
+export const SEND_MESSAGE = gql`
+  mutation SendMessage($message: MessageInput!) {
+    sendMessage(message: $message) {
+      id
+      user {
+        id
+        username
+        fullName
+        pictureUrl
+      }
+      type
+      content
+      date
+    }
+  }
+`;

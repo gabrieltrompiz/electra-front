@@ -21,6 +21,7 @@ declare namespace electra {
         createSubtask: boolean
         completeSprint: boolean
         inviteUsers: boolean
+        selectedChat: Chat
       }
     }
   }

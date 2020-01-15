@@ -38,7 +38,6 @@ export const setLoggedIn = (loggedIn) => {
  */
 export const loginWithCredentials = (client, { username, password }, setLoading) => {
   return (dispatch) => {
-    setLoading(true);
     client.mutate({ mutation: LOGIN, variables: { user: { username, password } }, errorPolicy: 'all', fetchPolicy: 'no-cache' })
     .then(result => {
       const alreadyLogged = result.errors ? result.errors.findIndex((err) => err.message.includes('Already logged in')) !== -1 : false;
@@ -366,4 +365,24 @@ export const sendSprintToBacklog = (workspaceId) => {
       workspaceId
     }
   }
+};
+
+export const addMessage = (message, chatId, workspaceId) => {
+  return {
+    type: 'ADD_MESSAGE',
+    payload: {
+      message, 
+      workspaceId,
+      chatId
+    }
+  };
+};
+
+export const setChat = (chat) => {
+  return {
+    type: 'SET_CHAT',
+    payload: {
+      chat
+    }
+  };
 };

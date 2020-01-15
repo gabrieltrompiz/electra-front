@@ -54,6 +54,7 @@ const NavController: React.FC<NavControllerProps> = ({ loggedIn, loginWithCreden
   const _retrieveState = async () => {
     const _credentials = await localStorage.getItem('ELECTRA-CREDENTIALS');
     if(_credentials) {
+      setLoading(true);
       loginWithCredentials(client, JSON.parse(_credentials), setLoading);
     }
   };

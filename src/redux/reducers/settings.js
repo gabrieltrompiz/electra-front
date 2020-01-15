@@ -12,7 +12,8 @@ const initialState = {
     taskView: false,
     createSubtask: false,
     completeSprint: false,
-    inviteUsers: false
+    inviteUsers: false,
+    selectedChat: null
   }
 };
 
@@ -198,6 +199,17 @@ export default (state = initialState, action) => {
         show: {
           ...state.show,
           completeSprint: visible
+        }
+      };
+    };
+
+    case 'SET_CHAT': {
+      const { chat } = action.payload;
+      return {
+        ...state,
+        show: {
+          ...state.show,
+          selectedChat: chat ? Object.assign({}, chat) : null
         }
       };
     };

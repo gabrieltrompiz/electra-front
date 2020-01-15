@@ -1,0 +1,109 @@
+#chat-view {
+  @include opacity-keyframes(300ms);
+  width: 100%;
+  height: 100%;
+  @include flex(initial, initial);
+  flex-direction: column;
+
+  & > #header {
+    @include flex(flex-start, center);
+    width: 100%;
+    height: 45px;
+    border-bottom: 1.5px solid $darker-bg;
+    position: relative;
+
+    & > img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      margin: 0px 10px 0px 20px;
+    }
+
+    & > span {
+      @include lato('Black');
+      color: white;
+      font-size: 18px;
+      margin-left: 10px;
+    }
+  }
+
+  & > #content {
+    flex: 1;
+    height: 1px;
+    max-height: 100%;
+    overflow-y: auto;
+    @include flex(flex-end, flex-start);
+    flex-direction: column;
+    position: relative;
+
+    & > #empty {
+      @include absolute-center('both');
+      @include lato('Semibold');
+      color: $grey-font;
+      font-size: 20px;
+    }
+
+    & > .message {
+      width: 95%;
+      min-height: 50px;
+      @include flex(flex-start, flex-start);
+      margin: 5px 20px;
+      overflow-x: hidden;
+
+      & > img {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        object-fit: contain;
+        background-color: rgba($color: #000000, $alpha: 0.2);
+      }
+      
+      & > div {
+        & > p:nth-of-type(1) {
+          @include lato('Bold');
+          color: white;
+          font-size: 16px;
+          margin: 0px 0px 0px 5px;
+
+          & > span {
+            @include lato('Semibold');
+            color: $grey-font;
+          }
+        }
+
+        & > p:nth-of-type(2) {
+          @include lato('Regular');
+          color: white;
+          margin: 0px 0px 0px 5px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  & > #sender {
+    width: 100%;
+    height: 60px;
+    @include flex(center, center);
+    position: relative;
+
+    & > input {
+      @include clear-input($dark-bg);
+      flex: 1;
+      height: 40px;
+      margin-left: 20px;
+      padding: 0px 20px;
+      @include lato('Semibold');
+      color: white;
+      font-size: 16px;
+    }
+
+    & > img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      &:hover { cursor: pointer; }
+      margin: 0px 20px;
+    }
+  }
+}

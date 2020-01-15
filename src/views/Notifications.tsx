@@ -9,7 +9,6 @@ import { State, Notification } from 'electra';
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
 const Notifications: React.FC<NotificationProps> = ({ notifications }) => {
-  console.log(notifications)
   return (
     <div id='notifications'>
       <div id='header'>
