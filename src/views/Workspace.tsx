@@ -18,8 +18,18 @@ const Workspace: React.FC<WorkspaceProps> = ({ selectedWorkspace }) => {
 
   const contentRef = useRef<HTMLDivElement>(null);
 
+  const usePrevious = (value: any) => {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+  
+  const prevId = usePrevious(selectedWorkspace ? selectedWorkspace.id : 0);
   useEffect(() => {
-    setActive('Sprint');
+    if(selectedWorkspace && selectedWorkspace.id !== prevId) setActive('Sprint');
+    // eslint-disable-next-line
   }, [selectedWorkspace]);
 
   useEffect(() => {

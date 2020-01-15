@@ -65,6 +65,119 @@ export const LOGIN = gql`
           ... on Workspace {
             id
             name
+            description
+            chats {
+              id
+              type
+              name
+              description
+              users {
+                id
+                username
+                fullName
+                pictureUrl
+              }
+              messages {
+                id
+                user {
+                  id
+                  username
+                  fullName
+                  pictureUrl
+                }
+                type
+                content
+                date
+              }
+            }
+            repo {
+              id
+              url
+              name
+              issues(first: 100, states: [OPEN]) {
+                nodes {
+                  id
+                  url
+                  state
+                  title
+                  author {
+                    avatarUrl
+                    login
+                    url
+                  }
+                }
+              }
+            }
+            members {
+              user {
+                id
+                username
+                email
+                pictureUrl
+                fullName 
+              }
+              role
+            }
+            backlog {
+              id
+              title
+              startDate
+              finishDate
+              sprintStatus
+              tasks {
+                estimatedHours
+                loggedHours
+              }
+            }
+            sprint {
+              id
+              title
+              startDate
+              finishDate
+              sprintStatus
+              tasks {
+                id
+                name
+                description
+                estimatedHours
+                loggedHours
+                status
+                comments {
+                  id
+                  user {
+                    id
+                    username
+                    email
+                    pictureUrl
+                    fullName
+                  }
+                  description
+                }
+                subtasks {
+                  id
+                  description
+                  status
+                }
+                user {
+                  id
+                  username
+                  email
+                  pictureUrl
+                  fullName
+                }
+                issue {
+                  id
+                  url
+                  state
+                  title
+                  author {
+                    avatarUrl
+                    login
+                    url
+                  }
+                }
+              }
+            }
           }
           ... on Task {
             id
@@ -869,9 +982,9 @@ export const DELETE_NOTIFICATION = gql`
 `
 
 export const JOIN_WORKSPACE = gql`
-mutation addUserToWorksace($input: UserWorkspaceInput!) {
-  addUserToWorkspace(input: $input)
-}
+  mutation addUserToWorksace($input: UserWorkspaceInput!) {
+    addUserToWorkspace(input: $input)
+  }
 `
 
 export const SEND_MESSAGE = gql`
@@ -887,6 +1000,128 @@ export const SEND_MESSAGE = gql`
       type
       content
       date
+    }
+  }
+`;
+
+export const GET_WORKSPACE_BY_ID = gql`
+  query GetWorkspaceById($id: ID!) {
+    workspace(id: $id) {
+      id
+      name
+      description
+      chats {
+        id
+        type
+        name
+        description
+        users {
+          id
+          username
+          fullName
+          pictureUrl
+        }
+        messages {
+          id
+          user {
+            id
+            username
+            fullName
+            pictureUrl
+          }
+          type
+          content
+          date
+        }
+      }
+      repo {
+        id
+        url
+        name
+        issues(first: 100, states: [OPEN]) {
+          nodes {
+            id
+            url
+            state
+            title
+            author {
+              avatarUrl
+              login
+              url
+            }
+          }
+        }
+      }
+      members {
+        user {
+          id
+          username
+          email
+          pictureUrl
+          fullName 
+        }
+        role
+      }
+      backlog {
+        id
+        title
+        startDate
+        finishDate
+        sprintStatus
+        tasks {
+          estimatedHours
+          loggedHours
+        }
+      }
+      sprint {
+        id
+        title
+        startDate
+        finishDate
+        sprintStatus
+        tasks {
+          id
+          name
+          description
+          estimatedHours
+          loggedHours
+          status
+          comments {
+            id
+            user {
+              id
+              username
+              email
+              pictureUrl
+              fullName
+            }
+            description
+          }
+          subtasks {
+            id
+            description
+            status
+          }
+          user {
+            id
+            username
+            email
+            pictureUrl
+            fullName
+          }
+          issue {
+            id
+            url
+            state
+            title
+            author {
+              avatarUrl
+              login
+              url
+            }
+          }
+        }
+      }
     }
   }
 `;

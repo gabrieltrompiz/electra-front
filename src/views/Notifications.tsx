@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { setAllNotificationsAsRead, addWorkspace, deleteNotification } from '../redux/actions';
+import { setAllNotificationsAsRead, deleteNotification, addWorkspace } from '../redux/actions';
 import { State, Notification, NotificationType, Profile, Sprint, Workspace, Task, WorkspaceRole } from 'electra';
 import { useApolloClient } from '@apollo/react-hooks';
-import { READ_ALL_NOTIFICATIONS, DELETE_NOTIFICATION, JOIN_WORKSPACE } from '../graphql';
+import { READ_ALL_NOTIFICATIONS, DELETE_NOTIFICATION, JOIN_WORKSPACE, GET_WORKSPACE_BY_ID } from '../graphql';
 import { logError, logInfo } from '../utils';
 import Loading from '../components/Loading';
 
@@ -13,7 +13,7 @@ import Loading from '../components/Loading';
  * @author Gabriel Trompiz (https://github.com/gabrieltrompiz)
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
-const Notifications: React.FC<NotificationProps> = ({ notifications, userId, setAllNotificationsAsRead }) => {
+const Notifications: React.FC<NotificationProps> = ({ notifications, userId, setAllNotificationsAsRead, deleteNotification, addWorkspace }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const client = useApolloClient();
 
@@ -35,7 +35,7 @@ const Notifications: React.FC<NotificationProps> = ({ notifications, userId, set
 
   const markAllAsRead = async () => {
     setLoading(true);
-    const result = await client.mutate<MarkAllPayload, any>({ mutation: READ_ALL_NOTIFICATIONS, variables: {}, errorPolicy: 'all', fetchPolicy: 'no-cache' })
+    const result = await client.mutate<MarkAllPayload>({ mutation: READ_ALL_NOTIFICATIONS, errorPolicy: 'all', fetchPolicy: 'no-cache' })
       .finally(() => setLoading(false));
     if(result.data && result.data.markAllNotificationsAsRead) {
       setAllNotificationsAsRead();
@@ -51,10 +51,12 @@ const Notifications: React.FC<NotificationProps> = ({ notifications, userId, set
       errorPolicy: 'all', fetchPolicy: 'no-cache' }).finally(() => setLoading(false));
     if(result.data && result.data.addUserToWorkspace) {
       deleteNotification(n.id);
-      // addWorkspace((n.target as Workspace));
+      // FIXME:
+      const ws = await client.query({ query: GET_WORKSPACE_BY_ID, variables: { id: n.target.id }, errorPolicy: 'all', fetchPolicy: 'no-cache' });
+      console.log(ws.data)
+      addWorkspace(ws.data.workspace);
       logInfo(`You have joined to ${(n.target as Workspace).name}!`);
     }
-
     if(result.errors) result.errors.forEach((e) => logError(e.message));
   }
 
@@ -63,12 +65,10 @@ const Notifications: React.FC<NotificationProps> = ({ notifications, userId, set
     const id: DeleteVars["id"] = n.id;
     const result = await client.mutate<DeletePayload, DeleteVars>({ mutation: DELETE_NOTIFICATION,
       variables: { id }, fetchPolicy: 'no-cache', errorPolicy: 'ignore' }).finally(() => setLoading(false));
-
     if(result.data && result.data.deleteNotification) {
       deleteNotification((n.target as Workspace).id);
       logInfo(`Notification Deleted`);
     }
-
     if(result.errors) result.errors.forEach((e) => logError(e.message));
   }
 
@@ -106,22 +106,24 @@ const mapStateToProps = (state: State) => {
   };
 };
 
-export default connect(mapStateToProps, { setAllNotificationsAsRead, deleteNotification })(Notifications);
+export default connect(mapStateToProps, { setAllNotificationsAsRead, deleteNotification, addWorkspace })(Notifications);
 
 interface NotificationProps {
   /** user notifications */
   notifications: Notification[]
-
+  /** logged user id */
   userId: number
-
+  /** method to mark all nots as read */
   setAllNotificationsAsRead: Function
-
+  /** method to delete notification */
   deleteNotification: Function
+  /** method to add workspace  */
+  addWorkspace: Function
 }
 
 interface MarkAllPayload {
   /** Contains the mutation result */
-  markAllNotificationsAsRead: boolean
+  markAllNotificationsAsRead?: boolean
 }
 
 interface DeletePayload {

@@ -1,4 +1,4 @@
-import { cloneDeep as clone } from 'lodash';
+import { cloneDeep as clone, remove } from 'lodash';
 
 const initialState = {
   user: null,
@@ -265,8 +265,20 @@ export default (state = initialState, action) => {
           ...state.user,
           notifications: notifications.map(n => ({ ...n, read: true }))
         }
-      }
-    }
+      };
+    };
+
+    case 'DELETE_NOTIFICATION': {
+      const { id } = action.payload;
+      const _notifications = clone([...state.user.notifications]);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          notifications: remove(_notifications, (n) => n.id !== id)
+        }
+      };
+    };
 
     default: return { ...state };
   }

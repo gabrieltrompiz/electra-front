@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addMessage, setChat } from '../redux/actions';
-import { Chat as ChatI, State, Message, MessageType } from 'electra';
+import { Chat as ChatI, State, Message, MessageType, Profile } from 'electra';
 import Loading from '../components/Loading';
 import { useApolloClient } from '@apollo/react-hooks';
 import { logError, logInfo } from '../utils';
 import { SEND_MESSAGE } from '../graphql';
 import moment from 'moment';
 
-const Chat: React.FC<ChatProps> = ({ chat, workspaceId, addMessage, setChat }) => {
+const Chat: React.FC<ChatProps> = ({ chat, workspaceId, addMessage, setChat, user }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -27,8 +27,8 @@ const Chat: React.FC<ChatProps> = ({ chat, workspaceId, addMessage, setChat }) =
         .finally(() => setLoading(false));
       if(result.data && result.data.sendMessage) {
         logInfo('Message sent');
-        addMessage(message, chat.id, workspaceId);
-        setChat({ ...chat, messages: [...chat.messages, message] });
+        addMessage(result.data.sendMessage, chat.id, workspaceId);
+        setChat({ ...chat, messages: [...chat.messages, result.data.sendMessage] });
         setContent('');
       }
       if(result.errors) result.errors.forEach((e) => logError(e.message));
@@ -37,7 +37,7 @@ const Chat: React.FC<ChatProps> = ({ chat, workspaceId, addMessage, setChat }) =
     }
   };
 
-  return (
+  return chat ? (
     <div id='chat-view'>
       <div id='header'>
         <span>{chat.type as unknown as string === 'CHANNEL' ? `#${chat.name}` : 'Chat'}</span>
@@ -60,14 +60,15 @@ const Chat: React.FC<ChatProps> = ({ chat, workspaceId, addMessage, setChat }) =
         <img src={require('../assets/images/send.png')} alt='send' onClick={() => send()} />
       </div>
     </div>
-  );
+  ) : <div></div>;
 };
 
 const mapStateToProps = (state: State) => {
   const { userReducer, settingsReducer } = state;
   return {
     workspaceId: userReducer.selectedWorkspace ? userReducer.selectedWorkspace.id : 0,
-    chat: settingsReducer.show.selectedChat
+    chat: settingsReducer.show.selectedChat,
+    user: userReducer.user
   };
 };
 
@@ -82,6 +83,8 @@ interface ChatProps {
   addMessage: Function
   /** Chagne active chat */
   setChat: Function
+  /** logged user */
+  user: Profile
 }
 
 interface SendPayload {

@@ -393,12 +393,11 @@ export const setAllNotificationsAsRead = () => {
   }
 }
 
-export const deleteNotification = (notificationId) => {
-  console.log(notificationId);
+export const deleteNotification = (id) => {
   return {
     type: 'DELETE_NOTIFICATION',
     payload: {
-      notificationId
+      id
     }
   }
 }

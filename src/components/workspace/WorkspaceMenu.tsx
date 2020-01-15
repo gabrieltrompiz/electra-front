@@ -52,7 +52,7 @@ const mapStateToProps = (state: State) => {
   const { userReducer } = state;
   return {
     workspace: userReducer.selectedWorkspace,
-    userId: userReducer.user.id
+    userId: userReducer.user ? userReducer.user.id : 0
   };
 };
 

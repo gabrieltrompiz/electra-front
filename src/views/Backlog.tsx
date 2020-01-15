@@ -11,7 +11,7 @@ import { sum } from 'lodash';
  * @author Luis Petrella (https://github.com/Ptthappy)
 */
 const Backlog: React.FC<BacklogProps> = ({ backlog }) => {
-  return (
+  return backlog ? (
     <div id='backlog'>
       <div id='header'>
         <img src={require('../assets/images/backlog.png')} alt='sprint' />
@@ -43,13 +43,13 @@ const Backlog: React.FC<BacklogProps> = ({ backlog }) => {
         </table>
       </div>
     </div>
-  );
+  ) : <div></div>;
 };
 
 const mapStateToProps = (state: State) => {
   const { userReducer } = state;
   return {
-    backlog: userReducer.selectedWorkspace.backlog
+    backlog: userReducer.selectedWorkspace ? userReducer.selectedWorkspace.backlog : null
   }
 }
 

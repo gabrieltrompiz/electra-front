@@ -43,6 +43,8 @@
     padding: 20px 30px;
     max-height: 100%;
     overflow-y: auto;
+    @include flex(flex-end, flex-start);
+    flex-direction: column-reverse;
 
     & > .card {
       width: 100%;
