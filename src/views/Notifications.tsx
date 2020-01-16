@@ -79,21 +79,29 @@ const Notifications: React.FC<NotificationProps> = ({ notifications, userId, set
       <div id='header'>
         <img src={require('../assets/images/notifications-icon.png')} alt='notifications' />
         <span>Notifications</span>
-        <button onClick={() => markAllAsRead()}>Mark All as Read</button>
+        {notifications.length > 0 && <button onClick={() => markAllAsRead()}>Mark All as Read</button>}
       </div>
-      <div id='content'>
-        {notifications.map((n) => 
-        <div key={n.id} className='card'>
-          <img src={n.sender.pictureUrl} alt='avatar' />
-          <span>{getNotificationText(n.type, n.sender, n.target)}</span>
-          {n.type as unknown as String === 'INVITED_TO_WORKSPACE' &&
-          <div id="buttons">
-            <button onClick={() => decline(n)}>Decline Invitation</button>
-            <button onClick={() => accept(n)}>Join to Workspace</button>
-          </div>}
-          {!n.read && <div id="pop"></div>}
-        </div>)}
-      </div>
+      {notifications.length > 0 &&
+      <div id='out-content'>
+        <div id="content">
+          {notifications.map((n) => 
+          <div key={n.id} className='card'>
+            <img src={n.sender.pictureUrl} alt='avatar' />
+            <span>{getNotificationText(n.type, n.sender, n.target)}</span>
+            {n.type as unknown as String === 'INVITED_TO_WORKSPACE' &&
+            <div id="buttons">
+              <button onClick={() => decline(n)}>Decline Invitation</button>
+              <button onClick={() => accept(n)}>Join to Workspace</button>
+            </div>}
+            {!n.read && <div id="pop"></div>}
+          </div>)}
+        </div>
+      </div>}
+
+      {notifications.length === 0 &&
+      <div id="empty-content">
+        <p>You have no notifications</p>
+      </div>}
     </div>
   );
 };
