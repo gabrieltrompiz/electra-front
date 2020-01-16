@@ -87,7 +87,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({ defaultType, setShowCreateTask,
             </div>
           </div>
           <p>Assigned To</p>
-          <SearchUsers members={members} setMembers={setMembers} toFilter={toFilter} />
+          <SearchUsers members={members} setMembers={setMembers} toFilter={toFilter} showSelf={true} />
           <div id='members'>
             {members.map((m) => 
               <div id='user-card' key={m.user.id}>

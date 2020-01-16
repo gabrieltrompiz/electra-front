@@ -26,7 +26,7 @@ const Notifications: React.FC<NotificationProps> = ({ notifications, userId, set
       case 'CREATED_SPRINT': return `${sender.fullName} created a sprint in ${(obj as Workspace).name}`;
       case 'SPRINT_TO_BACKLOG': return `${sender.fullName} sent a sprint to backlog in ${(obj as Workspace).name}`
       case 'ASSIGNED_TASK': return `${sender.fullName} assigned you a task in ${(obj as Sprint).title}`
-      case 'CHANGED_TASK_STATUS': return `${sender.fullName} changed the status of ${(obj as Task).name}`;
+      case 'CHANGED_TASK_STATUS': return `${sender.fullName} changed the status of ${(obj as Sprint).title}`;
       case 'CREATED_TASK_COMMENT': return `${sender.fullName} commented on ${(obj as Task).name}`
       case 'CREATED_TASK_SUBTASK': return `${sender.fullName} created a subtask in ${(obj as Task).name}`;
       default: return ''
@@ -53,7 +53,6 @@ const Notifications: React.FC<NotificationProps> = ({ notifications, userId, set
       deleteNotification(n.id);
       // FIXME:
       const ws = await client.query({ query: GET_WORKSPACE_BY_ID, variables: { id: n.target.id }, errorPolicy: 'all', fetchPolicy: 'no-cache' });
-      console.log(ws.data)
       addWorkspace(ws.data.workspace);
       logInfo(`You have joined to ${(n.target as Workspace).name}!`);
     }
@@ -72,8 +71,7 @@ const Notifications: React.FC<NotificationProps> = ({ notifications, userId, set
     if(result.errors) result.errors.forEach((e) => logError(e.message));
   }
 
-  console.log(notifications);
-  return (
+  return notifications ? (
     <div id='notifications'>
       {loading && <Loading />}
       <div id='header'>
@@ -84,8 +82,8 @@ const Notifications: React.FC<NotificationProps> = ({ notifications, userId, set
       {notifications.length > 0 &&
       <div id='out-content'>
         <div id="content">
-          {notifications.map((n) => 
-          <div key={n.id} className='card'>
+          {notifications.map((n) => n ? 
+          (<div key={n.id} className='card'>
             <img src={n.sender.pictureUrl} alt='avatar' />
             <span>{getNotificationText(n.type, n.sender, n.target)}</span>
             {n.type as unknown as String === 'INVITED_TO_WORKSPACE' &&
@@ -94,7 +92,7 @@ const Notifications: React.FC<NotificationProps> = ({ notifications, userId, set
               <button onClick={() => accept(n)}>Join to Workspace</button>
             </div>}
             {!n.read && <div id="pop"></div>}
-          </div>)}
+          </div>) : <div></div>)}
         </div>
       </div>}
 
@@ -103,7 +101,7 @@ const Notifications: React.FC<NotificationProps> = ({ notifications, userId, set
         <p>You have no notifications</p>
       </div>}
     </div>
-  );
+  ) : <div></div>;
 };
 
 const mapStateToProps = (state: State) => {

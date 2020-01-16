@@ -38,7 +38,7 @@ const Subtasks: React.FC<SubtaskProps> = ({ subtasks, setLoading, taskId, showCr
       };
       const result = await client.mutate<AddPayload, AddVars>({ mutation: CREATE_SUBTASK, variables: { subtask },
         errorPolicy: 'all', fetchPolicy: 'no-cache' })
-        .finally(() => setLoading(false));
+        .finally(() => { setLoading(false); setDescription(''); });
       if(result.data && result.data.createSubTask) {
         setLoading(false);
         setShowCreate(false);
