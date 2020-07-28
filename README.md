@@ -2,7 +2,7 @@
 <p align='center'>
   Front-End of Desktop Application for the Synchronization of Collaborators in a Software Development Project
   <br />
-  <img src='https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/power-with-name.png' alt='logo' />
+  <img src='https://raw.githubusercontent.com/gabrieltrompiz/electra-front/develop/screenshots/power-with-name.png' alt='logo' />
 </p>
 
 ## Table of Contents
@@ -63,19 +63,19 @@ Builds a ready for distribution version of the app for Linux, Windows and MacOS 
 These are the inital mockups used to develop the application. They don't represent the actual state of the application and some things may have changed.
 
 #### Login
-![Login](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/login.png)
+![Login](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/develop/screenshots/login.png)
 
 #### Register
-![Register](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/register.png)
+![Register](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/develop/screenshots/register.png)
 
 #### Dashboard
-![Dashboard](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/dashboard.png)
+![Dashboard](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/develop/screenshots/dashboard.png)
 
 #### Tasks
-![Tasks](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/task.png)
+![Tasks](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/develop/screenshots/task.png)
 
 #### Chat
-![Chat](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/chat.png)
+![Chat](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/develop/screenshots/chat.png)
 
 ## Credits
 This project was developed by Gabriel Trompiz: [@gabrieltrompiz](https://github.com/gabrieltrompiz) and Luis Petrella [@ptthappy](https://github.com/ptthappy).
