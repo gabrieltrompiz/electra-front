@@ -1,44 +1,81 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<br />
+<p align='center'>
+  Front-End of Desktop Application for the Synchronization of Collaborators in a Software Development Project
+  <br />
+  <img src='https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/power-with-name.png' alt='logo' />
+</p>
+
+## Table of Contents
+* [About this project](#about-this-project)
+* [Tech Stack](#teck-stack)
+* [Features](#features)
+* [Avaliable Scripts](#available-scripts)
+* [Screenshots](#screenshots)
+
+## About this project
+This project was developed for opting for a Bachelor's Degree in Computer Science in Rafael Urdaneta University. It's a tool to keep collaborators on a project synchronized, with some GitHub features like repositories which can be linked to workpsaces, issues that can be linked to tasks, and so on... It was inspired in Discord's UI and in functionality it's like a basic Trello with GitHub features.
+
+## Tech Stack
+* React with TypeScript
+* Redux
+* Redux-thunk
+* Sass
+* Socket.IO client
+* GraphQL using Apollo Client
+* Electron
+
+## Features
+The main features of the application are:
+* Users may register and link their GitHub profile to their account, to be able to get access to repositories, issues, pull requests and so on... Workspaces have a basic to-do, in progress and done board. There are two types of users on workspaces: admins and members.
+* Workspaces can be created, these workspaces are like a board, and can have a repository associated. Having a repository linked to a workspace gives users the ability to assign issues on their repo to specific tasks.
+* Tasks, as mentioned above, can have an issue associated, an user assigned to get this task done, due date, comments, checklists and can be moved between boards.
+* Each workspace can have any number of sprints, with a start date and finish date, and they move to a sprint backlog when completed.
+* Workspaces have channels (like groups) and one-on-one chats between members. This specific feature was inspired by Slack.
+
+## To-do
+These are features that couldn't be completed, but we would love to pick them up in a near future:
+* Adding pull requests to a workspace
+* Being able to see the tree of the repository with all of its branches
+* Implement sockets, nothing is in real-time at the moment
 
 ## Available Scripts
+In the project directory you can run:
 
-In the project directory, you can run:
+### `npm start` or `yarn start`
+Launches the react application in the browser using CRA.
 
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
+### `npm build` or `yarn build`
+Builds the app for production to the build folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
+The build is minified and the filenames include the hashes.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### `npm test` or `yarn test`
+Launches the test runner in the interactive watch mode.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `npm run electron-dev` or `yarn run electron-dev`
+Runs the app in the development mode and opens it in Electron.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### `npm run dist` or `yarn run dist`
+Builds a ready for distribution version of the app for Linux, Windows and MacOS (you may need MacOS to build for that OS) and with auto-updated support out of the box.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Screenshots
+These are the inital mockups used to develop the application. They don't represent the actual state of the application and some things may have changed.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Login
+![Login](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/login.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Register
+![Register](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/register.png)
 
-## Learn More
+#### Dashboard
+![Dashboard](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/dashboard.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Tasks
+![Tasks](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/task.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Chat
+![Chat](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/master/screenshots/chat.png)
+
+## Credits
+This project was developed by Gabriel Trompiz: [@gabrieltrompiz](https://github.com/gabrieltrompiz) and Luis Petrella [@ptthappy](https://github.com/ptthappy).
