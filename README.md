@@ -75,7 +75,7 @@ These are the inital mockups used to develop the application. They don't represe
 ![Tasks](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/develop/screenshots/task.png)
 
 #### Chat
-![Chat](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/develop/screenshots/chat.png)
+![Chat](https://raw.githubusercontent.com/gabrieltrompiz/electra-front/develop/screenshots/chats.png)
 
 ## Credits
 This project was developed by Gabriel Trompiz: [@gabrieltrompiz](https://github.com/gabrieltrompiz) and Luis Petrella [@ptthappy](https://github.com/ptthappy).
