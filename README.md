@@ -7,7 +7,7 @@
 
 ## Table of Contents
 * [About this project](#about-this-project)
-* [Tech Stack](#teck-stack)
+* [Tech Stack](#tech-stack)
 * [Features](#features)
 * [Avaliable Scripts](#available-scripts)
 * [Screenshots](#screenshots)
