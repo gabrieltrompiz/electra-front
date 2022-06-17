@@ -82,7 +82,7 @@
     "@rescripts/cli": "^0.0.10",
     "@rescripts/rescript-env": "^0.0.10",
     "concurrently": "^5.0.2",
-    "electron": "^7.1.7",
+    "electron": "^15.5.5",
     "electron-builder": "^21.2.0",
     "node-sass": "^4.13.0",
     "wait-on": "^3.3.0"
